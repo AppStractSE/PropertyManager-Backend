@@ -1,4 +1,5 @@
 using Domain;
+using Infrastructure;
 using Mapster;
 using MapsterMapper;
 
@@ -13,6 +14,7 @@ var config = TypeAdapterConfig.GlobalSettings;
 config.Scan(typeof(Program).Assembly);
 
 builder.InitDomain(config);
+builder.InitInfrastructure();
 
 var mapperConfig = new Mapper(config);
 builder.Services.AddSingleton<IMapper>(mapperConfig);

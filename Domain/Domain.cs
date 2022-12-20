@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Builder;
 
 namespace Domain;
 
-public static class Domain
+public static class Core
 {
     public static void InitDomain(this WebApplicationBuilder builder, TypeAdapterConfig config)
     {
         // Setup mapster
-        config.Scan(typeof(Domain).Assembly);
+        config.Scan(typeof(Core).Assembly);
 
         //Setup MediatR
-        builder.Services.AddMediatR(typeof(Domain).Assembly);
+        builder.Services.AddMediatR(typeof(Core).Assembly);
     }
 }

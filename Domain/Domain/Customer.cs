@@ -1,7 +1,6 @@
-namespace Domain.Repository.Entities;
+namespace Domain.Domain;
 
-public class Customer : BaseEntity
-{
+public class Customer {
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string AreaId { get; set; }
