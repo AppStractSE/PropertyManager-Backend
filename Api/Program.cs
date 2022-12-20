@@ -1,8 +1,6 @@
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Domain;
 using Mapster;
+using MapsterMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Setup mediatR
-
+// Setup mapster
 var config = TypeAdapterConfig.GlobalSettings;
-config.Scan(typeof(this).Assembly);
+config.Scan(typeof(Program).Assembly);
 
+builder.InitDomain(config);
+
+var mapperConfig = new Mapper(config);
+builder.Services.AddSingleton<IMapper>(mapperConfig);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
