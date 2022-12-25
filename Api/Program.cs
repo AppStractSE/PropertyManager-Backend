@@ -1,5 +1,7 @@
 using Domain;
 using Infrastructure;
+using Infrastructure.Context;
+using Infrastructure.EFCore.Context;
 using Mapster;
 using MapsterMapper;
 
@@ -30,6 +32,21 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+// Create mock data for Db
+using (var scope = app.Services.CreateScope())
+{
+    var scopedProvider = scope.ServiceProvider;
+    try
+    {
+        var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
+        await SeedDb.SeedAsync(pmContext);
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "An error occurred seeding the DB.");
+    }
 }
 
 app.UseHttpsRedirection();
