@@ -12,8 +12,10 @@ public class PropertyManagerContext : DbContext
     }
 
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Chore> Chores { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>().HasKey(x => x.Id);
+        modelBuilder.Entity<Chore>().HasKey(x => x.Id);
     }
 }
