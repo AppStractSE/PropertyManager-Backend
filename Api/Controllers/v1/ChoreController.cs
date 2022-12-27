@@ -23,6 +23,6 @@ public class ChoreController : ControllerBase
     public async Task<ActionResult<IList<Chore>>> GetAllChores()
     {
         var result = await _mediator.Send(new GetAllChoresQuery());
-        return result.Count > 0 ? Ok(result) : NoContent();
+        return Ok(result);
     }
 }
