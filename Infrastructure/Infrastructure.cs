@@ -1,4 +1,5 @@
 using Domain.Repository.Interfaces;
+using DotCode.SecurityUtils;
 using Infrastructure.Context;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,8 @@ namespace Infrastructure;
 
 public static class Infrastructure
 {
+    private const string key = "k3h5/4&75kah5sfjkh/as!hjkfh%a8kjf5ks";
+
     public static void InitInfrastructure(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -21,19 +24,22 @@ public static class Infrastructure
 
     private static void InitDatabase(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
     {
-        var useInMemoryDatabase = true;
-        if (configuration.GetConnectionString("defaultDatabase") != null)
-        {
-            useInMemoryDatabase = !useInMemoryDatabase;
-        }
-    
+
+        var useInMemoryDatabase = configuration["ForceUseInMemoryDatabase"] != null ?
+                   bool.Parse(configuration["ForceUseInMemoryDatabase"]!) :
+                   configuration.GetConnectionString("databaseConnection") != null ?
+                   false : true;
+
         if (useInMemoryDatabase)
         {
             services.AddDbContext<PropertyManagerContext>(c => c.UseInMemoryDatabase("Database"));
         }
         else
         {
-            services.AddDbContext<PropertyManagerContext>(c => c.UseSqlServer(configuration.GetConnectionString("defaultDatabase")));
+            var encryptedConnectionString = configuration.GetConnectionString("databaseConnection");
+            var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString!, key);
+
+            services.AddDbContext<PropertyManagerContext>(c => c.UseSqlServer(decryptedConnectionString));
         }
     }
 }
