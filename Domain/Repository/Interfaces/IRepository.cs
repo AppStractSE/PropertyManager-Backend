@@ -6,4 +6,5 @@ namespace Domain.Repository.Interfaces;
 public interface IRepository<T> where T : BaseEntity
 {
     Task<IReadOnlyList<T>> GetAllAsync(bool disableTracking = true);
+    Task<T> GetById(Guid id);
 }

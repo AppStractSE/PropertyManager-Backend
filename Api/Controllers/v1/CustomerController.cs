@@ -3,6 +3,8 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
+using Api.Dto.Request.Customer.v1;
+using Api.Dto.Response.Customer.v1;
 
 namespace Api.Controllers.v1;
 
@@ -24,5 +26,21 @@ public class CustomerController : ControllerBase
     {
         var result = await _mediator.Send(new GetAllCustomersQuery());
         return result.Count > 0 ? Ok(result) : NoContent();
+    }
+
+    [HttpGet]
+    [Route("GetCustomerById/")]
+    public async Task<ActionResult<CustomerResponseDto>> GetCustomerById([FromQuery]GetCustomerByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetCustomerByIdRequestDto, GetCustomerByIdQuery>(request));
+            return result != null ? Ok(_mapper.Map<CustomerResponseDto>(result)) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
 }

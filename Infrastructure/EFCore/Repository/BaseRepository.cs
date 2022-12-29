@@ -17,4 +17,13 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         IQueryable<T> source = _context.Set<T>();
         return await source.ToListAsync();
     }
+
+    public async Task<T> GetById(Guid id)
+    {
+        var result = await _context.Set<T>().FindAsync(id);
+        if(result == null) {
+            throw new Exception("Id not found");
+        }
+        return result;
+    }
 }
