@@ -41,6 +41,5 @@ public class CustomerController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-        
     }
 }
