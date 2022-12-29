@@ -4,5 +4,5 @@ namespace Domain.Features.Queries.Customers;
 
 public class GetCustomerByIdQuery : IRequest<Domain.Customer>
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 }

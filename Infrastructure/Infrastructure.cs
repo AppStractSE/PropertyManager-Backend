@@ -18,6 +18,7 @@ public static class Infrastructure
         builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         builder.Services.AddScoped<IChoreRepository, ChoreRepository>();
+        builder.Services.AddScoped<ICustomerChoreRepository, CustomerChoreRepository>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
     }

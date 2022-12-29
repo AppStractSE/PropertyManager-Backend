@@ -21,6 +21,11 @@ public class SeedDb
             _context.Customers.AddRange(GetPreconfiguredCustomers());
             await _context.SaveChangesAsync();
         }
+        if (!_context.CustomerChores.Any())
+        {
+            _context.CustomerChores.AddRange(GetPreconfiguredCustomerChores());
+            await _context.SaveChangesAsync();
+        }
 
     }
 
@@ -40,7 +45,29 @@ public class SeedDb
             });
         }
         return list;
-
+    }
+    private static IEnumerable<CustomerChore> GetPreconfiguredCustomerChores()
+    {
+        var list = new List<CustomerChore>();
+        list.Add(
+        new CustomerChore
+        {
+            Id = Guid.NewGuid(),
+            CustomerId = _context.Customers.FirstOrDefault().Id.ToString(),
+            ChoreId = _context.Chores.FirstOrDefault().Id.ToString(),
+            Frequency = 2,
+            PeriodicId = Guid.NewGuid().ToString(),
+        });
+        list.Add(
+        new CustomerChore
+        {
+            Id = Guid.NewGuid(),
+            CustomerId = _context.Customers.FirstOrDefault().Id.ToString(),
+            ChoreId = _context.Chores.FirstOrDefault().Id.ToString(),
+            Frequency = 6,
+            PeriodicId = Guid.NewGuid().ToString(),
+        });
+        return list;
     }
     private static IEnumerable<Chore> GetPreconfiguredChores()
     {

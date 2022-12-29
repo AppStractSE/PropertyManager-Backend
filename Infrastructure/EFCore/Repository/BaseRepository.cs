@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Domain.Repository.Entities;
 using Domain.Repository.Interfaces;
 using Infrastructure.Context;
@@ -18,12 +19,17 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         return await source.ToListAsync();
     }
 
-    public async Task<T> GetById(Guid id)
+    public async Task<T> GetById(string id)
     {
-        var result = await _context.Set<T>().FindAsync(id);
+        var result = await _context.Set<T>().FindAsync(Guid.Parse(id));
         if(result == null) {
             throw new Exception("Id not found");
         }
         return result;
+    }
+
+    public async Task<IReadOnlyList<T>> GetQuery(Expression<Func<T, bool>> predicate)
+    {
+        return await _context.Set<T>().Where(predicate).ToListAsync();
     }
 }
