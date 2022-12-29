@@ -17,7 +17,5 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
     public async Task<Customer> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {
         return _mapper.Map<Customer>(await _repo.GetById(request.Id));
-        
-        
     }
 }
