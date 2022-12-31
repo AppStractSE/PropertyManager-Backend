@@ -3,6 +3,8 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
+using Api.Dto.Response.Chore.v1;
+using Api.Dto.Request.Chore.v1;
 
 namespace Api.Controllers.v1;
 
@@ -24,5 +26,20 @@ public class ChoreController : ControllerBase
     {
         var result = await _mediator.Send(new GetAllChoresQuery());
         return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("GetChoreById/")]
+    public async Task<ActionResult<ChoreResponseDto>> GetChoreById([FromQuery]GetChoreByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetChoreByIdRequestDto, GetChoreByIdQuery>(request));
+            return result != null ? Ok(_mapper.Map<ChoreResponseDto>(result)) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

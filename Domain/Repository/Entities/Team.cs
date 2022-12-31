@@ -1,7 +1,6 @@
 namespace Domain.Repository.Entities;
 
-public class Area : BaseEntity
-{
+public class Team : BaseEntity {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+    public string Name  { get; set; }
 }
