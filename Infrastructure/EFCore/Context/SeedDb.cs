@@ -11,85 +11,83 @@ public class SeedDb
         context.Database.EnsureCreated();
         _context = context;
 
-        if (!_context.Chores.Any())
-        {
-            _context.Chores.AddRange(GetPreconfiguredChores());
-            await _context.SaveChangesAsync();
-        }
-        if (!_context.Customers.Any())
-        {
-            _context.Customers.AddRange(GetPreconfiguredCustomers());
-            await _context.SaveChangesAsync();
-        }
-        if (!_context.CustomerChores.Any())
-        {
-            _context.CustomerChores.AddRange(GetPreconfiguredCustomerChores());
-            await _context.SaveChangesAsync();
-        }
-
+        if (!context.Areas.Any()) GenerateAreas(context);
+        if (!context.Customers.Any()) GenerateCustomers(context);
+        if (!context.Chores.Any()) GenerateChores(context);
+        if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
     }
-
-    private static IEnumerable<Customer> GetPreconfiguredCustomers()
+    private static async void GenerateAreas(PropertyManagerContext context)
     {
-        var list = new List<Customer>();
+        context.Areas.AddRange(
+            new Area
+            {
+                Id = Guid.NewGuid(),
+                Name = "Norrmalm",
+            },
 
-        for (int i = 0; i < 5; i++)
-        {
-            list.Add(
+            new Area
+            {
+                Id = Guid.NewGuid(),
+                Name = "Billingelund",
+            });
+
+        await _context.SaveChangesAsync();
+    }
+    private static async void GenerateCustomerChores(PropertyManagerContext context)
+    {
+        context.CustomerChores.AddRange(
+            new CustomerChore
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
+                ChoreId = _context.Chores.First(x => x.Title == "Vårluckring i rabatt").Id.ToString(),
+                Frequency = 1,
+                PeriodicId = Guid.NewGuid().ToString(),
+            },
+
+            new CustomerChore
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
+                ChoreId = _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString(),
+                Frequency = 3,
+                PeriodicId = Guid.NewGuid().ToString(),
+            });
+
+        await _context.SaveChangesAsync();
+    }
+    private static async void GenerateCustomers(PropertyManagerContext context)
+    {
+        context.Customers.AddRange(
             new Customer
             {
                 Id = Guid.NewGuid(),
-                AreaId = "",
+                AreaId = _context.Areas.First(x => x.Name == "Norrmalm").Id.ToString(),
                 TeamId = "",
-                Name = "Test "+(i+1),
+                Name = "BRF Motorn",
             });
-        }
-        return list;
+
+        await _context.SaveChangesAsync();
     }
-    private static IEnumerable<CustomerChore> GetPreconfiguredCustomerChores()
+    private static async void GenerateChores(PropertyManagerContext context)
     {
-        var list = new List<CustomerChore>();
-        list.Add(
-        new CustomerChore
-        {
-            Id = Guid.NewGuid(),
-            CustomerId = _context.Customers.FirstOrDefault().Id.ToString(),
-            ChoreId = _context.Chores.FirstOrDefault().Id.ToString(),
-            Frequency = 2,
-            PeriodicId = Guid.NewGuid().ToString(),
-        });
-        list.Add(
-        new CustomerChore
-        {
-            Id = Guid.NewGuid(),
-            CustomerId = _context.Customers.FirstOrDefault().Id.ToString(),
-            ChoreId = _context.Chores.FirstOrDefault().Id.ToString(),
-            Frequency = 6,
-            PeriodicId = Guid.NewGuid().ToString(),
-        });
-        return list;
-    }
-    private static IEnumerable<Chore> GetPreconfiguredChores()
-    {
-        var list = new List<Chore>();
-        list.Add(
-        new Chore
+        context.Chores.AddRange(
+            new Chore
             {
                 Id = Guid.NewGuid(),
                 Title = "Vårluckring i rabatt",
                 Description = "Luckra rabatterna",
                 CategoryId = Guid.NewGuid().ToString(),
-            });
-            
-        list.Add(
-        new Chore
+            },
+
+            new Chore
             {
                 Id = Guid.NewGuid(),
                 Title = "Beskärning buskar",
                 Description = "Beskär buskarna",
                 CategoryId = Guid.NewGuid().ToString(),
             });
-        return list;
-    }
 
+        await _context.SaveChangesAsync();
+    }
 }

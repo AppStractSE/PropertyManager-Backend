@@ -16,6 +16,7 @@ public static class Infrastructure
     public static void InitInfrastructure(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+        builder.Services.AddScoped<IAreaRepository, AreaRepository>();
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         builder.Services.AddScoped<IChoreRepository, ChoreRepository>();
         builder.Services.AddScoped<ICustomerChoreRepository, CustomerChoreRepository>();
