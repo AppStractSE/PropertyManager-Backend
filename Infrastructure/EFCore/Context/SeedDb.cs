@@ -17,6 +17,7 @@ public class SeedDb
         if (!context.Customers.Any()) GenerateCustomers(context);
         if (!context.Chores.Any()) GenerateChores(context);
         if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
+        if (!context.ChoreStatuses.Any()) GenerateChoreStatuses(context);
         return Task.CompletedTask;
     }
 
@@ -103,6 +104,20 @@ public class SeedDb
                 ChoreId = _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString(),
                 Frequency = 4,
                 PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
+            });
+
+        await _context.SaveChangesAsync();
+    }
+    private static async void GenerateChoreStatuses(PropertyManagerContext context)
+    {
+        context.ChoreStatuses.AddRange(
+            new ChoreStatus
+            {
+                Id = Guid.NewGuid(),
+                CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
+                StartDate = DateTime.Today,
+                CompletedDate = DateTime.Today,
+                DoneBy = "UserId",
             });
 
         await _context.SaveChangesAsync();

@@ -19,6 +19,7 @@ public static class Infrastructure
         builder.Services.AddScoped<IAreaRepository, AreaRepository>();
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         builder.Services.AddScoped<IChoreRepository, ChoreRepository>();
+        builder.Services.AddScoped<IChoreStatusRepository, ChoreStatusRepository>();
         builder.Services.AddScoped<ICustomerChoreRepository, CustomerChoreRepository>();
         builder.Services.AddScoped<ITeamRepository, TeamRepository>();
         builder.Services.AddScoped<IPeriodicRepository, PeriodicRepository>();

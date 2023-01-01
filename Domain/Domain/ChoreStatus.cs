@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Repository.Entities;
+namespace Domain.Domain;
 
-public class ChoreStatus : BaseEntity {
+public class ChoreStatus
+{
     public Guid Id { get; set; }
     public string CustomerChoreId { get; set; }
     [Column(TypeName = "Date"), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
