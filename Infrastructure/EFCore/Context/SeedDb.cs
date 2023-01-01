@@ -6,16 +6,19 @@ namespace Infrastructure.EFCore.Context;
 public class SeedDb
 {
     private static PropertyManagerContext? _context;
-    public static async Task SeedAsync(PropertyManagerContext context)
+    public static Task SeedAsync(PropertyManagerContext context)
     {
         context.Database.EnsureCreated();
         _context = context;
 
         if (!context.Areas.Any()) GenerateAreas(context);
+        if (!context.Teams.Any()) GenerateTeams(context);
         if (!context.Customers.Any()) GenerateCustomers(context);
         if (!context.Chores.Any()) GenerateChores(context);
         if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
+        return Task.CompletedTask;
     }
+
     private static async void GenerateAreas(PropertyManagerContext context)
     {
         context.Areas.AddRange(
@@ -29,6 +32,24 @@ public class SeedDb
             {
                 Id = Guid.NewGuid(),
                 Name = "Billingelund",
+            });
+
+        await _context.SaveChangesAsync();
+    }
+
+    private static async void GenerateTeams(PropertyManagerContext context)
+    {
+        context.Teams.AddRange(
+            new Team
+            {
+                Id = Guid.NewGuid(),
+                Name = "Team 1",
+            },
+
+            new Team
+            {
+                Id = Guid.NewGuid(),
+                Name = "Team 2",
             });
 
         await _context.SaveChangesAsync();
@@ -63,7 +84,7 @@ public class SeedDb
             {
                 Id = Guid.NewGuid(),
                 AreaId = _context.Areas.First(x => x.Name == "Norrmalm").Id.ToString(),
-                TeamId = "",
+                TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 Name = "BRF Motorn",
             });
 
