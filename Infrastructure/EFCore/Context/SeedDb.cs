@@ -26,25 +26,19 @@ public class SeedDb
         context.Periodics.AddRange(
             new Periodic
             {
-                Id = Guid.NewGuid(),
                 Name = "Daily",
-            },
-
-            new Periodic
+            },            new Periodic
             {
-                Id = Guid.NewGuid(),
                 Name = "Weekly",
             },
 
             new Periodic
             {
-                Id = Guid.NewGuid(),
                 Name = "Monthly",
             },
 
             new Periodic
             {
-                Id = Guid.NewGuid(),
                 Name = "Yearly",
             });
 
@@ -55,13 +49,11 @@ public class SeedDb
         context.Areas.AddRange(
             new Area
             {
-                Id = Guid.NewGuid(),
                 Name = "Norrmalm",
             },
 
             new Area
             {
-                Id = Guid.NewGuid(),
                 Name = "Billingelund",
             });
 
@@ -73,13 +65,11 @@ public class SeedDb
         context.Teams.AddRange(
             new Team
             {
-                Id = Guid.NewGuid(),
                 Name = "Team 1",
             },
 
             new Team
             {
-                Id = Guid.NewGuid(),
                 Name = "Team 2",
             });
 
@@ -90,7 +80,6 @@ public class SeedDb
         context.CustomerChores.AddRange(
             new CustomerChore
             {
-                Id = Guid.NewGuid(),
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Vårluckring i rabatt").Id.ToString(),
                 Frequency = 1,
@@ -99,7 +88,6 @@ public class SeedDb
 
             new CustomerChore
             {
-                Id = Guid.NewGuid(),
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString(),
                 Frequency = 4,
@@ -113,7 +101,6 @@ public class SeedDb
         context.ChoreStatuses.AddRange(
             new ChoreStatus
             {
-                Id = Guid.NewGuid(),
                 CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
                 StartDate = DateTime.Today,
                 CompletedDate = DateTime.Today,
@@ -127,7 +114,6 @@ public class SeedDb
         context.Customers.AddRange(
             new Customer
             {
-                Id = Guid.NewGuid(),
                 AreaId = _context.Areas.First(x => x.Name == "Norrmalm").Id.ToString(),
                 TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 Name = "BRF Motorn",
@@ -140,7 +126,6 @@ public class SeedDb
         context.Chores.AddRange(
             new Chore
             {
-                Id = Guid.NewGuid(),
                 Title = "Vårluckring i rabatt",
                 Description = "Luckra rabatterna",
                 CategoryId = Guid.NewGuid().ToString(),
@@ -148,7 +133,6 @@ public class SeedDb
 
             new Chore
             {
-                Id = Guid.NewGuid(),
                 Title = "Beskärning buskar",
                 Description = "Beskär buskarna",
                 CategoryId = Guid.NewGuid().ToString(),
