@@ -11,6 +11,7 @@ public class SeedDb
         context.Database.EnsureCreated();
         _context = context;
 
+        if (!context.Periodics.Any()) GeneratePeriodics(context);
         if (!context.Areas.Any()) GenerateAreas(context);
         if (!context.Teams.Any()) GenerateTeams(context);
         if (!context.Customers.Any()) GenerateCustomers(context);
@@ -19,6 +20,35 @@ public class SeedDb
         return Task.CompletedTask;
     }
 
+    private static async void GeneratePeriodics(PropertyManagerContext context)
+    {
+        context.Periodics.AddRange(
+            new Periodic
+            {
+                Id = Guid.NewGuid(),
+                Name = "Daily",
+            },
+
+            new Periodic
+            {
+                Id = Guid.NewGuid(),
+                Name = "Weekly",
+            },
+
+            new Periodic
+            {
+                Id = Guid.NewGuid(),
+                Name = "Monthly",
+            },
+
+            new Periodic
+            {
+                Id = Guid.NewGuid(),
+                Name = "Yearly",
+            });
+
+        await _context.SaveChangesAsync();
+    }
     private static async void GenerateAreas(PropertyManagerContext context)
     {
         context.Areas.AddRange(
@@ -63,7 +93,7 @@ public class SeedDb
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Vårluckring i rabatt").Id.ToString(),
                 Frequency = 1,
-                PeriodicId = Guid.NewGuid().ToString(),
+                PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
             },
 
             new CustomerChore
@@ -71,8 +101,8 @@ public class SeedDb
                 Id = Guid.NewGuid(),
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString(),
-                Frequency = 3,
-                PeriodicId = Guid.NewGuid().ToString(),
+                Frequency = 4,
+                PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
             });
 
         await _context.SaveChangesAsync();
