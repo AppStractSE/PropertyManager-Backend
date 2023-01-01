@@ -21,7 +21,7 @@ public class ChoreStatusController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IList<Chore>>> GetAllChoreStatuses()
+    public async Task<ActionResult<IList<ChoreStatus>>> GetAllChoreStatuses()
     {
         var result = await _mediator.Send(new GetAllChoreStatusesQuery());
         return Ok(result);
