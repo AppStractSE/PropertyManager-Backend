@@ -1,6 +1,6 @@
-namespace Domain.Repository.Entities;
+namespace Domain.Domain;
 
-public class User : BaseEntity 
+public class User 
 {
     public Guid Id { get; set; }
     public string CredId { get; set; }

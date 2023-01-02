@@ -1,6 +1,6 @@
-namespace Domain.Repository.Entities;
+namespace Domain.Domain;
 
-public class RoleRule : BaseEntity 
+public class RoleRule
 {
     public Guid Id { get; set; }
     public string RoleId { get; set; }
