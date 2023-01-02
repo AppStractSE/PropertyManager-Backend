@@ -4,7 +4,7 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Domain.Features.Queries.CustomerChore;
+namespace Domain.Features.Queries.CustomerChores;
 
 public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCustomerChoresByCustomerIdQuery, IList<Domain.CustomerChore>>
 {

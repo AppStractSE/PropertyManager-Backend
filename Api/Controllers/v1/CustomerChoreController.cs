@@ -1,11 +1,12 @@
-using Domain.Features.Queries.Customers;
+using Domain.Features.Queries.CustomerChores;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Api.Dto.Response.CustomerChore.v1;
 using Api.Dto.Request.CustomerChore.v1;
-using Domain.Features.Queries.CustomerChore;
+using Domain.Features.Queries.CustomerChores;
 using System.Collections.Generic;
+using Domain.Domain;
 
 namespace Api.Controllers.v1;
 
@@ -20,6 +21,13 @@ public class CustomerChoreController : ControllerBase
     {
         _mediator = mediator;
         _mapper = mapper;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IList<CustomerChore>>> GetAllChores()
+    {
+        var result = await _mediator.Send(new GetAllCustomerChoresQuery());
+        return Ok(result);
     }
 
     [HttpGet]
