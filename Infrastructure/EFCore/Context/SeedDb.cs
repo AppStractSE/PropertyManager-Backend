@@ -18,6 +18,7 @@ public class SeedDb
         if (!context.Chores.Any()) GenerateChores(context);
         if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
         if (!context.ChoreStatuses.Any()) GenerateChoreStatuses(context);
+        if (!context.Users.Any()) GenerateUsers(context);
         return Task.CompletedTask;
     }
 
@@ -137,6 +138,30 @@ public class SeedDb
                 Title = "Beskärning buskar",
                 Description = "Beskär buskarna",
                 CategoryId = Guid.NewGuid().ToString(),
+            });
+
+        await _context.SaveChangesAsync();
+    }
+    private static async void GenerateUsers(PropertyManagerContext context)
+    {
+        context.Users.AddRange(
+            new User
+            {
+                CredId = Guid.NewGuid().ToString(),
+                RoleId = Guid.NewGuid().ToString(),
+                Name = "Alex A",
+            },
+            new User
+            {
+                CredId = Guid.NewGuid().ToString(),
+                RoleId = Guid.NewGuid().ToString(),
+                Name = "Erik G",
+            },
+            new User
+            {
+                CredId = Guid.NewGuid().ToString(),
+                RoleId = Guid.NewGuid().ToString(),
+                Name = "Lucas B",
             });
 
         await _context.SaveChangesAsync();

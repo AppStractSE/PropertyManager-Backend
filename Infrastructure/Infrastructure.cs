@@ -23,6 +23,7 @@ public static class Infrastructure
         builder.Services.AddScoped<ICustomerChoreRepository, CustomerChoreRepository>();
         builder.Services.AddScoped<ITeamRepository, TeamRepository>();
         builder.Services.AddScoped<IPeriodicRepository, PeriodicRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
     }
