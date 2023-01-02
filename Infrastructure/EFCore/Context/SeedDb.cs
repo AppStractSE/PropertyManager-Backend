@@ -117,6 +117,7 @@ public class SeedDb
                 AreaId = _context.Areas.First(x => x.Name == "Norrmalm").Id.ToString(),
                 TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 Name = "BRF Motorn",
+                Address = "Storgatan 11B, Skövde"
             });
 
         await _context.SaveChangesAsync();
