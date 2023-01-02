@@ -5,4 +5,5 @@ public class CustomerResponseDto {
     public string Name { get; set; }
     public string AreaId { get; set; }
     public string TeamId { get; set; }
+    public string Address { get; set; }
 }
