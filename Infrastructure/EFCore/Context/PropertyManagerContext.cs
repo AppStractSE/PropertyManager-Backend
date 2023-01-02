@@ -17,6 +17,7 @@ public class PropertyManagerContext : DbContext
     public DbSet<ChoreStatus> ChoreStatuses { get; set; }
     public DbSet<CustomerChore> CustomerChores { get; set; }
     public DbSet<Team> Teams { get; set; }
+    public DbSet<TeamMember> TeamMembers { get; set; }
     public DbSet<Periodic> Periodics { get; set; }
     public DbSet<User> Users { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +28,7 @@ public class PropertyManagerContext : DbContext
         modelBuilder.Entity<ChoreStatus>().HasKey(x => x.Id);
         modelBuilder.Entity<CustomerChore>().HasKey(x => x.Id);
         modelBuilder.Entity<Team>().HasKey(x => x.Id);
+        modelBuilder.Entity<TeamMember>().HasKey(x => x.Id);
         modelBuilder.Entity<Periodic>().HasKey(x => x.Id);
         modelBuilder.Entity<User>().HasKey(x => x.Id);
     }
