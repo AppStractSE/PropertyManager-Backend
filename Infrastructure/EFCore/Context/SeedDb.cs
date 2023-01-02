@@ -19,6 +19,7 @@ public class SeedDb
         if (!context.Customers.Any()) GenerateCustomers(context);
         if (!context.Chores.Any()) GenerateChores(context);
         if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
+        if (!context.ChoreComments.Any()) GenerateChoreComments(context);
         if (!context.ChoreStatuses.Any()) GenerateChoreStatuses(context);
         return Task.CompletedTask;
     }
@@ -206,6 +207,24 @@ public class SeedDb
                 CredId = Guid.NewGuid().ToString(),
                 RoleId = Guid.NewGuid().ToString(),
                 Name = "Lucas B",
+            });
+
+        await _context.SaveChangesAsync();
+    }
+    private static async void GenerateChoreComments(PropertyManagerContext context)
+    {
+        context.ChoreComments.AddRange(
+            new ChoreComment
+            {
+                CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
+                UserId = _context.Users.First(x => x.Name == "Alex A").Id.ToString(),
+                Message = "Låg jordnivå",
+            },
+            new ChoreComment
+            {
+                CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
+                UserId =  _context.Users.First(x => x.Name == "Lucas B").Id.ToString(),
+                Message = "Ställde skyffeln bakom förrådet",
             });
 
         await _context.SaveChangesAsync();
