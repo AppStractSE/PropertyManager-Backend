@@ -39,4 +39,11 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         await _context.SaveChangesAsync();
         return entity;
     }
+
+    public async Task<T> PutAsync(T entity)
+    {
+        _context.Set<T>().Update(entity);
+        await _context.SaveChangesAsync();
+        return entity;
+    }
 }
