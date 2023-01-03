@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
 using Api.Dto.Request.User.v1;
 using Domain.Features.Commands.User;
+using Api.Dto.Response.User.v1;
 
 namespace Api.Controllers.v1;
 
@@ -28,8 +29,23 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet]
+    [Route("GetUserById/")]
+    public async Task<ActionResult<UserResponseDto>> GetUserById([FromQuery]GetUserByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetUserByIdRequestDto, GetUserByIdQuery>(request));
+            return result != null ? Ok(_mapper.Map<UserResponseDto>(result)) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost]
-    public async Task<ActionResult<User>> PostChoreCommentAsync(PostUserRequestDto request)
+    public async Task<ActionResult<User>> PostUserCommentAsync(PostUserRequestDto request)
     {
         var result = await _mediator.Send(_mapper.Map<PostUserRequestDto, AddUserCommand>(request));
         return Ok(result);
