@@ -3,6 +3,8 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
+using Api.Dto.Request.ChoreComment.v1;
+using Domain.Features.Commands.ChoreComment;
 
 namespace Api.Controllers.v1;
 
@@ -23,6 +25,13 @@ public class ChoreCommentController : ControllerBase
     public async Task<ActionResult<IList<ChoreComment>>> GetAllChoreComments()
     {
         var result = await _mediator.Send(new GetAllChoreCommentsQuery());
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<ChoreComment>> PostChoreCommentAsync(PostChoreCommentRequestDto request)
+    {
+        var result = await _mediator.Send(_mapper.Map<PostChoreCommentRequestDto, AddChoreCommentCommand>(request));
         return Ok(result);
     }
 }
