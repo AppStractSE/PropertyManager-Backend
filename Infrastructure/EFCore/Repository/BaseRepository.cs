@@ -40,7 +40,7 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         return entity;
     }
 
-    public async Task<T> PutAsync(T entity)
+    public async Task<T> UpdateAsync(T entity)
     {
         _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();

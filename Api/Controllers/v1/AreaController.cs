@@ -34,10 +34,10 @@ public class AreaController : ControllerBase
         var result = await _mediator.Send(_mapper.Map<PostAreaRequestDto, AddAreaCommand>(request));
         return Ok(result);
     }
-    [HttpPut]
-    public async Task<ActionResult<Area>> PutAreaAsync(PutAreaRequestDto request)
+    [HttpPatch]
+    public async Task<ActionResult<Area>> PatchAreaAsync(PatchAreaRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PutAreaRequestDto, PutAreaCommand>(request));
+        var result = await _mediator.Send(_mapper.Map<PatchAreaRequestDto, UpdateAreaCommand>(request));
         return Ok(result);
     }
 }
