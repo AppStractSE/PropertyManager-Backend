@@ -3,7 +3,8 @@ namespace Domain.Domain;
 public class ChoreComment
 {
     public Guid Id { get; set; }
-    string Message { get; set; }
-    string CustomerChoreId { get; set; }
-    string UserId { get; set; }
+    public string Message { get; set; }
+    public string CustomerChoreId { get; set; }
+    public string UserId { get; set; }
+    public DateTime Time { get; set; }
 }

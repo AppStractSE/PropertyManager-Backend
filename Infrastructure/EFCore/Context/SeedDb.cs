@@ -216,15 +216,18 @@ public class SeedDb
         context.ChoreComments.AddRange(
             new ChoreComment
             {
+               
                 CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
                 UserId = _context.Users.First(x => x.Name == "Alex A").Id.ToString(),
                 Message = "Låg jordnivå",
+                Time = new DateTime(2023, 01, 03, 12, 00, 00)
             },
             new ChoreComment
             {
                 CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
                 UserId =  _context.Users.First(x => x.Name == "Lucas B").Id.ToString(),
                 Message = "Ställde skyffeln bakom förrådet",
+                Time = new DateTime(2023, 01, 03, 15, 00, 00)
             });
 
         await _context.SaveChangesAsync();
