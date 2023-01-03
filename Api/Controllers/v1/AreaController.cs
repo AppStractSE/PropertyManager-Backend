@@ -37,7 +37,14 @@ public class AreaController : ControllerBase
     [HttpPatch]
     public async Task<ActionResult<Area>> PatchAreaAsync(PatchAreaRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PatchAreaRequestDto, UpdateAreaCommand>(request));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PatchAreaRequestDto, UpdateAreaCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
