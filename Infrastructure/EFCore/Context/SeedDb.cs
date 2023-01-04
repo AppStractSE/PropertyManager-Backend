@@ -29,20 +29,21 @@ public class SeedDb
         context.Periodics.AddRange(
             new Periodic
             {
-                Name = "Daily",
-            },            new Periodic
+                Name = "Dagligen",
+            },           
+             new Periodic
             {
-                Name = "Weekly",
+                Name = "Veckovis",
             },
 
             new Periodic
             {
-                Name = "Monthly",
+                Name = "Månadsvis",
             },
 
             new Periodic
             {
-                Name = "Yearly",
+                Name = "Årligen",
             });
 
         await _context.SaveChangesAsync();
@@ -123,7 +124,7 @@ public class SeedDb
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Vårluckring i rabatt").Id.ToString(),
                 Frequency = 1,
-                PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
+                PeriodicId = _context.Periodics.First(x => x.Name == "Årligen").Id.ToString(),
             },
 
             new CustomerChore
@@ -131,7 +132,7 @@ public class SeedDb
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString(),
                 Frequency = 4,
-                PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
+                PeriodicId = _context.Periodics.First(x => x.Name == "Årligen").Id.ToString(),
             });
 
         await _context.SaveChangesAsync();
