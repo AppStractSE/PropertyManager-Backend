@@ -7,4 +7,6 @@ public class CustomerChoreResponseDto
     public Guid ChoreId { get; set; }
     public int Frequency { get; set; }
     public Guid PeriodicId { get; set; }
+    public Domain.Domain.Chore Chore { get; set; }
+    public Domain.Domain.Customer Customer { get; set; }
 }

@@ -1,4 +1,6 @@
 using Domain;
+using Domain.Features.Queries.Chores;
+using Domain.Features.Queries.Customers;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
@@ -11,14 +13,27 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
     private readonly ICustomerChoreRepository _repo;
     private readonly IMapper _mapper;
     private ILogger<GetCustomerChoresByCustomerIdQueryHandler> _logger;
-    public GetCustomerChoresByCustomerIdQueryHandler(ICustomerChoreRepository repo, IMapper mapper, ILogger<GetCustomerChoresByCustomerIdQueryHandler> logger)
+    private IMediator _mediator;
+    public GetCustomerChoresByCustomerIdQueryHandler(ICustomerChoreRepository repo, IMapper mapper, ILogger<GetCustomerChoresByCustomerIdQueryHandler> logger, IMediator mediator)
     {
         _repo = repo;
         _mapper = mapper;
         _logger = logger;
+        _mediator = mediator;
     }
     public async Task<IList<Domain.CustomerChore>> Handle(GetCustomerChoresByCustomerIdQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IList<Domain.CustomerChore>>(await _repo.GetQuery(x => x.CustomerId == request.Id));
+        var customerChores = _mapper.Map<IList<Domain.CustomerChore>>(await _repo.GetQuery(x => x.CustomerId == request.Id));
+        var chores = await _mediator.Send(new GetAllChoresQuery());
+        var customers = await _mediator.Send(new GetAllCustomersQuery());
+
+        foreach (var customerChore in customerChores)
+        {
+          
+            customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId); 
+            customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId); 
+        }
+
+        return customerChores;
     }
 }
