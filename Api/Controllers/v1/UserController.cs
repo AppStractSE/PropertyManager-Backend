@@ -50,4 +50,18 @@ public class UserController : ControllerBase
         var result = await _mediator.Send(_mapper.Map<PostUserRequestDto, AddUserCommand>(request));
         return Ok(result);
     }
+
+    [HttpPatch]
+    public async Task<ActionResult<User>> PatchUserAsync(PatchUserRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PatchUserRequestDto, UpdateUserCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
