@@ -124,7 +124,7 @@ public class SeedDb
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Vårluckring i rabatt").Id.ToString(),
                 Frequency = 1,
-                PeriodicId = _context.Periodics.First(x => x.Name == "Årligen").Id.ToString(),
+                PeriodicId = _context.Periodics.First(x => x.Name == "Månadsvis").Id.ToString(),
             },
 
             new CustomerChore
