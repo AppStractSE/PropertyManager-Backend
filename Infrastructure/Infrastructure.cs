@@ -1,6 +1,8 @@
+using Domain.Domain.Authentication;
 using Domain.Repository.Interfaces;
 using DotCode.SecurityUtils;
 using Infrastructure.Context;
+using Infrastructure.EFCore.Context;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +33,10 @@ public static class Infrastructure
 
     private static void InitDatabase(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
     {
+        var encryptedConnectionString = configuration.GetConnectionString("devDBconnection");
+        var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString!, key);
+
+        services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(decryptedConnectionString));
 
         var useInMemoryDatabase = configuration["ForceUseInMemoryDatabase"] != null ?
                    bool.Parse(configuration["ForceUseInMemoryDatabase"]!) :
@@ -43,10 +49,7 @@ public static class Infrastructure
         }
         else
         {
-            var encryptedConnectionString = configuration.GetConnectionString("databaseConnection");
-            var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString!, key);
-
-            services.AddDbContext<PropertyManagerContext>(c => c.UseSqlServer(decryptedConnectionString));
+            services.AddDbContext<PropertyManagerContext>(options => options.UseSqlServer(decryptedConnectionString));
         }
     }
 }

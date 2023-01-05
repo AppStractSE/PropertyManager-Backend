@@ -1,3 +1,4 @@
+using Api;
 using Domain;
 using Infrastructure;
 using Infrastructure.Context;
@@ -25,6 +26,8 @@ builder.Services.AddSingleton<IMapper>(mapperConfig);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.InitAuth(builder.Configuration);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,6 +54,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
