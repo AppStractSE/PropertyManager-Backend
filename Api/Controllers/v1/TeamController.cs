@@ -3,6 +3,9 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
+using Domain.Features.Commands.Team;
+using Api.Dto.Request.Team.v1;
+using Api.Dto.Response.Team.v1;
 
 namespace Api.Controllers.v1;
 
@@ -23,6 +26,28 @@ public class TeamController : ControllerBase
     public async Task<ActionResult<IList<Team>>> GetAllTeams()
     {
         var result = await _mediator.Send(new GetAllTeamsQuery());
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("GetTeamById/")]
+    public async Task<ActionResult<TeamResponseDto>> GetTeamById([FromQuery] GetTeamByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetTeamByIdRequestDto, GetTeamByIdQuery>(request));
+            return result != null ? Ok(_mapper.Map<TeamResponseDto>(result)) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Team>> PostTeamAsync(PostTeamRequestDto request)
+    {
+        var result = await _mediator.Send(_mapper.Map<PostTeamRequestDto, AddTeamCommand>(request));
         return Ok(result);
     }
 }

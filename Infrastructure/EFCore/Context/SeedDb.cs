@@ -19,6 +19,7 @@ public class SeedDb
         if (!context.Customers.Any()) GenerateCustomers(context);
         if (!context.Chores.Any()) GenerateChores(context);
         if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
+        if (!context.ChoreComments.Any()) GenerateChoreComments(context);
         if (!context.ChoreStatuses.Any()) GenerateChoreStatuses(context);
         return Task.CompletedTask;
     }
@@ -28,20 +29,21 @@ public class SeedDb
         context.Periodics.AddRange(
             new Periodic
             {
-                Name = "Daily",
-            },            new Periodic
+                Name = "Dagligen",
+            },           
+             new Periodic
             {
-                Name = "Weekly",
+                Name = "Veckovis",
             },
 
             new Periodic
             {
-                Name = "Monthly",
+                Name = "Månadsvis",
             },
 
             new Periodic
             {
-                Name = "Yearly",
+                Name = "Årligen",
             });
 
         await _context.SaveChangesAsync();
@@ -122,7 +124,7 @@ public class SeedDb
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Vårluckring i rabatt").Id.ToString(),
                 Frequency = 1,
-                PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
+                PeriodicId = _context.Periodics.First(x => x.Name == "Månadsvis").Id.ToString(),
             },
 
             new CustomerChore
@@ -130,7 +132,7 @@ public class SeedDb
                 CustomerId = _context.Customers.First(x => x.Name == "BRF Motorn").Id.ToString(),
                 ChoreId = _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString(),
                 Frequency = 4,
-                PeriodicId = _context.Periodics.First(x => x.Name == "Yearly").Id.ToString(),
+                PeriodicId = _context.Periodics.First(x => x.Name == "Årligen").Id.ToString(),
             });
 
         await _context.SaveChangesAsync();
@@ -206,6 +208,27 @@ public class SeedDb
                 CredId = Guid.NewGuid().ToString(),
                 RoleId = Guid.NewGuid().ToString(),
                 Name = "Lucas B",
+            });
+
+        await _context.SaveChangesAsync();
+    }
+    private static async void GenerateChoreComments(PropertyManagerContext context)
+    {
+        context.ChoreComments.AddRange(
+            new ChoreComment
+            {
+               
+                CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
+                UserId = _context.Users.First(x => x.Name == "Alex A").Id.ToString(),
+                Message = "Låg jordnivå",
+                Time = new DateTime(2023, 01, 03, 12, 00, 00)
+            },
+            new ChoreComment
+            {
+                CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
+                UserId =  _context.Users.First(x => x.Name == "Lucas B").Id.ToString(),
+                Message = "Ställde skyffeln bakom förrådet",
+                Time = new DateTime(2023, 01, 03, 15, 00, 00)
             });
 
         await _context.SaveChangesAsync();

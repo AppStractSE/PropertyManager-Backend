@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Domain.Features.Queries.ChoreStatuses;
 
-public class GetAllChoreStatussQueryHandler : IRequestHandler<GetAllChoreStatusesQuery, IList<ChoreStatus>>
+public class GetAllChoreStatuesQueryHandler : IRequestHandler<GetAllChoreStatusesQuery, IList<ChoreStatus>>
 {
     private readonly IChoreStatusRepository _repo;
     private readonly IMapper _mapper;
-    public GetAllChoreStatussQueryHandler(IChoreStatusRepository repo, IMapper mapper)
+    public GetAllChoreStatuesQueryHandler(IChoreStatusRepository repo, IMapper mapper)
     {
         _repo = repo;
         _mapper = mapper;

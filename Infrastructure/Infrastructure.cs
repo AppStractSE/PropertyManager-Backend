@@ -27,6 +27,7 @@ public static class Infrastructure
         builder.Services.AddScoped<IPeriodicRepository, PeriodicRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
+        builder.Services.AddScoped<IChoreCommentRepository, ChoreCommentRepository>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
     }

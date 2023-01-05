@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
 using Api.Dto.Response.Chore.v1;
 using Api.Dto.Request.Chore.v1;
+using Domain.Features.Commands.Chore;
 
 namespace Api.Controllers.v1;
 
@@ -41,5 +42,12 @@ public class ChoreController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Chore>> PostChoreAsync(PostChoreRequestDto request)
+    {
+        var result = await _mediator.Send(_mapper.Map<PostChoreRequestDto, AddChoreCommand>(request));
+        return Ok(result);
     }
 }

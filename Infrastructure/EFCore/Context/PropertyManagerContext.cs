@@ -20,6 +20,7 @@ public class PropertyManagerContext : DbContext
     public DbSet<TeamMember> TeamMembers { get; set; }
     public DbSet<Periodic> Periodics { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<ChoreComment> ChoreComments { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>().HasKey(x => x.Id);
@@ -31,5 +32,6 @@ public class PropertyManagerContext : DbContext
         modelBuilder.Entity<TeamMember>().HasKey(x => x.Id);
         modelBuilder.Entity<Periodic>().HasKey(x => x.Id);
         modelBuilder.Entity<User>().HasKey(x => x.Id);
+        modelBuilder.Entity<ChoreComment>().HasKey(x => x.Id);
     }
 }

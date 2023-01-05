@@ -9,4 +9,7 @@ public class CustomerChore
     public Chore Chore { get; set; }
     public int Frequency { get; set; }
     public string PeriodicId { get; set; }
+    public Chore Chore { get; set; }
+    public Customer Customer { get; set; }
+    public Periodic Periodic { get; set; }
 }

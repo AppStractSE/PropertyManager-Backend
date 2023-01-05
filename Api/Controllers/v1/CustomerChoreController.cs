@@ -4,9 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Api.Dto.Response.CustomerChore.v1;
 using Api.Dto.Request.CustomerChore.v1;
-using Domain.Features.Queries.CustomerChores;
-using System.Collections.Generic;
 using Domain.Domain;
+using Domain.Features.Commands.CustomerChore;
 
 namespace Api.Controllers.v1;
 
@@ -43,5 +42,11 @@ public class CustomerChoreController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+    [HttpPost]
+    public async Task<ActionResult<CustomerChore>> PostCustomerChoreAsync(PostCustomerChoreRequestDto request)
+    {
+        var result = await _mediator.Send(_mapper.Map<PostCustomerChoreRequestDto, AddCustomerChoreCommand>(request));
+        return Ok(result);
     }
 }
