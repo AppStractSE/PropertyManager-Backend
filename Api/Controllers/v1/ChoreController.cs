@@ -50,4 +50,18 @@ public class ChoreController : ControllerBase
         var result = await _mediator.Send(_mapper.Map<PostChoreRequestDto, AddChoreCommand>(request));
         return Ok(result);
     }
+
+    [HttpPatch]
+    public async Task<ActionResult<Chore>> PatchChoreAsync(PatchChoreRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PatchChoreRequestDto, UpdateChoreCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
