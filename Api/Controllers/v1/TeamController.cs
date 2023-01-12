@@ -50,4 +50,18 @@ public class TeamController : ControllerBase
         var result = await _mediator.Send(_mapper.Map<PostTeamRequestDto, AddTeamCommand>(request));
         return Ok(result);
     }
+
+    [HttpPatch]
+    public async Task<ActionResult<Team>> PatchTeamAsync(PatchTeamRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PatchTeamRequestDto, UpdateTeamCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
