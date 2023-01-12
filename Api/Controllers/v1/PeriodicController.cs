@@ -22,7 +22,14 @@ public class PeriodicController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<Periodic>>> GetAllPeriodics()
     {
-        var result = await _mediator.Send(new GetAllPeriodicsQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllPeriodicsQuery());
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

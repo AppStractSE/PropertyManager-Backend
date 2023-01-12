@@ -25,8 +25,15 @@ public class ChoreController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<Chore>>> GetAllChores()
     {
-        var result = await _mediator.Send(new GetAllChoresQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllChoresQuery());
+            return Ok(result);          
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet]
@@ -47,7 +54,14 @@ public class ChoreController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Chore>> PostChoreAsync(PostChoreRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PostChoreRequestDto, AddChoreCommand>(request));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostChoreRequestDto, AddChoreCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

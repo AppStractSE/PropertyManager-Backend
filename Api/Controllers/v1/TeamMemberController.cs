@@ -25,8 +25,15 @@ public class TeamMemberController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<TeamMember>>> GetAllTeamMembers()
     {
-        var result = await _mediator.Send(new GetAllTeamMembersQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllTeamMembersQuery());
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet]
@@ -47,8 +54,15 @@ public class TeamMemberController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<TeamMember>> PostTeamMemberAsync(PostTeamMemberRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PostTeamMemberRequestDto, AddTeamMemberCommand>(request));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostTeamMemberRequestDto, AddTeamMemberCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPatch]

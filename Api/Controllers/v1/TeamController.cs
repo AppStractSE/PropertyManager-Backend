@@ -25,8 +25,15 @@ public class TeamController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<Team>>> GetAllTeams()
     {
-        var result = await _mediator.Send(new GetAllTeamsQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllTeamsQuery());
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet]

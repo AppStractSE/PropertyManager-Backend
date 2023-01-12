@@ -25,8 +25,15 @@ public class AreaController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<Area>>> GetAllAreas()
     {
-        var result = await _mediator.Send(new GetAllAreasQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllAreasQuery());
+            return Ok(result); 
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet]
@@ -47,8 +54,15 @@ public class AreaController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Area>> PostAreaAsync(PostAreaRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PostAreaRequestDto, AddAreaCommand>(request));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostAreaRequestDto, AddAreaCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
     [HttpPatch]

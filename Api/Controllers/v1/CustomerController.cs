@@ -24,8 +24,15 @@ public class CustomerController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<Customer>>> GetAllCustomers()
     {
-        var result = await _mediator.Send(new GetAllCustomersQuery());
-        return result.Count > 0 ? Ok(result) : NoContent();
+        try
+        {
+            var result = await _mediator.Send(new GetAllCustomersQuery());
+            return result.Count > 0 ? Ok(result) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet]

@@ -25,8 +25,15 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<User>>> GetAllUsers()
     {
-        var result = await _mediator.Send(new GetAllUsersQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllUsersQuery());
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet]
@@ -47,8 +54,15 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<User>> PostUserCommentAsync(PostUserRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PostUserRequestDto, AddUserCommand>(request));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostUserRequestDto, AddUserCommand>(request));
+            return Ok(result); 
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPatch]

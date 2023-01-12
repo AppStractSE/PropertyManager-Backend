@@ -24,14 +24,28 @@ public class ChoreCommentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IList<ChoreComment>>> GetAllChoreComments()
     {
-        var result = await _mediator.Send(new GetAllChoreCommentsQuery());
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new GetAllChoreCommentsQuery());
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]
     public async Task<ActionResult<ChoreComment>> PostChoreCommentAsync(PostChoreCommentRequestDto request)
     {
-        var result = await _mediator.Send(_mapper.Map<PostChoreCommentRequestDto, AddChoreCommentCommand>(request));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostChoreCommentRequestDto, AddChoreCommentCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        } 
     }
 }
