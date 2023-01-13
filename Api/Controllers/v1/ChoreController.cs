@@ -34,7 +34,7 @@ public class ChoreController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Chore controller: GetAllChores", ex);
+            _logger.LogError(message: "Error in Chore controller: GetAllChores");
             return BadRequest(ex.Message);
         }
     }
@@ -50,7 +50,7 @@ public class ChoreController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Chore controller: GetChoreById", ex);
+            _logger.LogError(message: "Error in Chore controller: GetChoreById");
             return BadRequest(ex.Message);
         }
     }
@@ -65,7 +65,6 @@ public class ChoreController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Chore controller: PostChoreAsync", ex);
             return BadRequest(ex.Message);
         }
     }

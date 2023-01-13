@@ -67,7 +67,6 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Area controller: PostAreaAsync", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -82,7 +81,6 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Area controller: PatchAreaAsync", ex);
             return BadRequest(ex.Message);
         }
     }

@@ -65,7 +65,6 @@ public class TeamMemberController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in TeamMember controller: PostTeamMemberAsync");
             return BadRequest(ex.Message);
         }
     }
@@ -80,7 +79,6 @@ public class TeamMemberController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in TeamMember controller: PatchTeamMemberAsync");
             return BadRequest(ex.Message);
         }
     }

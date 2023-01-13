@@ -49,7 +49,7 @@ public class CustomerChoreController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerChoresByCustomer", ex);
+            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerChoresByCustomer");
             return BadRequest(ex.Message);
         }
     }
@@ -63,7 +63,6 @@ public class CustomerChoreController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in CustomerChore controller: PostCustomerChoreAsync", ex);
             return BadRequest(ex.Message);
         }
     }

@@ -65,7 +65,6 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         { 
-            _logger.LogError(message: "Error in User controller: PostUserAsync");
             return BadRequest(ex.Message);
         }
     }
@@ -80,7 +79,6 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in User controller: PatchUserAsync");
             return BadRequest(ex.Message);
         }
     }

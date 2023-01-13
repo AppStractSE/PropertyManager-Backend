@@ -33,7 +33,7 @@ public class CustomerController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Customer controller: GetAllCustomers", ex);
+            _logger.LogError(message: "Error in Customer controller: GetAllCustomers");
             return BadRequest(ex.Message);
         }
     }
@@ -49,7 +49,7 @@ public class CustomerController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerById", ex);
+            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerById");
             return BadRequest(ex.Message);
         }
     }

@@ -34,7 +34,7 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Team controller: GetAllTeams", ex);
+            _logger.LogError(message: "Error in Team controller: GetAllTeams");
             return BadRequest(ex.Message);
         }
     }
@@ -50,7 +50,7 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Team controller: GetTeamById", ex);
+            _logger.LogError(message: "Error in Team controller: GetTeamById");
             return BadRequest(ex.Message);
         }
     }
@@ -65,7 +65,6 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Team controller: PostTeamAsync", ex);
             return BadRequest(ex.Message);
         }
     }

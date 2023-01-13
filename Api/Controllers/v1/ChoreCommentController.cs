@@ -34,7 +34,7 @@ public class ChoreCommentController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in ChoreComment controller: GetAllChoreComments", ex);
+            _logger.LogError(message: "Error in ChoreComment controller: GetAllChoreComments");
             return BadRequest(ex.Message);
         }
     }
@@ -64,7 +64,6 @@ public class ChoreCommentController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in ChoreComment controller: PostChoreCommentAsync", ex);
             return BadRequest(ex.Message);
         } 
     }

@@ -31,7 +31,7 @@ public class PeriodicController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Periodic controller: GetAllPeriodics", ex);
+            _logger.LogError(message: "Error in Periodic controller: GetAllPeriodics");
             return BadRequest(ex.Message);
         }
     }
