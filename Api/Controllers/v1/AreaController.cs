@@ -23,6 +23,7 @@ public class AreaController : ControllerBase
         _mediator = mediator;
         _mapper = mapper;
         _logger = logger;
+       
     }
 
     [HttpGet]
@@ -35,7 +36,7 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Area controller: GetAllAreas", ex);
+            _logger.LogError(message:"Error in Area controller: GetAllAreas");
             return BadRequest(ex.Message);
         }
     }
@@ -51,7 +52,9 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError("Error in Area controller: GetAreaById");
             return BadRequest(ex.Message);
+            
         }
     }
 
@@ -65,6 +68,7 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Area controller: PostAreaAsync", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -79,6 +83,7 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Area controller: PatchAreaAsync", ex);
             return BadRequest(ex.Message);
         }
     }

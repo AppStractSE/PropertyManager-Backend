@@ -12,11 +12,13 @@ public class PeriodicController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public PeriodicController(IMediator mediator, IMapper mapper)
+    public PeriodicController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -29,6 +31,7 @@ public class PeriodicController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Periodic controller: GetAllPeriodics", ex);
             return BadRequest(ex.Message);
         }
     }

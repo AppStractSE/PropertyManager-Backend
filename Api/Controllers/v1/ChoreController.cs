@@ -15,11 +15,13 @@ public class ChoreController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public ChoreController(IMediator mediator, IMapper mapper)
+    public ChoreController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger= logger;
     }
 
     [HttpGet]
@@ -32,6 +34,7 @@ public class ChoreController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Chore controller: GetAllChores", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -47,6 +50,7 @@ public class ChoreController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Chore controller: GetChoreById", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -61,6 +65,7 @@ public class ChoreController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Chore controller: PostChoreAsync", ex);
             return BadRequest(ex.Message);
         }
     }

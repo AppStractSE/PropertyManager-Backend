@@ -14,11 +14,13 @@ public class ChoreStatusController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public ChoreStatusController(IMediator mediator, IMapper mapper)
+    public ChoreStatusController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }   
 
     [HttpGet]
@@ -31,6 +33,7 @@ public class ChoreStatusController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in ChoreStatus controller: GetAllChoreStatuses");
             return BadRequest(ex.Message);
         }
     }
@@ -46,6 +49,7 @@ public class ChoreStatusController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in ChoreStatus controller: GetChoreStatusById");
             return BadRequest(ex.Message);
         }
     }

@@ -15,11 +15,13 @@ public class TeamMemberController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public TeamMemberController(IMediator mediator, IMapper mapper)
+    public TeamMemberController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -32,6 +34,7 @@ public class TeamMemberController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in TeamMember controller: GetAllTeamMembers");
             return BadRequest(ex.Message);
         }
     }
@@ -47,6 +50,7 @@ public class TeamMemberController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in TeamMember controller: GetTeamMemberById");
             return BadRequest(ex.Message);
         }
     }
@@ -61,6 +65,7 @@ public class TeamMemberController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in TeamMember controller: PostTeamMemberAsync");
             return BadRequest(ex.Message);
         }
     }
@@ -75,6 +80,7 @@ public class TeamMemberController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in TeamMember controller: PatchTeamMemberAsync");
             return BadRequest(ex.Message);
         }
     }

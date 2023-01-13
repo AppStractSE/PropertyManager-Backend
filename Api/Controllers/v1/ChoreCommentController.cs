@@ -14,11 +14,13 @@ public class ChoreCommentController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public ChoreCommentController(IMediator mediator, IMapper mapper)
+    public ChoreCommentController(IMediator mediator, IMapper mapper, ILogger logger )
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -31,6 +33,7 @@ public class ChoreCommentController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in ChoreComment controller: GetAllChoreComments", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -45,6 +48,7 @@ public class ChoreCommentController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in ChoreComment controller: PostChoreCommentAsync", ex);
             return BadRequest(ex.Message);
         } 
     }

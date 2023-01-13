@@ -14,11 +14,13 @@ public class CustomerController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public CustomerController(IMediator mediator, IMapper mapper)
+    public CustomerController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -31,6 +33,7 @@ public class CustomerController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Customer controller: GetAllCustomers", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -46,6 +49,7 @@ public class CustomerController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerById", ex);
             return BadRequest(ex.Message);
         }
     }

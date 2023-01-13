@@ -15,11 +15,13 @@ public class CustomerChoreController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public CustomerChoreController(IMediator mediator, IMapper mapper)
+    public CustomerChoreController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -47,6 +49,7 @@ public class CustomerChoreController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerChoresByCustomer", ex);
             return BadRequest(ex.Message);
         }
     }
@@ -60,6 +63,7 @@ public class CustomerChoreController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in CustomerChore controller: PostCustomerChoreAsync", ex);
             return BadRequest(ex.Message);
         }
     }

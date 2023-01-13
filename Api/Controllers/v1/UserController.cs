@@ -15,11 +15,13 @@ public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public UserController(IMediator mediator, IMapper mapper)
+    public UserController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -32,6 +34,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
+             _logger.LogError(message: "Error in User controller: GetAllUsers");
             return BadRequest(ex.Message);
         }
     }
@@ -47,6 +50,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
+             _logger.LogError(message: "Error in User controller: GetUserById");
             return BadRequest(ex.Message);
         }
     }
@@ -61,6 +65,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         { 
+            _logger.LogError(message: "Error in User controller: PostUserAsync");
             return BadRequest(ex.Message);
         }
     }
@@ -75,6 +80,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in User controller: PatchUserAsync");
             return BadRequest(ex.Message);
         }
     }
