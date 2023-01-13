@@ -14,9 +14,9 @@ public class CustomerController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<CustomerController> _logger;
 
-    public CustomerController(IMediator mediator, IMapper mapper, ILogger logger)
+    public CustomerController(IMediator mediator, IMapper mapper, ILogger<CustomerController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;

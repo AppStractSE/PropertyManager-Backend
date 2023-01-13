@@ -15,9 +15,9 @@ public class TeamController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<TeamController> _logger;
 
-    public TeamController(IMediator mediator, IMapper mapper, ILogger logger)
+    public TeamController(IMediator mediator, IMapper mapper, ILogger<TeamController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;

@@ -12,9 +12,9 @@ public class PeriodicController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<PeriodicController> _logger;
 
-    public PeriodicController(IMediator mediator, IMapper mapper, ILogger logger)
+    public PeriodicController(IMediator mediator, IMapper mapper, ILogger<PeriodicController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;

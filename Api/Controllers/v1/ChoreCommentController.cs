@@ -14,9 +14,9 @@ public class ChoreCommentController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<ChoreCommentController> _logger;
 
-    public ChoreCommentController(IMediator mediator, IMapper mapper, ILogger logger )
+    public ChoreCommentController(IMediator mediator, IMapper mapper, ILogger<ChoreCommentController> logger )
     {
         _mediator = mediator;
         _mapper = mapper;

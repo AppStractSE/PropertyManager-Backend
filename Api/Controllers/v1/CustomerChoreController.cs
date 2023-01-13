@@ -15,9 +15,9 @@ public class CustomerChoreController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<CustomerChoreController> _logger;
 
-    public CustomerChoreController(IMediator mediator, IMapper mapper, ILogger logger)
+    public CustomerChoreController(IMediator mediator, IMapper mapper, ILogger<CustomerChoreController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;

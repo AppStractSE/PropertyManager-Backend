@@ -15,9 +15,9 @@ public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(IMediator mediator, IMapper mapper, ILogger logger)
+    public UserController(IMediator mediator, IMapper mapper, ILogger<UserController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;

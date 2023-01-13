@@ -6,7 +6,6 @@ using Domain.Domain;
 using Domain.Features.Commands.Area;
 using Api.Dto.Request.Area.v1;
 using Api.Dto.Response.Area.v1;
-using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers.v1;
 
@@ -16,9 +15,9 @@ public class AreaController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private ILogger _logger;
+    private ILogger<AreaController> _logger;
 
-    public AreaController(IMediator mediator, IMapper mapper, ILogger logger)
+    public AreaController(IMediator mediator, IMapper mapper, ILogger<AreaController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
