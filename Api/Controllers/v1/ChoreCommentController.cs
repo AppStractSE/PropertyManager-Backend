@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
 using Api.Dto.Request.ChoreComment.v1;
 using Domain.Features.Commands.ChoreComment;
+using Api.Dto.Response.ChoreComment.v1;
 
 namespace Api.Controllers.v1;
 
@@ -34,6 +35,21 @@ public class ChoreCommentController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(message: "Error in ChoreComment controller: GetAllChoreComments", ex);
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    [Route("GetChoreCommentsByCustomerChoreId")]
+    public async Task<ActionResult<IList<ChoreCommentResponseDto>>> GetCustomerChoresByCustomer([FromQuery] GetChoreCommentsByCustomerChoreIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetChoreCommentsByCustomerChoreIdRequestDto, GetChoreCommentsByCustomerChoreIdQuery>(request));
+            return result.Count > 0 ? Ok(_mapper.Map<IList<ChoreCommentResponseDto>>(result)) : new List<ChoreCommentResponseDto>();
+        }
+        catch (Exception ex)
+        {
             return BadRequest(ex.Message);
         }
     }
