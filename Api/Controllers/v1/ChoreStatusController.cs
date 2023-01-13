@@ -19,7 +19,7 @@ public class ChoreStatusController : ControllerBase
     {
         _mediator = mediator;
         _mapper = mapper;
-    }
+    }   
 
     [HttpGet]
     public async Task<ActionResult<IList<ChoreStatus>>> GetAllChoreStatuses()
@@ -37,7 +37,7 @@ public class ChoreStatusController : ControllerBase
 
     [HttpGet]
     [Route("GetChoreStatusById/")]
-    public async Task<ActionResult<ChoreStatusResponseDto>> GetChoreById([FromQuery]GetChoreStatusByIdRequestDto request)
+    public async Task<ActionResult<ChoreStatusResponseDto>> GetChoreStatusById([FromQuery]GetChoreStatusByIdRequestDto request)
     {
         try
         {

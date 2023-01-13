@@ -52,7 +52,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<User>> PostUserCommentAsync(PostUserRequestDto request)
+    public async Task<ActionResult<User>> PostUserAsync(PostUserRequestDto request)
     {
         try
         {
@@ -60,7 +60,7 @@ public class UserController : ControllerBase
             return Ok(result); 
         }
         catch (Exception ex)
-        {
+        { 
             return BadRequest(ex.Message);
         }
     }
