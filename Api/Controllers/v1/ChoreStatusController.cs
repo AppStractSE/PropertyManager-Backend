@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
 using Api.Dto.Response.ChoreStatus.v1;
 using Api.Dto.Request.ChoreStatus.v1;
+using Domain.Features.Commands.ChoreStatus;
 
 namespace Api.Controllers.v1;
 
@@ -50,6 +51,20 @@ public class ChoreStatusController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(message: "Error in ChoreStatus controller: GetChoreStatusById");
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<ChoreStatus>> PostChoreStatusAsync(PostChoreStatusRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostChoreStatusRequestDto, AddChoreStatusCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
             return BadRequest(ex.Message);
         }
     }
