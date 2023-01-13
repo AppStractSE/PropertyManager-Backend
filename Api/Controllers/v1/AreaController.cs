@@ -6,6 +6,7 @@ using Domain.Domain;
 using Domain.Features.Commands.Area;
 using Api.Dto.Request.Area.v1;
 using Api.Dto.Response.Area.v1;
+using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers.v1;
 
@@ -15,11 +16,13 @@ public class AreaController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private ILogger _logger;
 
-    public AreaController(IMediator mediator, IMapper mapper)
+    public AreaController(IMediator mediator, IMapper mapper, ILogger logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -32,6 +35,7 @@ public class AreaController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: "Error in Area controller: GetAllAreas", ex);
             return BadRequest(ex.Message);
         }
     }
