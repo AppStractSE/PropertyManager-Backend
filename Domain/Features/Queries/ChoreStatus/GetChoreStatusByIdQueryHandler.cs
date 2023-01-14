@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Domain.Features.Queries.ChoreStatuses;
 
-public class GetChoreStatusByIdQueryHandler : IRequest<IList<Domain.ChoreStatus>>
+public class GetChoreStatusByIdQueryHandler : IRequestHandler<GetChoreStatusByIdQuery, IList<Domain.ChoreStatus>>
 {
     private readonly IChoreStatusRepository _repo;
     private readonly IMapper _mapper;

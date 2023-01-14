@@ -1,8 +1,5 @@
-using Domain;
-using Domain.Features.Queries.Chores;
+using Domain.Domain;
 using Domain.Features.Queries.CustomerChores;
-using Domain.Features.Queries.Customers;
-using Domain.Features.Queries.Periodics;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;

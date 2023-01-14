@@ -21,13 +21,13 @@ public static class Infrastructure
         builder.Services.AddScoped<IAreaRepository, AreaRepository>();
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         builder.Services.AddScoped<IChoreRepository, ChoreRepository>();
-        builder.Services.AddScoped<IChoreStatusRepository, ChoreStatusRepository>();
         builder.Services.AddScoped<ICustomerChoreRepository, CustomerChoreRepository>();
         builder.Services.AddScoped<ITeamRepository, TeamRepository>();
         builder.Services.AddScoped<IPeriodicRepository, PeriodicRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
         builder.Services.AddScoped<IChoreCommentRepository, ChoreCommentRepository>();
+        builder.Services.AddScoped<IChoreStatusRepository, ChoreStatusRepository>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
     }
