@@ -40,13 +40,14 @@ public class ChoreStatusController : ControllerBase
     }
 
     [HttpGet]
-    [Route("GetChoreStatusById/")]
-    public async Task<ActionResult<ChoreStatusResponseDto>> GetChoreStatusById([FromQuery]GetChoreStatusByIdRequestDto request)
+    [Route("GetChoreStatusById")]
+    public async Task<ActionResult<IList<ChoreStatusResponseDto>>> GetChoreStatusById([FromQuery] GetChoreStatusByIdRequestDto request)
     {
         try
         {
             var result = await _mediator.Send(_mapper.Map<GetChoreStatusByIdRequestDto, GetChoreStatusByIdQuery>(request));
-            return result != null ? Ok(_mapper.Map<ChoreStatusResponseDto>(result)) : NoContent();
+            // return result != null ? Ok(_mapper.Map<ChoreStatusResponseDto>(result)) : NoContent();
+            return result.Count > 0 ? Ok(_mapper.Map<IList<ChoreStatusResponseDto>>(result)) : new List<ChoreStatusResponseDto>();
         }
         catch (Exception ex)
         {
