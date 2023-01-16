@@ -51,7 +51,7 @@ public class TeamController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPatch]
+    [HttpPut]
     public async Task<ActionResult<Team>> PatchTeamAsync(PatchTeamRequestDto request)
     {
         try
