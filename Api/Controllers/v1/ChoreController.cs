@@ -51,7 +51,7 @@ public class ChoreController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPatch]
+    [HttpPut]
     public async Task<ActionResult<Chore>> PatchChoreAsync(PatchChoreRequestDto request)
     {
         try
