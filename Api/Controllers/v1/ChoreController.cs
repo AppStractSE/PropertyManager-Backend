@@ -70,11 +70,11 @@ public class ChoreController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<Chore>> PatchChoreAsync(PatchChoreRequestDto request)
+    public async Task<ActionResult<Chore>> PutChoreAsync(PutChoreRequestDto request)
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<PatchChoreRequestDto, UpdateChoreCommand>(request));
+            var result = await _mediator.Send(_mapper.Map<PutChoreRequestDto, UpdateChoreCommand>(request));
             return Ok(result);
         }
         catch (Exception ex)

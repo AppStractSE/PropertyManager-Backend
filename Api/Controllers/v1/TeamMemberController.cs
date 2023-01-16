@@ -69,12 +69,12 @@ public class TeamMemberController : ControllerBase
         }
     }
 
-    [HttpPatch]
-    public async Task<ActionResult<TeamMember>> PatchTeamMemberAsync(PatchTeamMemberRequestDto request)
+    [HttpPut]
+    public async Task<ActionResult<TeamMember>> PutTeamMemberAsync(PutTeamMemberRequestDto request)
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<PatchTeamMemberRequestDto, UpdateTeamMemberCommand>(request));
+            var result = await _mediator.Send(_mapper.Map<PutTeamMemberRequestDto, UpdateTeamMemberCommand>(request));
             return Ok(result);
         }
         catch (Exception ex)

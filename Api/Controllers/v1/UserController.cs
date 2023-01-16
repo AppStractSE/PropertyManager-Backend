@@ -69,12 +69,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch]
-    public async Task<ActionResult<User>> PatchUserAsync(PatchUserRequestDto request)
+    [HttpPut]
+    public async Task<ActionResult<User>> PutUserAsync(PutUserRequestDto request)
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<PatchUserRequestDto, UpdateUserCommand>(request));
+            var result = await _mediator.Send(_mapper.Map<PutUserRequestDto, UpdateUserCommand>(request));
             return Ok(result);
         }
         catch (Exception ex)

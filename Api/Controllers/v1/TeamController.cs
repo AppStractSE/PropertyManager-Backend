@@ -70,11 +70,11 @@ public class TeamController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<Team>> PatchTeamAsync(PatchTeamRequestDto request)
+    public async Task<ActionResult<Team>> PutTeamAsync(PutTeamRequestDto request)
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<PatchTeamRequestDto, UpdateTeamCommand>(request));
+            var result = await _mediator.Send(_mapper.Map<PutTeamRequestDto, UpdateTeamCommand>(request));
             return Ok(result);
         }
         catch (Exception ex)

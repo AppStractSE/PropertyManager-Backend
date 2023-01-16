@@ -71,12 +71,12 @@ public class AreaController : ControllerBase
         }
     }
     
-    [HttpPatch]
-    public async Task<ActionResult<Area>> PatchAreaAsync(PatchAreaRequestDto request)
+    [HttpPut]
+    public async Task<ActionResult<Area>> PutAreaAsync(PutAreaRequestDto request)
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<PatchAreaRequestDto, UpdateAreaCommand>(request));
+            var result = await _mediator.Send(_mapper.Map<PutAreaRequestDto, UpdateAreaCommand>(request));
             return Ok(result);
         }
         catch (Exception ex)

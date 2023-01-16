@@ -1,6 +1,6 @@
 namespace Api.Dto.Request.CustomerChore.v1;
 
-public class PatchCustomerChoreRequestDto
+public class PutCustomerChoreRequestDto
 {
     public Guid Id { get; set; }
     public int Frequency { get; set; }

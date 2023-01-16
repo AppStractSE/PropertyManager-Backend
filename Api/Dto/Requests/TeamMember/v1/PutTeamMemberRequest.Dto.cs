@@ -1,6 +1,6 @@
 namespace Api.Dto.Request.TeamMember.v1;
 
-public class PatchTeamMemberRequestDto
+public class PutTeamMemberRequestDto
 {
     public Guid Id { get; set; }
     public string UserId { get; set; }
