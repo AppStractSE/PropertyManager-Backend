@@ -50,7 +50,7 @@ public class CustomerChoreController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPatch]
+    [HttpPut]
     public async Task<ActionResult<CustomerChore>> PatchCustomerChoreAsync(PatchCustomerChoreRequestDto request)
     {
         try
