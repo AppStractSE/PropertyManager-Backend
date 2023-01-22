@@ -22,7 +22,7 @@ public class ChoreStatusController : ControllerBase
         _mediator = mediator;
         _mapper = mapper;
         _logger = logger;
-    }   
+    }
 
     [HttpGet]
     public async Task<ActionResult<IList<ChoreStatus>>> GetAllChoreStatuses()
@@ -30,7 +30,7 @@ public class ChoreStatusController : ControllerBase
         try
         {
             var result = await _mediator.Send(new GetAllChoreStatusesQuery());
-            return Ok(result);   
+            return Ok(result);
         }
         catch (Exception ex)
         {

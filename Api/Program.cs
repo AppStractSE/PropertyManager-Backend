@@ -5,6 +5,7 @@ using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,12 @@ builder.Services.AddSingleton<IMapper>(mapperConfig);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.ResponsePropertiesAndHeaders;
+    logging.MediaTypeOptions.AddText("application/json");
+});
 
 builder.Services.InitAuth(builder.Configuration);
 

@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 
-
 namespace Domain;
 
 public static class Core

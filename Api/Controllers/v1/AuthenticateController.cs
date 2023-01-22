@@ -18,52 +18,64 @@ public class AuthenticateController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private ILogger<AuthenticateController> _logger;
 
-    public AuthenticateController(IMapper mapper, IMediator mediator)
+    public AuthenticateController(IMapper mapper, IMediator mediator, ILogger<AuthenticateController> logger)
     {
         _mapper = mapper;
         _mediator = mediator;
+        _logger = logger;
     }
 
     [HttpPost]
     [Route("login")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
-        var authUser = await _mediator.Send(_mapper.Map<LoginModel, PostLoginCommand>(model));
-        if (authUser == null)
+        try
         {
-            return Unauthorized();
+            var authUser = await _mediator.Send(_mapper.Map<LoginModel, PostLoginCommand>(model));
+            if (authUser == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(authUser);
         }
-
-        return Ok(authUser);
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Auth: Login");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
     }
-    
+
     [HttpPost]
     [Route("register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Register([FromBody] RegisterModel model)
     {
-        var result = await _mediator.Send(new PostRegisterCommand 
-        { 
-            Username = model.Username,
-            Email = model.Email,
-            Password = model.Password 
-        });
-        
-        if(result == null)
+        try
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = "User already exists!" });
-        }
-        
-        if (!result.Succeeded)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-        }
+            var result = await _mediator.Send(_mapper.Map<RegisterModel, PostRegisterCommand>(model));
 
-        return Ok(new AuthResponse { Status = "Success", Message = "User created successfully!" });
+            if (result == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = "User already exists!" });
+            }
+
+            if (!result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            }
+            return Ok(new AuthResponse { Status = "Success", Message = "User created successfully!" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Auth: Register");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
     }
 
     [Authorize(Roles = "Admin")]
@@ -74,28 +86,36 @@ public class AuthenticateController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
     {
-        var result = await _mediator.Send(new PostRegisterCommand
+        try
         {
-            Username = model.Username,
-            Email = model.Email,
-            Password = model.Password,
-            Role = UserRoles.Admin
-        });
+            var mappedModel = _mapper.Map<RegisterModel, PostRegisterCommand>(model);
+            mappedModel.Role = UserRoles.Admin;
 
-        if (result == null)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = "User already exists!" });
+            var result = await _mediator.Send(mappedModel);
+
+            if (result == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse
+                {
+                    Status = "Error",
+                    Message = "User already exists!"
+                });
+            }
+
+            if (!result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse
+                {
+                    Status = "Error",
+                    Message = "User creation failed! Please check user details and try again."
+                });
+            }
+            return Ok(new AuthResponse { Status = "Success", Message = "User created successfully!" });
         }
-
-        if (!result.Succeeded)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            _logger.LogError(message: "Error in Auth: Login");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
-
-        return Ok(new AuthResponse { Status = "Success", Message = "User created successfully!" });
-        
     }
-
-    
 }
-

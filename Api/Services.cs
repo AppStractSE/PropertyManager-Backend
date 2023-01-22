@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.EFCore.Context;
 using Domain.Domain.Authentication;
+using Domain.Repository.Entities;
 
 namespace Api
 {
@@ -13,7 +14,7 @@ namespace Api
         {
 
             // For Identity  
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<AuthUserEntity, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
 

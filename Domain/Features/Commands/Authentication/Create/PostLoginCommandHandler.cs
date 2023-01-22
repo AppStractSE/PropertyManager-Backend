@@ -1,4 +1,5 @@
 ﻿using Domain.Domain;
+using Domain.Repository.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -11,11 +12,12 @@ namespace Domain.Features.Commands.Authentication.Create;
 
 public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUser>
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private const int EXPIRATION_TIME = 3;
+    private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
 
-    public PostLoginCommandHandler(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+    public PostLoginCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
     {
         _userManager = userManager;
         _configuration = configuration;
@@ -49,6 +51,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo,
                 UserName = user.UserName,
+                DisplayName = user.DisplayName,
             };
         }
         return null;
@@ -62,7 +65,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
         var token = new JwtSecurityToken(
             issuer: _configuration["JWT:ValidIssuer"],
             audience: _configuration["JWT:ValidAudience"],
-            expires: DateTime.Now.AddHours(3),
+            expires: DateTime.Now.AddHours(EXPIRATION_TIME),
             claims: authClaims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );

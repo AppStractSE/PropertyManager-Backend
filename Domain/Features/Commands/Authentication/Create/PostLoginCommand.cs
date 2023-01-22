@@ -1,6 +1,5 @@
 ﻿using Domain.Domain;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Features.Commands.Authentication.Create;
 

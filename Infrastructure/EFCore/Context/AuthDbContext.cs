@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Repository.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EFCore.Context;
 
-public class AuthDbContext : IdentityDbContext<IdentityUser>
+public class AuthDbContext : IdentityDbContext<AuthUserEntity>
 {
 
     public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
