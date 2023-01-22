@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Domain;
 using Api.Dto.Request.Customer.v1;
 using Api.Dto.Response.Customer.v1;
+using Domain.Features.Commands.Customer;
 
 namespace Api.Controllers.v1;
 
@@ -50,6 +51,20 @@ public class CustomerController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(message: "Error in CustomerChore controller: GetCustomerById");
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Customer>> PostCustomerAsync(PostCustomerRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostCustomerRequestDto, AddCustomerCommand>(request));
+            return Ok(result);    
+        }
+        catch (Exception ex)
+        {
             return BadRequest(ex.Message);
         }
     }

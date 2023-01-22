@@ -55,6 +55,10 @@ public class SeedDb
             {
                 Name = "Norrmalm",
             },
+            new Area
+            {
+                Name = "Käpplunda",
+            },
 
             new Area
             {
@@ -71,10 +75,14 @@ public class SeedDb
             {
                 Name = "Team 1",
             },
-
             new Team
             {
                 Name = "Team 2",
+            },
+
+            new Team
+            {
+                Name = "Team 3",
             });
 
         await _context.SaveChangesAsync();
@@ -159,6 +167,20 @@ public class SeedDb
                 TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 Name = "BRF Motorn",
                 Address = "Storgatan 11B, Skövde"
+            },
+            new Customer
+            {
+                AreaId = _context.Areas.First(x => x.Name == "Billingelund").Id.ToString(),
+                TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
+                Name = "BRF Billingen",
+                Address = "Storgatan 11B, Skövde"
+            },
+            new Customer
+            {
+                AreaId = _context.Areas.First(x => x.Name == "Käpplunda").Id.ToString(),
+                TeamId = _context.Teams.First(x => x.Name == "Team 3").Id.ToString(),
+                Name = "BRF Käpplunda",
+                Address = "Havstenavägen 30A, Skövde"
             });
 
         await _context.SaveChangesAsync();
