@@ -1,5 +1,6 @@
 ﻿using Domain.Domain;
 using Domain.Repository.Entities;
+using Domain.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,6 @@ namespace Domain.Features.Commands.Authentication.Create;
 
 public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUser>
 {
-    private const int EXPIRATION_TIME = 3;
     private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
@@ -43,7 +43,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            var token = GetToken(authClaims);
+            var token = AuthUtils.GetToken(authClaims, _configuration);
 
             return new AuthUser()
             {
@@ -55,21 +55,5 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
             };
         }
         return null;
-    }
-
-
-    private JwtSecurityToken GetToken(List<Claim> authClaims)
-    {
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-        var token = new JwtSecurityToken(
-            issuer: _configuration["JWT:ValidIssuer"],
-            audience: _configuration["JWT:ValidAudience"],
-            expires: DateTime.Now.AddHours(EXPIRATION_TIME),
-            claims: authClaims,
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-            );
-
-        return token;
     }
 }
