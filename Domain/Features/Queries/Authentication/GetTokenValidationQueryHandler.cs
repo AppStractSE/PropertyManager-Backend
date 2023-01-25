@@ -48,7 +48,7 @@ namespace Domain.Features.Authentication.Queries
 
             if (user == null)
             {
-                throw new Exception("User not found");
+                return null;
             }
             else
             {
@@ -89,9 +89,7 @@ namespace Domain.Features.Authentication.Queries
                         DisplayName = user.DisplayName,
                     };
                 }
-
             }
-
         }
     }
 }

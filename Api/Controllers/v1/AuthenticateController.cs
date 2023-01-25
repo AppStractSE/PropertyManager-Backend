@@ -48,9 +48,11 @@ public class AuthenticateController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet]
     [Route("validation")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetValidation()
@@ -58,12 +60,11 @@ public class AuthenticateController : ControllerBase
         try
         {
             var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
             var authUser = await _mediator.Send(new GetTokenValidationQuery() { Token = token });
-            _logger.LogInformation(message: DateTime.Now.ToString());
-            _logger.LogInformation(message: DateTime.UtcNow.ToString());
             if (authUser == null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
             return Ok(authUser);
         }
