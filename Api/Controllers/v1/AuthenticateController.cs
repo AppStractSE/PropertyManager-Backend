@@ -1,14 +1,12 @@
-﻿using Domain.Domain.Authentication;
+﻿using Domain.Domain;
+using Domain.Domain.Authentication;
+using Domain.Features.Authentication.Queries;
 using Domain.Features.Commands.Authentication.Create;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers.v1;
 
@@ -29,7 +27,7 @@ public class AuthenticateController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -46,6 +44,33 @@ public class AuthenticateController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(message: "Error in Auth: Login");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [Authorize]
+    [HttpGet]
+    [Route("validation")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetValidation()
+    {
+        try
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            var authUser = await _mediator.Send(new GetTokenValidationQuery() { Token = token });
+            if (authUser == null)
+            {
+                return BadRequest();
+            }
+            return Ok(authUser);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Auth: Authenticate");
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
