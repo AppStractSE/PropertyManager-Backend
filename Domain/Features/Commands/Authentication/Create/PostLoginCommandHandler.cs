@@ -1,4 +1,4 @@
-﻿using Domain.Domain;
+﻿using Domain.Domain.Authentication;
 using Domain.Repository.Entities;
 using Domain.Utilities;
 using MediatR;

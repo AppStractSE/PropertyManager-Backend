@@ -1,4 +1,4 @@
-﻿using Domain.Domain;
+﻿using Domain.Domain.Authentication;
 using MediatR;
 
 namespace Domain.Features.Commands.Authentication.Create;

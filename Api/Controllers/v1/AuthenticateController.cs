@@ -1,12 +1,12 @@
-﻿using Domain.Domain;
+﻿using Api.Dto.Response.Authenticate.v1;
 using Domain.Domain.Authentication;
 using Domain.Features.Authentication.Queries;
 using Domain.Features.Commands.Authentication.Create;
+using Domain.Features.Queries.Authentication.GetAllUsers;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers.v1;
 
@@ -44,6 +44,26 @@ public class AuthenticateController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(message: "Error in Auth: Login");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [Authorize(Roles = UserRoles.Admin +", "+ UserRoles.SuperAdmin)]
+    [HttpGet]
+    [Route("getAllUsers")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserInfoDto>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetAllUsersQuery());
+            var users = _mapper.Map<IList<UserInfoDto>>(result);
+            return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Auth: GetAllUsers");
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
@@ -103,7 +123,7 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [HttpPost]
     [Route("register-admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
