@@ -1,4 +1,5 @@
-﻿using Domain.Features.Commands.Authentication.Create;
+﻿using Domain.Domain.Authentication;
+using Domain.Features.Commands.Authentication.Create;
 using Domain.Repository.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +41,7 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, I
         }
         else
         {
+            await InitRoles();
             return await AddRole(request.Role, user);
         }
     }
@@ -50,9 +52,27 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, I
         {
             return await _userManager.AddToRoleAsync(user, role);
         }
-        else
+        throw new Exception("Role does not exist, created user cannot be added to a role.");
+    }
+
+    private async Task InitRoles()
+    {
+        if (!await _roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
         {
-            return null;
+            await _roleManager.CreateAsync(new IdentityRole(UserRoles.SuperAdmin));
         }
+        if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+        {
+            await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+        }
+        if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+        {
+            await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+        }
+        if (!await _roleManager.RoleExistsAsync(UserRoles.Customer))
+        {
+            await _roleManager.CreateAsync(new IdentityRole(UserRoles.Customer));
+        }
+
     }
 }
