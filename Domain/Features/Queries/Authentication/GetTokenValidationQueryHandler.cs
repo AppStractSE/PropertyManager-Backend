@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Domain.Domain;
+using Domain.Domain.Authentication;
 using Domain.Repository.Entities;
 using Domain.Utilities;
 using MapsterMapper;
