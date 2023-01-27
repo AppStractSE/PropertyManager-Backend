@@ -55,6 +55,22 @@ public class CustomerController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("GetCustomersByTeamId/")]
+    public async Task<ActionResult<IList<CustomerResponseDto>>> GetCustomersByTeamId([FromQuery] GetCustomerByTeamIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetCustomerByTeamIdRequestDto, GetCustomersByTeamIdQuery>(request));
+            return result != null ? Ok(_mapper.Map<CustomerResponseDto>(result)) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Customer controller: GetCustomerByTeamId");
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost]
     public async Task<ActionResult<Customer>> PostCustomerAsync(PostCustomerRequestDto request)
     {
