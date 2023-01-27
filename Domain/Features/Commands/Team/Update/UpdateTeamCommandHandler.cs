@@ -1,21 +1,22 @@
+using Domain.Features.Commands.Team;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
 namespace Domain.Features.Commands.User;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Domain.User>
+public class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamCommand, Domain.Team>
 {
-    private readonly IUserRepository _repo;
+    private readonly ITeamRepository _repo;
     private readonly IMapper _mapper;
-    public UpdateUserCommandHandler(IUserRepository repo, IMapper mapper)
+    public UpdateTeamCommandHandler(ITeamRepository repo, IMapper mapper)
     {
         _repo = repo;
         _mapper = mapper;
     }
-    public async Task<Domain.User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Team> Handle(UpdateTeamCommand request, CancellationToken cancellationToken)
     {
-        var response = await _repo.UpdateAsync(_mapper.Map<Repository.Entities.User>(request));
-        return _mapper.Map<Domain.User>(response);
+        var response = await _repo.UpdateAsync(_mapper.Map<Repository.Entities.Team>(request));
+        return _mapper.Map<Domain.Team>(response);
     }
 }
