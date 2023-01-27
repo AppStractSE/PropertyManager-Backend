@@ -26,7 +26,7 @@ public class GetCustomersByTeamIdQueryHandler : IRequestHandler<GetCustomersByTe
         var teams = await _mediator.Send(new GetAllTeamsQuery());
         foreach (var customer in customers)
         {
-            customer.TeamId = teams.FirstOrDefault(x => x.Id.ToString() == customer.TeamId).ToString();
+            customer.TeamId = teams.FirstOrDefault(x => x.Id.ToString() == customer.TeamId).Id.ToString();
         }
         return customers;
     }

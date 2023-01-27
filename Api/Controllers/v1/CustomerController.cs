@@ -61,8 +61,9 @@ public class CustomerController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<GetCustomerByTeamIdRequestDto, GetCustomersByTeamIdQuery>(request));
-            return result != null ? Ok(_mapper.Map<CustomerResponseDto>(result)) : NoContent();
+            var response = await _mediator.Send(_mapper.Map<GetCustomerByTeamIdRequestDto, GetCustomersByTeamIdQuery>(request));
+            var result = _mapper.Map<IList<CustomerResponseDto>>(response);
+            return result != null ? Ok(result) : NoContent();
         }
         catch (Exception ex)
         {
