@@ -6,6 +6,7 @@ using Infrastructure.EFCore.Context;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,8 @@ builder.Services.AddSingleton<IMapper>(mapperConfig);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" }));
+builder.Services.AddOpenApiDocument();
 
 builder.Services.AddHttpLogging(logging =>
 {
@@ -40,8 +42,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseOpenApi();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
 }
 
 // Create mock data for Db
