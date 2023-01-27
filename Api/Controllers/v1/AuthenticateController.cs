@@ -48,8 +48,7 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "SuperAdmin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin +", "+ UserRoles.SuperAdmin)]
     [HttpGet]
     [Route("getAllUsers")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserInfoDto>))]
@@ -124,7 +123,7 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [HttpPost]
     [Route("register-admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
