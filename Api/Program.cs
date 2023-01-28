@@ -5,8 +5,11 @@ using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.OpenApi.Models;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +29,21 @@ builder.Services.AddSingleton<IMapper>(mapperConfig);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" }));
-builder.Services.AddOpenApiDocument();
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Api", Version = "v1" }));
+builder.Services.AddOpenApiDocument(document =>
+{
+    document.AddSecurity("Bearer", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+    {
+        Type = OpenApiSecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        BearerFormat = "JWT",
+        Description = "Type into the textbox: {your JWT token}."
+    });
+
+    document.OperationProcessors.Add(
+        new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+    //      new OperationSecurityScopeProcessor("Bearer"));
+});
 
 builder.Services.AddHttpLogging(logging =>
 {
