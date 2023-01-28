@@ -48,7 +48,7 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    [Authorize(Roles = UserRoles.Admin +", "+ UserRoles.SuperAdmin)]
+    [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.SuperAdmin)]
     [HttpGet]
     [Route("getAllUsers")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserInfoDto>))]
@@ -71,7 +71,7 @@ public class AuthenticateController : ControllerBase
     [Authorize]
     [HttpGet]
     [Route("validation")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

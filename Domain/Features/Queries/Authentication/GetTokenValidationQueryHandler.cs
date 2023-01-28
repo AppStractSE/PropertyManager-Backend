@@ -71,22 +71,34 @@ namespace Domain.Features.Authentication.Queries
 
                     return new AuthUser()
                     {
-                        UserId = user.Id,
-                        Token = new JwtSecurityTokenHandler().WriteToken(token),
-                        Expiration = token.ValidTo,
-                        UserName = user.UserName,
-                        DisplayName = user.DisplayName,
+                        TokenInfo = new TokenInfo()
+                        {
+                            Token = new JwtSecurityTokenHandler().WriteToken(token),
+                            Expiration = token.ValidTo,
+                        },
+                        User = new User()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            DisplayName = user.DisplayName,
+                        }
                     };
                 }
                 else
                 {
                     return new AuthUser()
                     {
-                        UserId = user.Id,
-                        Token = request.Token,
-                        Expiration = jwtToken.ValidTo,
-                        UserName = user.UserName,
-                        DisplayName = user.DisplayName,
+                        TokenInfo = new TokenInfo()
+                        {
+                            Token = request.Token,
+                            Expiration = jwtToken.ValidTo,
+                        },
+                        User = new User()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            DisplayName = user.DisplayName,
+                        }
                     };
                 }
             }

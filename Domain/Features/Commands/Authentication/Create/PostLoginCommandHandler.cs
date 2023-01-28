@@ -47,11 +47,17 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
 
             return new AuthUser()
             {
-                UserId = user.Id,
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo,
-                UserName = user.UserName,
-                DisplayName = user.DisplayName,
+                TokenInfo = new TokenInfo()
+                {
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                    Expiration = token.ValidTo,
+                },
+                User = new Domain.Authentication.User()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    DisplayName = user.DisplayName,
+                }
             };
         }
         return null;
