@@ -13,12 +13,19 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
         _context = context;
     }
-    public async Task<IReadOnlyList<T>> GetAllAsync(bool disableTracking = true)
+    public async Task<IReadOnlyList<T>> GetAllAsync(bool disableTracking = true, string includes = null)
     {
         IQueryable<T> source = _context.Set<T>();
+        if (includes != null)
+        {
+            foreach (var include in includes.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                source = source.Include(include);
+            }
+        }
         return await source.ToListAsync();
     }
-
+    
     public async Task<T> GetById(string id)
     {
         var result = await _context.Set<T>().FindAsync(Guid.Parse(id));

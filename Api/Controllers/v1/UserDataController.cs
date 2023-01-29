@@ -1,6 +1,6 @@
 using Api.Dto.Request.UserData.v1;
-using Api.Dto.Response.User.v1;
 using Api.Dto.Response.UserData.v1;
+using Domain.Features.Queries.UserData;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +25,7 @@ public class UserDataController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(_mapper.Map<GetUserDataByUserIdRequestDto, GetUserDataByUserIdQuery>(request));
+            var result = await _mediator.Send(_mapper.Map<GetUserDataByUserIdQuery>(request));
             return result != null ? Ok(_mapper.Map<UserDataResponseDto>(result)) : NoContent();
         }
         catch (Exception ex)
@@ -35,4 +35,3 @@ public class UserDataController : ControllerBase
         }
     }
 }
-0
