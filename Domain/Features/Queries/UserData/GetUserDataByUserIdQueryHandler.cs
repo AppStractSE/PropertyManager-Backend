@@ -41,6 +41,7 @@ public class GetUserDataByUserIdQueryHandler : IRequestHandler<GetUserDataByUser
             {
                 TeamId = team.Id.ToString(),
                 TeamName = team.Name,
+                IsTemporary = teamMembers.First(tm => tm.TeamId == team.Id.ToString()).IsTemporary,
                 UserCustomersData = userCustomers
                     .Where(c => c.TeamId == team.Id.ToString())
                     .Select(c => new UserCustomerData()
