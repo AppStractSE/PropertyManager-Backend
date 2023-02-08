@@ -11,11 +11,11 @@ public class SeedDb
         context.Database.EnsureCreated();
         _context = context;
 
-        if (!context.Users.Any()) GenerateUsers(context);
+        //if (!context.Users.Any()) GenerateUsers(context);
         if (!context.Periodics.Any()) GeneratePeriodics(context);
         if (!context.Areas.Any()) GenerateAreas(context);
         if (!context.Teams.Any()) GenerateTeams(context);
-        if (!context.TeamMembers.Any()) GenerateTeamMembers(context);
+        //if (!context.TeamMembers.Any()) GenerateTeamMembers(context);
         if (!context.Customers.Any()) GenerateCustomers(context);
         if (!context.Chores.Any()) GenerateChores(context);
         if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
@@ -87,43 +87,43 @@ public class SeedDb
 
         await _context.SaveChangesAsync();
     }
-    private static async void GenerateTeamMembers(PropertyManagerContext context)
-    {
-        context.TeamMembers.AddRange(
-            new TeamMember
-            {
-                UserId = _context.Users.First(x => x.Name == "Lucas B").Id.ToString(),
-                TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
-                IsTemporary = false,
-            },
-            new TeamMember
-            {
-                UserId = _context.Users.First(x => x.Name == "Erik G").Id.ToString(),
-                TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
-                IsTemporary = false,
-            },
-            new TeamMember
-            {
-                UserId = _context.Users.First(x => x.Name == "Johannes Å").Id.ToString(),
-                TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
-                IsTemporary = false,
-            },
-            new TeamMember
-            {
-                UserId = _context.Users.First(x => x.Name == "Erik G").Id.ToString(),
-                TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
-                IsTemporary = true,
-            },
+    //private static async void GenerateTeamMembers(PropertyManagerContext context)
+    //{
+    //    context.TeamMembers.AddRange(
+    //        new TeamMember
+    //        {
+    //            UserId = _context.Users.First(x => x.Name == "Lucas B").Id.ToString(),
+    //            TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
+    //            IsTemporary = false,
+    //        },
+    //        new TeamMember
+    //        {
+    //            UserId = _context.Users.First(x => x.Name == "Erik G").Id.ToString(),
+    //            TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
+    //            IsTemporary = false,
+    //        },
+    //        new TeamMember
+    //        {
+    //            UserId = _context.Users.First(x => x.Name == "Johannes Å").Id.ToString(),
+    //            TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
+    //            IsTemporary = false,
+    //        },
+    //        new TeamMember
+    //        {
+    //            UserId = _context.Users.First(x => x.Name == "Erik G").Id.ToString(),
+    //            TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
+    //            IsTemporary = true,
+    //        },
 
-            new TeamMember
-            {
-                UserId = _context.Users.First(x => x.Name == "Alex A").Id.ToString(),
-                TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
-                IsTemporary = false,
-            });
+    //        new TeamMember
+    //        {
+    //            UserId = _context.Users.First(x => x.Name == "Alex A").Id.ToString(),
+    //            TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
+    //            IsTemporary = false,
+    //        });
 
-        await _context.SaveChangesAsync();
-    }
+    //    await _context.SaveChangesAsync();
+    //}
     private static async void GenerateCustomerChores(PropertyManagerContext context)
     {
         context.CustomerChores.AddRange(
@@ -204,36 +204,36 @@ public class SeedDb
 
         await _context.SaveChangesAsync();
     }
-    private static async void GenerateUsers(PropertyManagerContext context)
-    {
-        context.Users.AddRange(
-            new User
-            {
-                CredId = Guid.NewGuid().ToString(),
-                RoleId = Guid.NewGuid().ToString(),
-                Name = "Alex A",
-            },
-            new User
-            {
-                CredId = Guid.NewGuid().ToString(),
-                RoleId = Guid.NewGuid().ToString(),
-                Name = "Erik G",
-            },
-            new User
-            {
-                CredId = Guid.NewGuid().ToString(),
-                RoleId = Guid.NewGuid().ToString(),
-                Name = "Johannes Å",
-            },
-            new User
-            {
-                CredId = Guid.NewGuid().ToString(),
-                RoleId = Guid.NewGuid().ToString(),
-                Name = "Lucas B",
-            });
+    //private static async void GenerateUsers(PropertyManagerContext context)
+    //{
+    //    context.Users.AddRange(
+    //        new User
+    //        {
+    //            CredId = Guid.NewGuid().ToString(),
+    //            RoleId = Guid.NewGuid().ToString(),
+    //            Name = "Alex A",
+    //        },
+    //        new User
+    //        {
+    //            CredId = Guid.NewGuid().ToString(),
+    //            RoleId = Guid.NewGuid().ToString(),
+    //            Name = "Erik G",
+    //        },
+    //        new User
+    //        {
+    //            CredId = Guid.NewGuid().ToString(),
+    //            RoleId = Guid.NewGuid().ToString(),
+    //            Name = "Johannes Å",
+    //        },
+    //        new User
+    //        {
+    //            CredId = Guid.NewGuid().ToString(),
+    //            RoleId = Guid.NewGuid().ToString(),
+    //            Name = "Lucas B",
+    //        });
 
-        await _context.SaveChangesAsync();
-    }
+    //    await _context.SaveChangesAsync();
+    //}
     private static async void GenerateChoreComments(PropertyManagerContext context)
     {
         context.ChoreComments.AddRange(

@@ -1,4 +1,3 @@
-using Domain.Domain.Authentication;
 using Domain.Repository.Interfaces;
 using DotCode.SecurityUtils;
 using Infrastructure.Context;
@@ -37,19 +36,18 @@ public static class Infrastructure
         var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString!, key);
 
         services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(decryptedConnectionString));
+        services.AddDbContext<PropertyManagerContext>(options => options.UseSqlServer(decryptedConnectionString));
 
         var useInMemoryDatabase = configuration["ForceUseInMemoryDatabase"] != null ?
                    bool.Parse(configuration["ForceUseInMemoryDatabase"]!) :
-                   configuration.GetConnectionString("databaseConnection") != null ?
-                   false : true;
+                   configuration.GetConnectionString("databaseConnection") == null;
 
-        if (useInMemoryDatabase)
-        {
-            services.AddDbContext<PropertyManagerContext>(c => c.UseInMemoryDatabase("Database"));
-        }
-        else
-        {
-            services.AddDbContext<PropertyManagerContext>(options => options.UseSqlServer(decryptedConnectionString));
-        }
+        //if (useInMemoryDatabase)
+        //{
+        //    services.AddDbContext<PropertyManagerContext>(c => c.UseInMemoryDatabase("Database"));
+        //}
+        //else
+        //{
+        //}
     }
 }
