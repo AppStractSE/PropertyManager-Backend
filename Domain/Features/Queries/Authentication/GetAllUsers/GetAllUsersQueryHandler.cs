@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Domain.Features.Queries.Authentication.GetAllUsers;
 
-public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IList<AuthUser>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IList<User>>
 {
     private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
@@ -22,10 +22,10 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IList<A
         _mapper = mapper;
     }
 
-    public async Task<IList<AuthUser>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<IList<User>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         var users = await _userManager.GetUsersInRoleAsync(UserRoles.User);
-        return users.Select(x => new AuthUser()
+        return users.Select(x => new User()
         {
             UserId = x.Id,
             DisplayName = x.DisplayName

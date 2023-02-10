@@ -1,4 +1,3 @@
-using Domain;
 using Domain.Repository.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +7,7 @@ public class PropertyManagerContext : DbContext
 {
     public PropertyManagerContext(DbContextOptions<PropertyManagerContext> options) : base(options)
     {
-        //this.Database.EnsureCreated();
+        this.Database.EnsureCreated();
     }
 
     public DbSet<Area> Areas { get; set; }

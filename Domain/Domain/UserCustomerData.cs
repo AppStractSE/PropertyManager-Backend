@@ -1,6 +1,7 @@
 namespace Domain.Domain;
 
-public class UserCustomerData {
+public class UserCustomerData
+{
     public string CustomerId { get; set; }
 
     public string CustomerName { get; set; }

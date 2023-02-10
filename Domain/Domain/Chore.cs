@@ -1,6 +1,6 @@
 namespace Domain.Domain;
 
-public class Chore 
+public class Chore
 {
     public Guid Id { get; set; }
     public string CategoryId { get; set; }

@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using Domain.Repository.Entities;
+using System.Linq.Expressions;
 
 namespace Domain.Repository.Interfaces;
 

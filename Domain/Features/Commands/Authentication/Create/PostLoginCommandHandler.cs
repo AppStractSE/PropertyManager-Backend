@@ -4,10 +4,8 @@ using Domain.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace Domain.Features.Commands.Authentication.Create;
 
@@ -47,11 +45,17 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
 
             return new AuthUser()
             {
-                UserId = user.Id,
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo,
-                UserName = user.UserName,
-                DisplayName = user.DisplayName,
+                TokenInfo = new TokenInfo()
+                {
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                    Expiration = token.ValidTo,
+                },
+                User = new Domain.Authentication.User()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    DisplayName = user.DisplayName,
+                }
             };
         }
         return null;

@@ -5,8 +5,11 @@ using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.OpenApi.Models;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +29,21 @@ builder.Services.AddSingleton<IMapper>(mapperConfig);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" }));
-builder.Services.AddOpenApiDocument();
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Api", Version = "v1" }));
+builder.Services.AddOpenApiDocument(document =>
+{
+    document.AddSecurity("Bearer", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+    {
+        Type = OpenApiSecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        BearerFormat = "JWT",
+        Description = "Type into the textbox: {your JWT token}."
+    });
+
+    document.OperationProcessors.Add(
+        new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+    //      new OperationSecurityScopeProcessor("Bearer"));
+});
 
 builder.Services.AddHttpLogging(logging =>
 {
@@ -46,20 +62,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
 }
 
-//// Create mock data for Db
-//using (var scope = app.Services.CreateScope())
-//{
-//    var scopedProvider = scope.ServiceProvider;
-//    try
-//    {
-//        var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
-//        await SeedDb.SeedAsync(pmContext);
-//    }
-//    catch (Exception ex)
-//    {
-//        app.Logger.LogError(ex, "An error occurred seeding the DB.");
-//    }
-//}
+// Create mock data for Db
+using (var scope = app.Services.CreateScope())
+{
+    var scopedProvider = scope.ServiceProvider;
+    try
+    {
+        var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
+        await SeedDb.SeedAsync(pmContext);
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+}
 
 app.UseHttpsRedirection();
 
@@ -69,4 +85,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 app.Run();

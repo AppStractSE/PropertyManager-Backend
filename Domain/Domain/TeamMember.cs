@@ -1,6 +1,6 @@
 namespace Domain.Domain;
 
-public class TeamMember 
+public class TeamMember
 {
     public Guid Id { get; set; }
     public string UserId { get; set; }

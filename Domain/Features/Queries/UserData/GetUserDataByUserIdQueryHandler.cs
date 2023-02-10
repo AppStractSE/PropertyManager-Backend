@@ -3,7 +3,6 @@ using Domain.Features.Queries.CustomerChores;
 using Domain.Features.Queries.Customers;
 using Domain.Features.Queries.TeamMembers;
 using Domain.Features.Queries.Teams;
-using MapsterMapper;
 using MediatR;
 
 namespace Domain.Features.Queries.UserData;

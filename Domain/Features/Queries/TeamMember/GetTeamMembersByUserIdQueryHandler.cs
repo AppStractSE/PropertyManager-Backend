@@ -1,5 +1,4 @@
 using Domain.Domain;
-using Domain.Features.Queries.Teams;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;

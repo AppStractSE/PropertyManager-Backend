@@ -33,9 +33,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
- <!--<Target Name="NSwag" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
+ <Target Name="NSwag" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
         <Exec Command="$(NSwagExe_Net60) run nswagConfig.json /variables:Configuration=$(Configuration)" />
-    </Target>-->
+    </Target>
   
 
 </Project>

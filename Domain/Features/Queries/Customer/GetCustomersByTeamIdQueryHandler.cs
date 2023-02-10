@@ -3,7 +3,6 @@ using Domain.Features.Queries.Teams;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Domain.Features.Queries.Customers;
 

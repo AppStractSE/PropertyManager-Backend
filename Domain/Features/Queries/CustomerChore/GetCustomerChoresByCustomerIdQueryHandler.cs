@@ -1,4 +1,3 @@
-using Domain;
 using Domain.Features.Queries.Chores;
 using Domain.Features.Queries.Customers;
 using Domain.Features.Queries.Periodics;
@@ -31,7 +30,7 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
 
         foreach (var customerChore in customerChores)
         {
-            customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId); 
+            customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
             customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
             customerChore.Periodic = periodic.FirstOrDefault(x => x.Id.ToString() == customerChore.PeriodicId);
         }

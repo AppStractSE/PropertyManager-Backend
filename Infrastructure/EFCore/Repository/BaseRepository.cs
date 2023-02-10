@@ -1,8 +1,7 @@
-using System.Linq.Expressions;
 using Domain.Repository.Entities;
 using Domain.Repository.Interfaces;
-using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repository;
 
@@ -25,11 +24,12 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         }
         return await source.ToListAsync();
     }
-    
+
     public async Task<T> GetById(string id)
     {
         var result = await _context.Set<T>().FindAsync(Guid.Parse(id));
-        if(result == null) {
+        if (result == null)
+        {
             throw new Exception("Id not found");
         }
         return result;
