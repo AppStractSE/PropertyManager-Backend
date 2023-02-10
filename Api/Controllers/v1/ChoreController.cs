@@ -25,7 +25,7 @@ public class ChoreController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IList<Chore>>> GetAllChores()
+    public async Task<ActionResult<IList<ChoreResponseDto>>> GetAllChores()
     {
         try
         {
