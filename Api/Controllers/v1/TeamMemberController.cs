@@ -55,6 +55,23 @@ public class TeamMemberController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("GetTeamMembersByUserId/")]
+    public async Task<ActionResult<IList<TeamMemberResponseDto>>> GetTeamMembersByUserId([FromQuery] GetTeamMembersByUserIdRequestDto request)
+    {
+        try
+        {
+            var response = await _mediator.Send(_mapper.Map<GetTeamMembersByUserIdRequestDto, GetTeamMembersByUserIdQuery>(request));
+            var result = _mapper.Map<IList<TeamMemberResponseDto>>(response);
+            return result != null ? Ok(result) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in TeamMember controller: GetTeamMemberByUserId");
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost]
     public async Task<ActionResult<TeamMember>> PostTeamMemberAsync(PostTeamMemberRequestDto request)
     {
