@@ -54,6 +54,17 @@ public class ChoreCommentController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("GetLatestFiveChoreComments")]
+    public async Task<ActionResult<IList<ChoreCommentResponseDto>>> GetLatestFiveChoreComments() {
+          try {
+              var result = await _mediator.Send(new GetLatestFiveChoreCommentsQuery());
+              return result.Count > 0 ? Ok(_mapper.Map<IList<ChoreCommentResponseDto>>(result)) : new List<ChoreCommentResponseDto>();
+          }
+          catch (Exception ex) {
+              return BadRequest(ex.Message);
+          }
+    }
     [HttpPost]
     public async Task<ActionResult<ChoreComment>> PostChoreCommentAsync(PostChoreCommentRequestDto request)
     {

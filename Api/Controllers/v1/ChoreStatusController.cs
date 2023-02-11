@@ -25,7 +25,7 @@ public class ChoreStatusController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IList<ChoreStatus>>> GetAllChoreStatuses()
+    public async Task<ActionResult<IList<ChoreStatusResponseDto>>> GetAllChoreStatuses()
     {
         try
         {
