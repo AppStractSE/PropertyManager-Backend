@@ -73,11 +73,27 @@ public class TeamMemberController : ControllerBase
     }
 
     [HttpPost]
+    [Route("AddTeamMember/")]
     public async Task<ActionResult<TeamMember>> PostTeamMemberAsync(PostTeamMemberRequestDto request)
     {
         try
         {
             var result = await _mediator.Send(_mapper.Map<PostTeamMemberRequestDto, AddTeamMemberCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPost]
+    [Route("AddTeamMembers/")]
+    public async Task<ActionResult<IList<TeamMember>>> PostTeamMembersAsync(PostTeamMembersRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostTeamMembersRequestDto, AddTeamMembersCommand>(request));
             return Ok(result);
         }
         catch (Exception ex)
