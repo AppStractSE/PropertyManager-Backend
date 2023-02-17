@@ -114,7 +114,7 @@ namespace Domain.Features.Authentication.Queries
                         }
                     };
 
-                    await _redisCache.SetAsync("Validate:" + authUser.User.UserId, authUser,
+                    await _redisCache.SetAsync($"Validate:{authUser.User.UserId}", authUser,
                        TimeSpan.FromHours(AuthUtils.EXPIRATION_TIME - (authUser.TokenInfo.Expiration.Hour - DateTime.Now.Hour)));
                     
                     return authUser;

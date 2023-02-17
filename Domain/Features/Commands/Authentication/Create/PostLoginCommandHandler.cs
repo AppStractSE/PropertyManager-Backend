@@ -1,5 +1,6 @@
 ﻿using Domain.Domain.Authentication;
 using Domain.Repository.Entities;
+using Domain.Repository.Interfaces;
 using Domain.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,9 +15,12 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
     private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
+    private readonly IRedisCache _redisCache;
 
-    public PostLoginCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+    public PostLoginCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager,
+        IConfiguration configuration, IRedisCache redisCache)
     {
+        _redisCache = redisCache;
         _userManager = userManager;
         _configuration = configuration;
         _roleManager = roleManager;
@@ -43,7 +47,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
 
             var token = AuthUtils.GetToken(authClaims, _configuration);
 
-            return new AuthUser()
+            var authUser = new AuthUser()
             {
                 TokenInfo = new TokenInfo()
                 {
@@ -57,6 +61,8 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
                     DisplayName = user.DisplayName,
                 }
             };
+            await _redisCache.RemoveAsync($"Validate:{authUser.User.UserId}");
+            return authUser;
         }
         return null;
     }

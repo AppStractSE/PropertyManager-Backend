@@ -8,10 +8,10 @@ namespace Infrastructure.EFCore.Repository
     public class RedisCache : IRedisCache
     {
         private readonly IDatabase _db;
-
+        
         public RedisCache(IConfiguration configuration)
         {
-            var connectionMultiplexer = ConnectionMultiplexer.Connect(configuration.GetConnectionString("CacheConnection"));
+            var connectionMultiplexer = ConnectionMultiplexer.Connect(configuration.GetValue<string>("CacheConnection"));
             _db = connectionMultiplexer.GetDatabase();
         }
         public bool Exists(string key)
@@ -34,6 +34,7 @@ namespace Infrastructure.EFCore.Repository
         public async Task RemoveAsync(string key)
         {
             await _db.KeyDeleteAsync(key);
+  
         }
 
     }

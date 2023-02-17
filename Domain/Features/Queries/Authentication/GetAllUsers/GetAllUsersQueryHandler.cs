@@ -27,9 +27,9 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IList<U
 
     public async Task<IList<User>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists("AllUsers"))
+        if (_redisCache.Exists("AllUsers:"))
         {
-            return await _redisCache.GetAsync<IList<User>>("AllUsers");
+            return await _redisCache.GetAsync<IList<User>>("AllUsers:");
         }
         
         var users = await _userManager.GetUsersInRoleAsync(UserRoles.User);
@@ -40,7 +40,7 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IList<U
             DisplayName = x.DisplayName
         }).ToList();
         
-        await _redisCache.SetAsync("AllUsers", mappedUsers);
+        await _redisCache.SetAsync("AllUsers:", mappedUsers);
         return mappedUsers;
     }
 }

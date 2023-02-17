@@ -1,6 +1,7 @@
 ﻿using Domain.Domain.Authentication;
 using Domain.Features.Commands.Authentication.Create;
 using Domain.Repository.Entities;
+using Domain.Repository.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -11,9 +12,12 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, I
 {
     private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly IRedisCache _redisCache;
 
-    public PostRegisterCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+    public PostRegisterCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager,
+        IConfiguration configuration, IRedisCache redisCache)
     {
+        _redisCache = redisCache;
         _userManager = userManager;
         _roleManager = roleManager;
     }
@@ -41,6 +45,7 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, I
         }
         else
         {
+            await _redisCache.RemoveAsync("AllUsers:");
             await InitRoles();
             return await AddRole(request.Role, user);
         }

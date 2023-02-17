@@ -15,14 +15,17 @@ public class GetAreaByIdQueryHandler : IRequestHandler<GetAreaByIdQuery, Area>
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
     }
     public async Task<Area> Handle(GetAreaByIdQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists($"area_{request.Id}"))
+        if (_redisCache.Exists($"Area:{request.Id}"))
         {
             return await _redisCache.GetAsync<Area>($"area_{request.Id}");
         }
 
-        return _mapper.Map<Area>(await _repo.GetById(request.Id));
+        var area = _mapper.Map<Area>(await _repo.GetById(request.Id));
+        await _redisCache.SetAsync($"Area:{area.Id}", area);
+        return area;
     }
 }
