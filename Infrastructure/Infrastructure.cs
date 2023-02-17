@@ -2,6 +2,7 @@ using Domain.Repository.Interfaces;
 using DotCode.SecurityUtils;
 using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
+using Infrastructure.EFCore.Repository;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ public static class Infrastructure
         builder.Services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
         builder.Services.AddScoped<IChoreCommentRepository, ChoreCommentRepository>();
         builder.Services.AddScoped<IChoreStatusRepository, ChoreStatusRepository>();
+        builder.Services.AddScoped<IRedisCache, RedisCache>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
     }
