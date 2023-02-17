@@ -13,6 +13,5 @@ public static class Core
 
         // Map Scan
         config.Scan(typeof(Core).Assembly);
-
     }
 }

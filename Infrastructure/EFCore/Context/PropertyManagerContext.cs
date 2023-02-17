@@ -5,7 +5,6 @@ namespace Infrastructure.Context;
 
 public class PropertyManagerContext : DbContext
 {
-
     public PropertyManagerContext(DbContextOptions<PropertyManagerContext> options) : base(options)
     {
         this.Database.EnsureCreated();
@@ -20,6 +19,7 @@ public class PropertyManagerContext : DbContext
     public DbSet<Periodic> Periodics { get; set; }
     public DbSet<ChoreComment> ChoreComments { get; set; }
     public DbSet<ChoreStatus> ChoreStatuses { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>().HasKey(x => x.Id);
@@ -31,5 +31,7 @@ public class PropertyManagerContext : DbContext
         modelBuilder.Entity<Periodic>().HasKey(x => x.Id);
         modelBuilder.Entity<ChoreComment>().HasKey(x => x.Id);
         modelBuilder.Entity<ChoreStatus>().HasKey(x => x.Id);
+
+        base.OnModelCreating(modelBuilder);
     }
 }

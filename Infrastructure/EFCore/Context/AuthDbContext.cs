@@ -11,7 +11,7 @@ public class AuthDbContext : IdentityDbContext<AuthUserEntity>
     {
         this.Database.EnsureCreated();
     }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

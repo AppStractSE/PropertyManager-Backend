@@ -1,6 +1,6 @@
 namespace Domain.Repository.Entities;
 
-public class TeamMember : BaseEntity 
+public class TeamMember : BaseEntity
 {
     public Guid Id { get; set; }
     public string UserId { get; set; }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.EFCore.Context;
-using Domain.Domain.Authentication;
 using Domain.Repository.Entities;
 
 namespace Api
@@ -12,7 +11,6 @@ namespace Api
     {        
         public static void InitAuth(this IServiceCollection services, IConfiguration config)
         {
-
             // For Identity  
             services.AddIdentity<AuthUserEntity, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()

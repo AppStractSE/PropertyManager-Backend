@@ -1,9 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Domain.Repository.Entities;
 
-public class ChoreComment : BaseEntity 
+public class ChoreComment : BaseEntity
 {
     public Guid Id { get; set; }
     public string Message { get; set; }

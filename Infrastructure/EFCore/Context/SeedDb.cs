@@ -6,24 +6,22 @@ namespace Infrastructure.EFCore.Context;
 public class SeedDb
 {
     private static PropertyManagerContext? _context;
-    public static Task SeedAsync(PropertyManagerContext context)
+    public static async Task SeedAsync(PropertyManagerContext context)
     {
         context.Database.EnsureCreated();
         _context = context;
-
-        if (!context.Periodics.Any()) GeneratePeriodics(context);
-        if (!context.Areas.Any()) GenerateAreas(context);
-        if (!context.Teams.Any()) GenerateTeams(context);
-        if (!context.TeamMembers.Any()) GenerateTeamMembers(context);
-        if (!context.Customers.Any()) GenerateCustomers(context);
-        if (!context.Chores.Any()) GenerateChores(context);
-        if (!context.CustomerChores.Any()) GenerateCustomerChores(context);
-        if (!context.ChoreComments.Any()) GenerateChoreComments(context);
-        if (!context.ChoreStatuses.Any()) GenerateChoreStatuses(context);
-        return Task.CompletedTask;
+        if (!context.Periodics.Any()) await GeneratePeriodics(context);
+        if (!context.Areas.Any()) await GenerateAreas(context);
+        if (!context.Teams.Any()) await GenerateTeams(context);
+        if (!context.TeamMembers.Any()) await GenerateTeamMembers(context);
+        if (!context.Customers.Any()) await GenerateCustomers(context);
+        if (!context.Chores.Any()) await GenerateChores(context);
+        if (!context.CustomerChores.Any()) await GenerateCustomerChores(context);
+        if (!context.ChoreComments.Any()) await GenerateChoreComments(context);
+        if (!context.ChoreStatuses.Any()) await GenerateChoreStatuses(context);
     }
 
-    private static async void GeneratePeriodics(PropertyManagerContext context)
+    private static async Task GeneratePeriodics(PropertyManagerContext context)
     {
         context.Periodics.AddRange(
             new Periodic
@@ -47,7 +45,7 @@ public class SeedDb
 
         await _context.SaveChangesAsync();
     }
-    private static async void GenerateAreas(PropertyManagerContext context)
+    private static async Task GenerateAreas(PropertyManagerContext context)
     {
         context.Areas.AddRange(
             new Area
@@ -67,7 +65,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateTeams(PropertyManagerContext context)
+    private static async Task GenerateTeams(PropertyManagerContext context)
     {
         context.Teams.AddRange(
             new Team
@@ -87,7 +85,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateTeamMembers(PropertyManagerContext context)
+    private static async Task GenerateTeamMembers(PropertyManagerContext context)
     {
         context.TeamMembers.AddRange(
             new TeamMember
@@ -125,7 +123,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateCustomerChores(PropertyManagerContext context)
+    private static async Task GenerateCustomerChores(PropertyManagerContext context)
     {
         context.CustomerChores.AddRange(
             new CustomerChore
@@ -147,7 +145,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateChoreStatuses(PropertyManagerContext context)
+    private static async Task GenerateChoreStatuses(PropertyManagerContext context)
     {
         context.ChoreStatuses.AddRange(
             new ChoreStatus
@@ -161,7 +159,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateCustomers(PropertyManagerContext context)
+    private static async Task GenerateCustomers(PropertyManagerContext context)
     {
         context.Customers.AddRange(
             new Customer
@@ -189,7 +187,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateChores(PropertyManagerContext context)
+    private static async Task GenerateChores(PropertyManagerContext context)
     {
         context.Chores.AddRange(
             new Chore
@@ -209,7 +207,7 @@ public class SeedDb
         await _context.SaveChangesAsync();
     }
 
-    private static async void GenerateChoreComments(PropertyManagerContext context)
+    private static async Task GenerateChoreComments(PropertyManagerContext context)
     {
         context.ChoreComments.AddRange(
             new ChoreComment
