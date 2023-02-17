@@ -16,6 +16,8 @@ public class AddChoreStatusCommandHandler : IRequestHandler<AddChoreStatusComman
     public async Task<Domain.ChoreStatus> Handle(AddChoreStatusCommand request, CancellationToken cancellationToken)
     {
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.ChoreStatus>(request));
+        response.StartDate = DateTime.Now;
+        response.CompletedDate = DateTime.Now;
         return _mapper.Map<Domain.ChoreStatus>(response);
     }
 }

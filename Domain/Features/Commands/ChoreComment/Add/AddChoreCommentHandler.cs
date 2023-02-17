@@ -22,6 +22,7 @@ public class AddChoreCommentCommandHandler : IRequestHandler<AddChoreCommentComm
         var choreComment = _mapper.Map<AddChoreCommentCommand, Domain.ChoreComment>(request);
         var user = await _userManager.FindByIdAsync(request.UserId);
         choreComment.DisplayName = user.DisplayName;
+        choreComment.Time = DateTime.Now;
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.ChoreComment>(choreComment));
         return _mapper.Map<Domain.ChoreComment>(response);
     }
