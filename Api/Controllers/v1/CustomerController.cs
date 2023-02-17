@@ -85,4 +85,18 @@ public class CustomerController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPut]
+    public async Task<ActionResult<Customer>> PutCustomerAsync(PutCustomerRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PutCustomerRequestDto, UpdateCustomerCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
