@@ -7,7 +7,9 @@ namespace Infrastructure.EFCore.Repository
 {
     public class RedisCache : IRedisCache
     {
+        private readonly TimeSpan _defaultExpiry = TimeSpan.FromMinutes(30);
         private readonly IDatabase _db;
+        
         
         public RedisCache(IConfiguration configuration)
         {
@@ -28,13 +30,12 @@ namespace Infrastructure.EFCore.Repository
 
         public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
         {
-            await _db.StringSetAsync(key, JsonConvert.SerializeObject(value), expiry);
+            await _db.StringSetAsync(key, JsonConvert.SerializeObject(value), expiry ?? _defaultExpiry);
         }
 
         public async Task RemoveAsync(string key)
         {
             await _db.KeyDeleteAsync(key);
-  
         }
 
     }

@@ -9,13 +9,22 @@ public class GetAllChoreCommentsQueryHandler : IRequestHandler<GetAllChoreCommen
 {
     private readonly IChoreCommentRepository _repo;
     private readonly IMapper _mapper;
-    public GetAllChoreCommentsQueryHandler(IChoreCommentRepository repo, IMapper mapper)
+    private readonly IRedisCache _redisCache;
+
+    public GetAllChoreCommentsQueryHandler(IChoreCommentRepository repo, IMapper mapper, IRedisCache redisCache)
     {
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<IList<ChoreComment>> Handle(GetAllChoreCommentsQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IList<ChoreComment>>(await _repo.GetAllAsync());
+        if (_redisCache.Exists("ChoreComments:"))
+        {
+            return await _redisCache.GetAsync<IList<ChoreComment>>("ChoreComments:");
+        }
+
+        var mappedCoreComment = _mapper.Map<IList<ChoreComment>>(await _repo.GetAllAsync());
+        await _redisCache.SetAsync("ChoreComments:", mappedCoreComment);
+        return mappedCoreComment;
     }
 }

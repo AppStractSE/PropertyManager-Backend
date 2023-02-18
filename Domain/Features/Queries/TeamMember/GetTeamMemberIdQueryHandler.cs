@@ -9,13 +9,23 @@ public class GetTeamMemberByIdQueryHandler : IRequestHandler<GetTeamMemberByIdQu
 {
     private readonly ITeamMemberRepository _repo;
     private readonly IMapper _mapper;
-    public GetTeamMemberByIdQueryHandler(ITeamMemberRepository repo, IMapper mapper)
+    private readonly IRedisCache _redisCache;
+
+    public GetTeamMemberByIdQueryHandler(ITeamMemberRepository repo, IMapper mapper, IRedisCache redisCache)
     {
+        _redisCache = redisCache;
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<TeamMember> Handle(GetTeamMemberByIdQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<TeamMember>(await _repo.GetById(request.Id));
+        if (_redisCache.Exists($"TeamMember:{request.Id}"))
+        {
+            return await _redisCache.GetAsync<TeamMember>($"TeamMember:{request.Id}");
+        }
+        
+        var mappedDomain = _mapper.Map<TeamMember>(await _repo.GetById(request.Id));
+        await _redisCache.SetAsync($"TeamMember:{request.Id}", mappedDomain);
+        return mappedDomain;
     }
 }

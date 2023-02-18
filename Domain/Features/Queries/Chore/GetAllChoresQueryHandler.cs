@@ -9,13 +9,20 @@ public class GetAllChoresQueryHandler : IRequestHandler<GetAllChoresQuery, IList
 {
     private readonly IChoreRepository _repo;
     private readonly IMapper _mapper;
-    public GetAllChoresQueryHandler(IChoreRepository repo, IMapper mapper)
+    private readonly IRedisCache _redisCache;
+    public GetAllChoresQueryHandler(IChoreRepository repo, IMapper mapper, IRedisCache redisCache)
     {
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<IList<Chore>> Handle(GetAllChoresQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IList<Chore>>(await _repo.GetAllAsync());
+        if (_redisCache.Exists("Chores:")) {
+            return await _redisCache.GetAsync<IList<Chore>>("Chores:");
+        }
+        
+        var mappedDomain = _mapper.Map<IList<Chore>>(await _repo.GetAllAsync());
+        await _redisCache.SetAsync("Chores:", mappedDomain);
+        return mappedDomain;
     }
 }

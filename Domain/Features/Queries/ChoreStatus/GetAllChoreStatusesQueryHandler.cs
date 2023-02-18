@@ -9,13 +9,23 @@ public class GetAllChoreStatuesQueryHandler : IRequestHandler<GetAllChoreStatuse
 {
     private readonly IChoreStatusRepository _repo;
     private readonly IMapper _mapper;
-    public GetAllChoreStatuesQueryHandler(IChoreStatusRepository repo, IMapper mapper)
+    private readonly IRedisCache _redisCache;
+
+    public GetAllChoreStatuesQueryHandler(IChoreStatusRepository repo, IMapper mapper, IRedisCache redisCache)
     {
+        _redisCache = redisCache;
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<IList<ChoreStatus>> Handle(GetAllChoreStatusesQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IList<ChoreStatus>>(await _repo.GetAllAsync());
+        if (_redisCache.Exists("ChoreStatuses:"))
+        {
+            return await _redisCache.GetAsync<IList<ChoreStatus>>("ChoreStatuses:");
+        }
+        
+        var mappedDomain = _mapper.Map<IList<ChoreStatus>>(await _repo.GetAllAsync());
+        await _redisCache.SetAsync("ChoreStatuses:", mappedDomain);
+        return mappedDomain;
     }
 }

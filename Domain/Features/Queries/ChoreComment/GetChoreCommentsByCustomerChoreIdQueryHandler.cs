@@ -11,25 +11,31 @@ public class GetChoreCommentsByCustomerChoreIdQueryHandler : IRequestHandler<Get
 {
     private readonly IChoreCommentRepository _repo;
     private readonly IMapper _mapper;
-    private ILogger<GetChoreCommentsByCustomerChoreIdQueryHandler> _logger;
-    private IMediator _mediator;
-    public GetChoreCommentsByCustomerChoreIdQueryHandler(IChoreCommentRepository repo, IMapper mapper, ILogger<GetChoreCommentsByCustomerChoreIdQueryHandler> logger, IMediator mediator)
+    private readonly IMediator _mediator;
+    private readonly IRedisCache _redisCache;
+
+    public GetChoreCommentsByCustomerChoreIdQueryHandler(IChoreCommentRepository repo, IMapper mapper, IMediator mediator, IRedisCache redisCache)
     {
+        _redisCache = redisCache;
         _repo = repo;
         _mapper = mapper;
-        _logger = logger;
         _mediator = mediator;
     }
     public async Task<IList<Domain.ChoreComment>> Handle(GetChoreCommentsByCustomerChoreIdQuery request, CancellationToken cancellationToken)
     {
+        if (_redisCache.Exists($"Customer:ChoreComments:{request.Id}"))
+        {
+            return await _redisCache.GetAsync<IList<Domain.ChoreComment>>($"Customer:ChoreComments:{request.Id}");      
+        }
+        
         var ChoreComments = _mapper.Map<IList<Domain.ChoreComment>>(await _repo.GetQuery(x => x.CustomerChoreId == request.Id));
-        var customerChores = await _mediator.Send(new GetAllCustomerChoresQuery());
+        var customerChores = await _mediator.Send(new GetAllCustomerChoresQuery(), cancellationToken);
 
         foreach (var ChoreComment in ChoreComments)
         {
             ChoreComment.CustomerChoreId = customerChores.FirstOrDefault(x => x.Id.ToString() == ChoreComment.CustomerChoreId).Id.ToString();
         }
-
+        await _redisCache.SetAsync($"Customer:ChoreComments:{request.Id}", ChoreComments);
         return ChoreComments;
     }
 }
