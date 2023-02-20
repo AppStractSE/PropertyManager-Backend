@@ -15,6 +15,7 @@ public class GetAllChoreCommentsQueryHandler : IRequestHandler<GetAllChoreCommen
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
     }
     public async Task<IList<ChoreComment>> Handle(GetAllChoreCommentsQuery request, CancellationToken cancellationToken)
     {
