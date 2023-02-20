@@ -13,6 +13,7 @@ public class AddChoreCommandHandler : IRequestHandler<AddChoreCommand, Domain.Ch
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
     }
     public async Task<Domain.Chore> Handle(AddChoreCommand request, CancellationToken cancellationToken)
     {

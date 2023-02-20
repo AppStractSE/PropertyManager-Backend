@@ -17,6 +17,7 @@ public class AddChoreCommentCommandHandler : IRequestHandler<AddChoreCommentComm
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
         _userManager = userManager;
     }
     public async Task<Domain.ChoreComment> Handle(AddChoreCommentCommand request, CancellationToken cancellationToken)

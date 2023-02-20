@@ -15,6 +15,7 @@ public class GetChoreByIdQueryHandler : IRequestHandler<GetChoreByIdQuery, Chore
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
     }
     public async Task<Chore> Handle(GetChoreByIdQuery request, CancellationToken cancellationToken)
     {
