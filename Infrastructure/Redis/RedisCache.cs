@@ -3,19 +3,19 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace Infrastructure.EFCore.Repository
+namespace Infrastructure.Redis
 {
     public class RedisCache : IRedisCache
     {
         private readonly TimeSpan _defaultExpiry = TimeSpan.FromMinutes(30);
         private readonly IDatabase _db;
-        
-        
-        public RedisCache(IConfiguration configuration)
+
+
+        public RedisCache(IConnectionMultiplexer connectionMultiplexer)
         {
-            var connectionMultiplexer = ConnectionMultiplexer.Connect(configuration.GetValue<string>("CacheConnection"));
             _db = connectionMultiplexer.GetDatabase();
         }
+
         public bool Exists(string key)
         {
             return _db.KeyExists(key);
@@ -23,7 +23,7 @@ namespace Infrastructure.EFCore.Repository
 
         public async Task<T> GetAsync<T>(string key)
         {
-            
+
             var value = await _db.StringGetAsync(key);
             return value.HasValue ? JsonConvert.DeserializeObject<T>(value) : default;
         }
