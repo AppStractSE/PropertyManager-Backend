@@ -6,9 +6,3 @@ public class PutTeamMemberRequestDto
     public string TeamId { get; set; }
     public bool IsTemporary { get; set; }
 }
-
-
-
-
-
-
