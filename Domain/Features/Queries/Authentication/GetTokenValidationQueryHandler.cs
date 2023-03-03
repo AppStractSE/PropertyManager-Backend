@@ -1,7 +1,7 @@
-using Domain.Domain.Authentication;
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
-using Domain.Utilities;
+using Core.Domain.Authentication;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
+using Core.Utilities;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Domain.Features.Authentication.Queries
+namespace Core.Features.Authentication.Queries
 {
     public class GetTokenValidationQueryHandler : IRequestHandler<GetTokenValidationQuery, AuthUser>
     {

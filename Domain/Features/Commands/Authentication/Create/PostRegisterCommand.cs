@@ -1,8 +1,8 @@
-﻿using Domain.Domain.Authentication;
+﻿using Core.Domain.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Features.Commands.Authentication.Create
+namespace Core.Features.Commands.Authentication.Create
 {
     public class PostRegisterCommand : IRequest<IdentityResult>
     {

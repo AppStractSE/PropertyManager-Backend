@@ -1,9 +1,9 @@
-using Domain.Features.Commands.Team;
-using Domain.Repository.Interfaces;
+using Core.Features.Commands.Team;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.User;
+namespace Core.Features.Commands.User;
 
 public class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamCommand, Domain.Team>
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.Repository.Interfaces
+﻿namespace Core.Repository.Interfaces
 {
     public interface IRedisCache
     {

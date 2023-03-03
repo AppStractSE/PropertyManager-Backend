@@ -1,9 +1,9 @@
-using Domain.Features.Queries.Areas;
+using Core.Features.Queries.Areas;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
-using Domain.Features.Commands.Area;
+using Core.Domain;
+using Core.Features.Commands.Area;
 using Api.Dto.Request.Area.v1;
 using Api.Dto.Response.Area.v1;
 

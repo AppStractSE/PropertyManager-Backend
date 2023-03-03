@@ -1,7 +1,7 @@
-using Domain.Domain.Authentication;
+using Core.Domain.Authentication;
 using MediatR;
 
-namespace Domain.Features.Authentication.Queries
+namespace Core.Features.Authentication.Queries
 {
     public class GetTokenValidationQuery : IRequest<AuthUser>
     {

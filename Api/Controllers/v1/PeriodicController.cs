@@ -1,8 +1,8 @@
-using Domain.Features.Queries.Periodics;
+using Core.Features.Queries.Periodics;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
+using Core.Domain;
 
 namespace Api.Controllers.v1;
 

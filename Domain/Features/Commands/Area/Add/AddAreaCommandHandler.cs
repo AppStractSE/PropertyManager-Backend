@@ -1,8 +1,8 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.Area;
+namespace Core.Features.Commands.Area;
 
 public class AddAreaCommandHandler : IRequestHandler<AddAreaCommand, Domain.Area>
 {

@@ -1,7 +1,7 @@
-﻿using Domain.Domain.Authentication;
+﻿using Core.Domain.Authentication;
 using MediatR;
 
-namespace Domain.Features.Commands.Authentication.Create;
+namespace Core.Features.Commands.Authentication.Create;
 
 public class PostLoginCommand : IRequest<AuthUser>
 {

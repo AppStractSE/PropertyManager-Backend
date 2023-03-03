@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.EFCore.Context;
-using Domain.Repository.Entities;
+using Core.Repository.Entities;
 
 namespace Api
 {

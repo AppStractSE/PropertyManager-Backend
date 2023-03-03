@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Domain.Utilities
+namespace Core.Utilities
 {
     public static class AuthUtils
     {

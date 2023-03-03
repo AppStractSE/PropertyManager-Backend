@@ -1,11 +1,11 @@
-using Domain.Features.Queries.Chores;
-using Domain.Features.Queries.Customers;
-using Domain.Features.Queries.Periodics;
-using Domain.Repository.Interfaces;
+using Core.Features.Queries.Chores;
+using Core.Features.Queries.Customers;
+using Core.Features.Queries.Periodics;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.CustomerChores;
+namespace Core.Features.Queries.CustomerChores;
 
 public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCustomerChoresByCustomerIdQuery, IList<Domain.CustomerChore>>
 {

@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Commands.ChoreStatus;
+namespace Core.Features.Commands.ChoreStatus;
 
 public class AddChoreStatusCommand : IRequest<Domain.ChoreStatus>
 {

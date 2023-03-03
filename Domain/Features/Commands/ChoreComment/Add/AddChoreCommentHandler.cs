@@ -1,10 +1,10 @@
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Features.Commands.ChoreComment;
+namespace Core.Features.Commands.ChoreComment;
 
 public class AddChoreCommentCommandHandler : IRequestHandler<AddChoreCommentCommand, Domain.ChoreComment>
 {

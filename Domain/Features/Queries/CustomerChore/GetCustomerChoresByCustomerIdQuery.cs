@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.CustomerChores;
+namespace Core.Features.Queries.CustomerChores;
 
 public class GetCustomerChoresByCustomerIdQuery : IRequest<IList<Domain.CustomerChore>>
 {

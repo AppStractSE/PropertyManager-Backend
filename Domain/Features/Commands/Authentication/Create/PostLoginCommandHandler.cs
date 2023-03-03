@@ -1,14 +1,14 @@
-﻿using Domain.Domain.Authentication;
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
-using Domain.Utilities;
+﻿using Core.Domain.Authentication;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
+using Core.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Domain.Features.Commands.Authentication.Create;
+namespace Core.Features.Commands.Authentication.Create;
 
 public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUser>
 {

@@ -1,10 +1,10 @@
-using Domain.Domain;
-using Domain.Features.Queries.CustomerChores;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Features.Queries.CustomerChores;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.ChoreStatuses;
+namespace Core.Features.Queries.ChoreStatuses;
 
 public class GetChoreStatusByIdQueryHandler : IRequestHandler<GetChoreStatusByIdQuery, IList<Domain.ChoreStatus>>
 {
