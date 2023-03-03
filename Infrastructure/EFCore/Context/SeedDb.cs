@@ -15,12 +15,68 @@ public class SeedDb
         if (!context.Teams.Any()) await GenerateTeams(context);
         if (!context.TeamMembers.Any()) await GenerateTeamMembers(context);
         if (!context.Customers.Any()) await GenerateCustomers(context);
+        if (!context.Categories.Any()) await GenerateCategories(context);
+        if (!context.SubCategories.Any()) await GenerateSubCategories(context);
         if (!context.Chores.Any()) await GenerateChores(context);
         if (!context.CustomerChores.Any()) await GenerateCustomerChores(context);
         if (!context.ChoreComments.Any()) await GenerateChoreComments(context);
         if (!context.ChoreStatuses.Any()) await GenerateChoreStatuses(context);
     }
 
+    private static async Task GenerateSubCategories(PropertyManagerContext context)
+    {
+        context.SubCategories.AddRange(
+            new SubCategory
+            {
+                Title = "Vegetationsyta",
+                CategoryId = _context.Categories.First(x => x.Title == "T1").Id,
+                Reference = "T1.1"
+            },
+            new SubCategory
+            {
+                Title = "Yttertak, skärmtak och dylikt",
+                CategoryId = _context.Categories.First(x => x.Title == "T2").Id,
+                Reference = "T2.1"
+            },
+            new SubCategory
+            {
+                Title = "Fasader",
+                CategoryId = _context.Categories.First(x => x.Title == "T2").Id,
+                Reference = "T2.2"
+            },
+            new SubCategory
+            {
+                Title = "Driftutrymmen",
+                CategoryId = _context.Categories.First(x => x.Title == "T3").Id,
+                Reference = "T3.1"
+            }
+            );
+
+        await _context.SaveChangesAsync();
+    }
+
+    private static async Task GenerateCategories(PropertyManagerContext context)
+    {
+        context.Categories.AddRange(
+            new Category
+            {
+                Title = "T1",
+                Description = "Utemiljö",
+            },
+            new Category
+            {
+                Title = "T2",
+                Description = "Byggnad utvändigt",
+            },
+
+            new Category
+            {
+                Title = "T3",
+                Description = "Byggnad invändigt",
+            });
+
+        await _context.SaveChangesAsync();
+    }
     private static async Task GeneratePeriodics(PropertyManagerContext context)
     {
         context.Periodics.AddRange(
@@ -194,15 +250,40 @@ public class SeedDb
             {
                 Title = "Vårluckring i rabatt",
                 Description = "Luckra rabatterna",
-                CategoryId = Guid.NewGuid().ToString(),
+                SubCategoryId = _context.SubCategories.First(x => x.Title == "Vegetationsyta").Id.ToString(),
             },
 
             new Chore
             {
                 Title = "Beskärning buskar",
                 Description = "Beskär buskarna",
-                CategoryId = Guid.NewGuid().ToString(),
-            });
+                SubCategoryId = _context.SubCategories.First(x => x.Title == "Vegetationsyta").Id.ToString(),
+            },
+            new Chore
+            {
+                Title = "Takavvattning",
+                Description = "Ta bort vattnet från taket",
+                SubCategoryId = _context.SubCategories.First(x => x.Title == "Yttertak, skärmtak och dylikt").Id.ToString(),
+            },
+            new Chore
+            {
+                Title = "Rengör altan",
+                Description = "Enskilda terrasser räcken, inglasningar, stag, infästningar, plåtbeslag, anslutningar och fogar.",
+                SubCategoryId = _context.SubCategories.First(x => x.Title == "Fasader").Id.ToString(),
+            },
+            new Chore
+            {
+                Title = "Rengör terrass",
+                Description = "Enskilda terrasser räcken, inglasningar, stag, infästningar, plåtbeslag, anslutningar och fogar.",
+                SubCategoryId = _context.SubCategories.First(x => x.Title == "Fasader").Id.ToString(),
+            },
+            new Chore
+            {
+                Title = "Sopa avfallsrum",
+                Description = "Avfallsrum för hushållssopor, grovsopor och återvinningsprodukter. Renhållning behandlas under denna rubrik, för övrigt, se T7.1.",
+                SubCategoryId = _context.SubCategories.First(x => x.Title == "Driftutrymmen").Id.ToString(),
+            }
+            );
 
         await _context.SaveChangesAsync();
     }
@@ -212,7 +293,6 @@ public class SeedDb
         context.ChoreComments.AddRange(
             new ChoreComment
             {
-
                 CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
                 DisplayName = "Jonas H",
                 Message = "Låg jordnivå",

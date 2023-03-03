@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace infrastructure.EfCore.Migrations
+namespace Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(PropertyManagerContext))]
-    [Migration("20230208215253_initCreate")]
-    partial class initCreate
+    [Migration("20230303141142_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,16 +39,33 @@ namespace infrastructure.EfCore.Migrations
                     b.ToTable("Areas");
                 });
 
+            modelBuilder.Entity("Domain.Repository.Entities.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Domain.Repository.Entities.Chore", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CategoryId")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("SubCategoryId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -165,6 +182,26 @@ namespace infrastructure.EfCore.Migrations
                     b.ToTable("Periodics");
                 });
 
+            modelBuilder.Entity("Domain.Repository.Entities.SubCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubCategories");
+                });
+
             modelBuilder.Entity("Domain.Repository.Entities.Team", b =>
                 {
                     b.Property<Guid>("Id")
@@ -181,20 +218,19 @@ namespace infrastructure.EfCore.Migrations
 
             modelBuilder.Entity("Domain.Repository.Entities.TeamMember", b =>
                 {
+                    b.Property<string>("TeamId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsTemporary")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TeamId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("TeamId", "UserId");
 
                     b.ToTable("TeamMembers");
                 });

@@ -19,6 +19,8 @@ public class PropertyManagerContext : DbContext
     public DbSet<Periodic> Periodics { get; set; }
     public DbSet<ChoreComment> ChoreComments { get; set; }
     public DbSet<ChoreStatus> ChoreStatuses { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<SubCategory> SubCategories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,10 +29,12 @@ public class PropertyManagerContext : DbContext
         modelBuilder.Entity<Chore>().HasKey(x => x.Id);
         modelBuilder.Entity<CustomerChore>().HasKey(x => x.Id);
         modelBuilder.Entity<Team>().HasKey(x => x.Id);
-        modelBuilder.Entity<TeamMember>().HasKey(x => x.Id);
+        modelBuilder.Entity<TeamMember>().HasKey(x => new { x.TeamId, x.UserId });
         modelBuilder.Entity<Periodic>().HasKey(x => x.Id);
         modelBuilder.Entity<ChoreComment>().HasKey(x => x.Id);
         modelBuilder.Entity<ChoreStatus>().HasKey(x => x.Id);
+        modelBuilder.Entity<Category>().HasKey(x => x.Id);
+        modelBuilder.Entity<SubCategory>().HasKey(x => x.Id);
 
         base.OnModelCreating(modelBuilder);
     }
