@@ -8,14 +8,18 @@ public class AddCustomerChoreCommandHandler : IRequestHandler<AddCustomerChoreCo
 {
     private readonly ICustomerChoreRepository _repo;
     private readonly IMapper _mapper;
-    public AddCustomerChoreCommandHandler(ICustomerChoreRepository repo, IMapper mapper)
+    private readonly IRedisCache _redisCache;
+
+    public AddCustomerChoreCommandHandler(ICustomerChoreRepository repo, IMapper mapper, IRedisCache redisCache)
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
     }
     public async Task<Domain.CustomerChore> Handle(AddCustomerChoreCommand request, CancellationToken cancellationToken)
     {
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.CustomerChore>(request));
+        await _redisCache.RemoveAsync("CustomerChores:");
         return _mapper.Map<Domain.CustomerChore>(response);
     }
 }

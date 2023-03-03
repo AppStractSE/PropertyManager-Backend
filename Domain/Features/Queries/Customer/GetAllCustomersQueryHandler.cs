@@ -9,13 +9,24 @@ public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery,
 {
     private readonly ICustomerRepository _repo;
     private readonly IMapper _mapper;
-    public GetAllCustomersQueryHandler(ICustomerRepository repo, IMapper mapper)
+    private readonly IRedisCache _redisCache;
+
+    public GetAllCustomersQueryHandler(ICustomerRepository repo, IMapper mapper, IRedisCache redisCache)
     {
         _repo = repo;
         _mapper = mapper;
+        _redisCache = redisCache;
     }
+
     public async Task<IList<Customer>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IList<Customer>>(await _repo.GetAllAsync());
+        if (_redisCache.Exists("Customers:"))
+        {
+            return await _redisCache.GetAsync<IList<Customer>>("Customers:");
+        }
+        
+        var mappedDomain = _mapper.Map<IList<Customer>>(await _repo.GetAllAsync());
+        await _redisCache.SetAsync("Customers:", mappedDomain);
+        return mappedDomain;
     }
 }
