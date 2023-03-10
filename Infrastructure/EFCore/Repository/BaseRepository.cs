@@ -11,6 +11,7 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     public BaseRepository(DbContext context)
     {
         _context = context;
+        _context.SavingChanges += Context_SavingChanges;
     }
     public async Task<IReadOnlyList<T>> GetAllAsync(bool disableTracking = true, string includes = null)
     {
@@ -72,5 +73,33 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         _context.Set<T>().Remove(entity);
         await _context.SaveChangesAsync();
         return entity;
+    }
+
+    private void Context_SavingChanges(object sender, SavingChangesEventArgs args)
+    {
+        var entities = _context.ChangeTracker.Entries()
+            .Where(x => x.Entity is BaseEntity && x.Entity is T &&
+            (x.State == EntityState.Added || x.State == EntityState.Modified))
+            .ToArray();
+
+        foreach (var entity in entities)
+        {
+            var baseEntity = entity.Entity as BaseEntity;
+
+            if (entity.State == EntityState.Added)
+            {
+                baseEntity.RowCreated = DateTime.Now;
+            }
+
+            baseEntity.RowModified = DateTime.Now;
+            baseEntity.RowVersion += 1;
+        }
+    }
+
+    private void SetRowData(T entity, T oldEntity)
+    {
+        entity.RowCreated = oldEntity.RowCreated;
+        entity.RowModified = oldEntity.RowModified;
+        entity.RowVersion = oldEntity.RowVersion;
     }
 }

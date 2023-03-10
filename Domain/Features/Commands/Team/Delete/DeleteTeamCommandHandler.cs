@@ -1,4 +1,3 @@
-// using Domain.Features.Commands.Team;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
@@ -18,10 +17,10 @@ public class DeleteTeamCommandHandler : IRequestHandler<DeleteTeamCommand, Domai
         _mapper = mapper;
     }
 
-     public async Task<Domain.Team> Handle(DeleteTeamCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Team> Handle(DeleteTeamCommand request, CancellationToken cancellationToken)
     {
         var response = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.Team>(request));
-         await _redisCache.RemoveAsync("Teams:");
+        await _redisCache.RemoveAsync("Teams:");
         await _redisCache.RemoveAsync($"Team:{request.Id}");
         return _mapper.Map<Domain.Team>(response);
     }

@@ -13,7 +13,7 @@ public class SeedDb
         if (!context.Periodics.Any()) await GeneratePeriodics(context);
         if (!context.Areas.Any()) await GenerateAreas(context);
         if (!context.Teams.Any()) await GenerateTeams(context);
-        if (!context.TeamMembers.Any()) await GenerateTeamMembers(context);
+        // if (!context.TeamMembers.Any()) await GenerateTeamMembers(context);
         if (!context.Customers.Any()) await GenerateCustomers(context);
         if (!context.Categories.Any()) await GenerateCategories(context);
         if (!context.SubCategories.Any()) await GenerateSubCategories(context);
@@ -143,35 +143,37 @@ public class SeedDb
 
     private static async Task GenerateTeamMembers(PropertyManagerContext context)
     {
+        //ADD USERID
+        throw new NotImplementedException();
         context.TeamMembers.AddRange(
             new TeamMember
             {
-                UserId = "609dd774-cdc1-4965-83ce-804d2fe1e24a",
+                UserId = "",
                 TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 IsTemporary = false,
             },
             new TeamMember
             {
-                UserId = "adf7ff92-371e-4b9c-b2d7-e7fc607bf94c",
+                UserId = "",
                 TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 IsTemporary = false,
             },
             new TeamMember
             {
-                UserId = "4080fd0d-3ff3-48a6-ab09-ce46dfd77cf7",
+                UserId = "",
                 TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
                 IsTemporary = false,
             },
             new TeamMember
             {
-                UserId = "8a0fc6ca-61f7-4b9f-b9e0-cd5daf852767",
+                UserId = "",
                 TeamId = _context.Teams.First(x => x.Name == "Team 2").Id.ToString(),
                 IsTemporary = true,
             },
 
             new TeamMember
             {
-                UserId = "b4bbe1ab-6562-4d41-8d2f-56620d63942f",
+                UserId = "",
                 TeamId = _context.Teams.First(x => x.Name == "Team 1").Id.ToString(),
                 IsTemporary = false,
             });
