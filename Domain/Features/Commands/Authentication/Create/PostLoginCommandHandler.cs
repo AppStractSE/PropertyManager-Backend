@@ -59,6 +59,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
                     UserId = user.Id,
                     UserName = user.UserName,
                     DisplayName = user.DisplayName,
+                    Role = userRoles.FirstOrDefault(),
                 }
             };
             await _redisCache.RemoveAsync($"Validate:{authUser.User.UserId}");

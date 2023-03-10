@@ -55,10 +55,10 @@ namespace Core.Features.Authentication.Queries
             }
             else
             {
+                var userRoles = await _userManager.GetRolesAsync(user);
                 if (jwtToken.ValidTo < DateTime.Now.AddHours(AuthUtils.EXPIRATION_TIME - 2))
                 {
                        
-                    var userRoles = await _userManager.GetRolesAsync(user);
 
                     var authClaims = new List<Claim>
                 {
@@ -73,7 +73,7 @@ namespace Core.Features.Authentication.Queries
 
                     var token = AuthUtils.GetToken(authClaims, _configuration);
 
-                    
+
                     var authUser = new AuthUser()
                     {
                         TokenInfo = new TokenInfo()
@@ -86,6 +86,7 @@ namespace Core.Features.Authentication.Queries
                             UserId = user.Id,
                             UserName = user.UserName,
                             DisplayName = user.DisplayName,
+                            Role = userRoles.FirstOrDefault()
                         }
                     };
 
@@ -111,6 +112,7 @@ namespace Core.Features.Authentication.Queries
                             UserId = user.Id,
                             UserName = user.UserName,
                             DisplayName = user.DisplayName,
+                            Role = userRoles.FirstOrDefault()
                         }
                     };
 
