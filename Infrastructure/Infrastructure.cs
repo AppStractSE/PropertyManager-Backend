@@ -37,7 +37,7 @@ public static class Infrastructure
 
     private static void InitDatabase(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
     {
-        var encryptedConnectionString = configuration.GetConnectionString("devDBconnection");
+        var encryptedConnectionString = configuration.GetConnectionString("databaseConnection");
         var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString!, key);
 
         services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(decryptedConnectionString));

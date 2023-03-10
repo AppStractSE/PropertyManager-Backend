@@ -65,6 +65,7 @@ public class ChoreCommentController : ControllerBase
               return BadRequest(ex.Message);
           }
     }
+
     [HttpPost]
     public async Task<ActionResult<ChoreComment>> PostChoreCommentAsync(PostChoreCommentRequestDto request)
     {
@@ -77,5 +78,21 @@ public class ChoreCommentController : ControllerBase
         {
             return BadRequest(ex.Message);
         } 
+    }
+
+    [HttpDelete]
+    [Route("DeleteChoreCommentById/")]
+    public async Task<ActionResult> DeleteTeamById([FromQuery] DeleteChoreCommentByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<DeleteChoreCommentByIdRequestDto, DeleteChoreCommentCommand>(request));
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Chore comment controller: Could not delete");
+            return BadRequest(ex.Message);
+        }
     }
 }

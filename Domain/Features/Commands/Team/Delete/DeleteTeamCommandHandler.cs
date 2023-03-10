@@ -1,9 +1,9 @@
-using Domain.Features.Commands.Team;
+// using Domain.Features.Commands.Team;
 using Domain.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.User;
+namespace Domain.Features.Commands.Team;
 
 public class DeleteTeamCommandHandler : IRequestHandler<DeleteTeamCommand, Domain.Team>
 {
