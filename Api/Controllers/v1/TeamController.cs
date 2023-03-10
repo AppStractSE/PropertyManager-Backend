@@ -82,4 +82,20 @@ public class TeamController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpDelete]
+    [Route("DeleteTeamById/")]
+    public async Task<ActionResult> DeleteTeamById([FromQuery] DeleteTeamByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<DeleteTeamByIdRequestDto, DeleteTeamCommand>(request));
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Team controller: Could not delete");
+            return BadRequest(ex.Message);
+        }
+    }
 }
