@@ -20,7 +20,6 @@ public class AddTeamMemberCommandHandler : IRequestHandler<AddTeamMemberCommand,
     {
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.TeamMember>(request));
         await _redisCache.RemoveAsync("TeamMembers:");
-        await _redisCache.RemoveAsync($"User:TeamMembers:{request.UserId}");
         return _mapper.Map<Domain.TeamMember>(response);
     }
 }
