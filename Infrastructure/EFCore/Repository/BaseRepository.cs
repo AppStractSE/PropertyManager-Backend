@@ -8,11 +8,13 @@ namespace Infrastructure.Repository;
 public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 {
     public DbContext _context;
+    
     public BaseRepository(DbContext context)
     {
         _context = context;
         _context.SavingChanges += Context_SavingChanges;
     }
+    
     public async Task<IReadOnlyList<T>> GetAllAsync(bool disableTracking = true, string includes = null)
     {
         IQueryable<T> source = _context.Set<T>();
@@ -50,6 +52,11 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 
     public async Task<T> UpdateAsync(T entity)
     {
+        var idProperty = entity.GetType().GetProperty("Id").GetValue(entity, null);
+        var oldEntity = await _context.Set<T>().FindAsync(idProperty);
+        _context.ChangeTracker.Clear();
+
+        SetRowData(entity, oldEntity);
         _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
         return entity;
