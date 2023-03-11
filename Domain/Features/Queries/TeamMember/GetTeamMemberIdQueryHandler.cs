@@ -19,13 +19,14 @@ public class GetTeamMemberByIdQueryHandler : IRequestHandler<GetTeamMemberByIdQu
     }
     public async Task<TeamMember> Handle(GetTeamMemberByIdQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists($"TeamMember:{request.Id}"))
-        {
-            return await _redisCache.GetAsync<TeamMember>($"TeamMember:{request.Id}");
-        }
-        
-        var mappedDomain = _mapper.Map<TeamMember>(await _repo.GetById(request.Id));
-        await _redisCache.SetAsync($"TeamMember:{request.Id}", mappedDomain);
-        return mappedDomain;
+        throw new NotImplementedException();
+        // if (_redisCache.Exists($"TeamMember:{request.Id}"))
+        // {
+        //     return await _redisCache.GetAsync<TeamMember>($"TeamMember:{request.Id}");
+        // }
+
+        // var mappedDomain = _mapper.Map<TeamMember>(await _repo.GetById(request.Id));
+        // await _redisCache.SetAsync($"TeamMember:{request.Id}", mappedDomain);
+        // return mappedDomain;
     }
 }
