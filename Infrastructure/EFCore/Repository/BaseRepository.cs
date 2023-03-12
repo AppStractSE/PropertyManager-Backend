@@ -52,18 +52,19 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 
     public async Task<T> UpdateAsync(T entity)
     {
-        var idProperty = entity.GetType().GetProperty("Id").GetValue(entity, null);
-        var oldEntity = await _context.Set<T>().FindAsync(idProperty);
-        _context.ChangeTracker.Clear();
-
-        SetRowData(entity, oldEntity);
+        await AddRowData(entity);
         _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
         return entity;
     }
 
-    public async Task<IReadOnlyList<T>> UpdateRangeAsync(IEnumerable<T> entities)
+
+    public async virtual Task<IReadOnlyList<T>> UpdateRangeAsync(IEnumerable<T> entities)
     {
+       foreach(var entity in entities)
+       {
+            await AddRowData(entity);
+       }
         _context.Set<T>().UpdateRange(entities);
         await _context.SaveChangesAsync();
         return entities.ToList();
@@ -102,8 +103,16 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
             baseEntity.RowVersion += 1;
         }
     }
+    private async Task AddRowData(T entity)
+    {
+        var idProperty = entity.GetType().GetProperty("Id").GetValue(entity, null);
+        var oldEntity = await _context.Set<T>().FindAsync(idProperty);
+        _context.ChangeTracker.Clear();
 
-    private void SetRowData(T entity, T oldEntity)
+        SetRowData(entity, oldEntity);
+    }
+    
+    private protected void SetRowData(T entity, T oldEntity)
     {
         entity.RowCreated = oldEntity.RowCreated;
         entity.RowModified = oldEntity.RowModified;

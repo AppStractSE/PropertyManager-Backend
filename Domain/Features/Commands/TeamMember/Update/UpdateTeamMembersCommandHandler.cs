@@ -19,9 +19,10 @@ public class UpdateTeamMembersCommandHandler : IRequestHandler<UpdateTeamMembers
     {
         var response = await _repo.UpdateRangeAsync(_mapper.Map<IList<Repository.Entities.TeamMember>>(request.TeamMembers));
         var teamMembers = _mapper.Map<IList<Domain.TeamMember>>(response);
+
+        await _redisCache.RemoveAsync("TeamMembers:");
         foreach (var item in teamMembers)
         {
-            await _redisCache.RemoveAsync("TeamMembers:");
             await _redisCache.RemoveAsync($"User:TeamMembers:{item.UserId}");
         }
         return teamMembers;
