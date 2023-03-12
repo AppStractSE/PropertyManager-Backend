@@ -25,7 +25,7 @@ public class TeamMemberController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IList<TeamMember>>> GetAllTeamMembers()
+    public async Task<ActionResult<IList<TeamMemberResponseDto>>> GetAllTeamMembers()
     {
         try
         {
