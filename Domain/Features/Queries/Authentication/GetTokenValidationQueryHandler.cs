@@ -19,15 +19,15 @@ namespace Domain.Features.Authentication.Queries
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private readonly IRedisCache _redisCache;
+        private readonly ICache _cache;
 
-        public GetTokenValidationQueryHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, IRedisCache redisCache)
+        public GetTokenValidationQueryHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, ICache cache)
         {
             _userManager = userManager;
             _configuration = configuration;
             _roleManager = roleManager;
             _mapper = mapper;
-            _redisCache = redisCache;
+            _cache = cache;
         }
 
         public async Task<AuthUser> Handle(GetTokenValidationQuery request, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ namespace Domain.Features.Authentication.Queries
             {
                 if (jwtToken.ValidTo < DateTime.Now.AddHours(AuthUtils.EXPIRATION_TIME - 2))
                 {
-                       
+
                     var userRoles = await _userManager.GetRolesAsync(user);
 
                     var authClaims = new List<Claim>
@@ -73,7 +73,7 @@ namespace Domain.Features.Authentication.Queries
 
                     var token = AuthUtils.GetToken(authClaims, _configuration);
 
-                    
+
                     var authUser = new AuthUser()
                     {
                         TokenInfo = new TokenInfo()
@@ -89,14 +89,14 @@ namespace Domain.Features.Authentication.Queries
                         }
                     };
 
-                    await _redisCache.SetAsync("Validate:"+authUser.User.UserId, authUser, TimeSpan.FromHours(AuthUtils.EXPIRATION_TIME));
+                    await _cache.SetAsync("Validate:" + authUser.User.UserId, authUser, TimeSpan.FromHours(AuthUtils.EXPIRATION_TIME));
                     return authUser;
                 }
                 else
                 {
-                    if (_redisCache.Exists("Validate:" + user.Id))
+                    if (_cache.Exists("Validate:" + user.Id))
                     {
-                        return await _redisCache.GetAsync<AuthUser>("Validate:" + user.Id);
+                        return await _cache.GetAsync<AuthUser>("Validate:" + user.Id);
                     }
 
                     var authUser = new AuthUser()
@@ -114,9 +114,9 @@ namespace Domain.Features.Authentication.Queries
                         }
                     };
 
-                    await _redisCache.SetAsync($"Validate:{authUser.User.UserId}", authUser,
+                    await _cache.SetAsync($"Validate:{authUser.User.UserId}", authUser,
                        TimeSpan.FromHours(AuthUtils.EXPIRATION_TIME - (authUser.TokenInfo.Expiration.Hour - DateTime.Now.Hour)));
-                    
+
                     return authUser;
 
                 }

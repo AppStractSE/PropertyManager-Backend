@@ -9,23 +9,23 @@ public class GetAreaByIdQueryHandler : IRequestHandler<GetAreaByIdQuery, Area>
 {
     private readonly IAreaRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
-    
-    public GetAreaByIdQueryHandler(IAreaRepository repo, IMapper mapper, IRedisCache redisCache)
+    private readonly ICache _cache;
+
+    public GetAreaByIdQueryHandler(IAreaRepository repo, IMapper mapper, ICache cache)
     {
         _repo = repo;
         _mapper = mapper;
-        _redisCache = redisCache;
+        _cache = cache;
     }
     public async Task<Area> Handle(GetAreaByIdQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists($"Area:{request.Id}"))
+        if (_cache.Exists($"Area:{request.Id}"))
         {
-            return await _redisCache.GetAsync<Area>($"area_{request.Id}");
+            return await _cache.GetAsync<Area>($"area_{request.Id}");
         }
 
         var area = _mapper.Map<Area>(await _repo.GetById(request.Id));
-        await _redisCache.SetAsync($"Area:{area.Id}", area);
+        await _cache.SetAsync($"Area:{area.Id}", area);
         return area;
     }
 }

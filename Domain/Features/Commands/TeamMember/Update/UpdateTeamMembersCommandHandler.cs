@@ -8,11 +8,11 @@ public class UpdateTeamMembersCommandHandler : IRequestHandler<UpdateTeamMembers
 {
     private readonly ITeamMemberRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
-    public UpdateTeamMembersCommandHandler(ITeamMemberRepository repo, IMapper mapper, IRedisCache redisCache)
+    private readonly ICache _cache;
+    public UpdateTeamMembersCommandHandler(ITeamMemberRepository repo, IMapper mapper, ICache cache)
     {
         _repo = repo;
-        _redisCache = redisCache;
+        _cache = cache;
         _mapper = mapper;
     }
     public async Task<IList<Domain.TeamMember>> Handle(UpdateTeamMembersCommand request, CancellationToken cancellationToken)
@@ -20,10 +20,10 @@ public class UpdateTeamMembersCommandHandler : IRequestHandler<UpdateTeamMembers
         var response = await _repo.UpdateRangeAsync(_mapper.Map<IList<Repository.Entities.TeamMember>>(request.TeamMembers));
         var teamMembers = _mapper.Map<IList<Domain.TeamMember>>(response);
 
-        await _redisCache.RemoveAsync("TeamMembers:");
+        await _cache.RemoveAsync("TeamMembers:");
         foreach (var item in teamMembers)
         {
-            await _redisCache.RemoveAsync($"User:TeamMembers:{item.UserId}");
+            await _cache.RemoveAsync($"User:TeamMembers:{item.UserId}");
         }
         return teamMembers;
     }

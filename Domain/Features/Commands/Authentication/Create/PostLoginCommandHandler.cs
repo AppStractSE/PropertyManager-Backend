@@ -15,12 +15,12 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
     private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
     public PostLoginCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager,
-        IConfiguration configuration, IRedisCache redisCache)
+        IConfiguration configuration, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _userManager = userManager;
         _configuration = configuration;
         _roleManager = roleManager;
@@ -61,7 +61,7 @@ public class PostLoginCommandHandler : IRequestHandler<PostLoginCommand, AuthUse
                     DisplayName = user.DisplayName,
                 }
             };
-            await _redisCache.RemoveAsync($"Validate:{authUser.User.UserId}");
+            await _cache.RemoveAsync($"Validate:{authUser.User.UserId}");
             return authUser;
         }
         return null;

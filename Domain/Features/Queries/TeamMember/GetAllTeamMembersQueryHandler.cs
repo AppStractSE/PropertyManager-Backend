@@ -9,24 +9,24 @@ public class GetAllTeamMembersQueryHandler : IRequestHandler<GetAllTeamMembersQu
 {
     private readonly ITeamMemberRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public GetAllTeamMembersQueryHandler(ITeamMemberRepository repo, IMapper mapper, IRedisCache redisCache)
+    public GetAllTeamMembersQueryHandler(ITeamMemberRepository repo, IMapper mapper, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<IList<TeamMember>> Handle(GetAllTeamMembersQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists("TeamMembers:"))
+        if (_cache.Exists("TeamMembers:"))
         {
-            return await _redisCache.GetAsync<IList<TeamMember>>("TeamMembers:");
+            return await _cache.GetAsync<IList<TeamMember>>("TeamMembers:");
         }
-        
+
         var mappedDomains = _mapper.Map<IList<TeamMember>>(await _repo.GetAllAsync());
 
-        await _redisCache.SetAsync("TeamMembers:", mappedDomains);
+        await _cache.SetAsync("TeamMembers:", mappedDomains);
         return mappedDomains;
     }
 }

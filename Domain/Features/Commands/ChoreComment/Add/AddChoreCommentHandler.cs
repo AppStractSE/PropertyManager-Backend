@@ -11,23 +11,23 @@ public class AddChoreCommentCommandHandler : IRequestHandler<AddChoreCommentComm
     private readonly IChoreCommentRepository _repo;
     private readonly IMapper _mapper;
     private readonly UserManager<AuthUserEntity> _userManager;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public AddChoreCommentCommandHandler(IChoreCommentRepository repo, IMapper mapper, UserManager<AuthUserEntity> userManager, IRedisCache redisCache)
+    public AddChoreCommentCommandHandler(IChoreCommentRepository repo, IMapper mapper, UserManager<AuthUserEntity> userManager, ICache cache)
     {
         _repo = repo;
         _mapper = mapper;
-        _redisCache = redisCache;
+        _cache = cache;
         _userManager = userManager;
     }
     public async Task<Domain.ChoreComment> Handle(AddChoreCommentCommand request, CancellationToken cancellationToken)
-    { 
+    {
         var choreComment = _mapper.Map<AddChoreCommentCommand, Domain.ChoreComment>(request);
         var user = await _userManager.FindByIdAsync(request.UserId);
         choreComment.DisplayName = user.DisplayName;
         choreComment.Time = DateTime.Now;
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.ChoreComment>(choreComment));
-        await _redisCache.RemoveAsync($"ChoreComments:");
+        await _cache.RemoveAsync($"ChoreComments:");
         return _mapper.Map<Domain.ChoreComment>(response);
     }
 }

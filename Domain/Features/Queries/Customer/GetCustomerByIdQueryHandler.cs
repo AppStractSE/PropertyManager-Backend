@@ -9,23 +9,23 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
 {
     private readonly ICustomerRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public GetCustomerByIdQueryHandler(ICustomerRepository repo, IMapper mapper, IRedisCache redisCache)
+    public GetCustomerByIdQueryHandler(ICustomerRepository repo, IMapper mapper, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<Customer> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists($"Customer:{request.Id}"))
+        if (_cache.Exists($"Customer:{request.Id}"))
         {
-            return await _redisCache.GetAsync<Customer>($"Customer:{request.Id}");
+            return await _cache.GetAsync<Customer>($"Customer:{request.Id}");
         }
-        
+
         var mappedDomain = _mapper.Map<Customer>(await _repo.GetById(request.Id));
-        await _redisCache.SetAsync($"Customer:{request.Id}", mappedDomain);
+        await _cache.SetAsync($"Customer:{request.Id}", mappedDomain);
         return mappedDomain;
     }
 }

@@ -9,11 +9,11 @@ public class GetTeamMemberByIdQueryHandler : IRequestHandler<GetTeamMemberByIdQu
 {
     private readonly ITeamMemberRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public GetTeamMemberByIdQueryHandler(ITeamMemberRepository repo, IMapper mapper, IRedisCache redisCache)
+    public GetTeamMemberByIdQueryHandler(ITeamMemberRepository repo, IMapper mapper, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }

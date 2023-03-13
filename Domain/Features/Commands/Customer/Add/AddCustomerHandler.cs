@@ -8,18 +8,18 @@ public class AddCustomerCommandHandler : IRequestHandler<AddCustomerCommand, Dom
 {
     private readonly ICustomerRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public AddCustomerCommandHandler(ICustomerRepository repo, IMapper mapper, IRedisCache redisCache)
+    public AddCustomerCommandHandler(ICustomerRepository repo, IMapper mapper, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<Domain.Customer> Handle(AddCustomerCommand request, CancellationToken cancellationToken)
     {
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.Customer>(request));
-        await _redisCache.RemoveAsync("Customers:");
+        await _cache.RemoveAsync("Customers:");
         return _mapper.Map<Domain.Customer>(response);
     }
 }

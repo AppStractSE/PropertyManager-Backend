@@ -1,6 +1,6 @@
 ﻿namespace Domain.Repository.Interfaces
 {
-    public interface IRedisCache
+    public interface ICache
     {
         bool Exists(string key);
         Task<T> GetAsync<T>(string key);

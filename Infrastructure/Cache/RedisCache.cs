@@ -1,11 +1,10 @@
 ﻿using Domain.Repository.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace Infrastructure.Redis
+namespace Infrastructure.Cache
 {
-    public class RedisCache : IRedisCache
+    public class RedisCache : ICache
     {
         private readonly TimeSpan _defaultExpiry = TimeSpan.FromMinutes(30);
         private readonly IDatabase _db;

@@ -8,20 +8,20 @@ public class AddChoreStatusCommandHandler : IRequestHandler<AddChoreStatusComman
 {
     private readonly IChoreStatusRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public AddChoreStatusCommandHandler(IChoreStatusRepository repo, IMapper mapper, IRedisCache redisCache)
+    public AddChoreStatusCommandHandler(IChoreStatusRepository repo, IMapper mapper, ICache cache)
     {
         _repo = repo;
         _mapper = mapper;
-        _redisCache = redisCache;
+        _cache = cache;
     }
     public async Task<Domain.ChoreStatus> Handle(AddChoreStatusCommand request, CancellationToken cancellationToken)
     {
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.ChoreStatus>(request));
         response.StartDate = DateTime.Now;
         response.CompletedDate = DateTime.Now;
-        await _redisCache.RemoveAsync("ChoreStatuses:");
+        await _cache.RemoveAsync("ChoreStatuses:");
         return _mapper.Map<Domain.ChoreStatus>(response);
     }
 }

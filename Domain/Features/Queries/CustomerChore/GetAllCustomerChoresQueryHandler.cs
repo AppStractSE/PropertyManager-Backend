@@ -11,22 +11,22 @@ public class GetAllCustomerChoresQueryHandler : IRequestHandler<GetAllCustomerCh
     private readonly IChoreRepository _choreRepo;
     private readonly IPeriodicRepository _periodicRepo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
     public GetAllCustomerChoresQueryHandler(ICustomerChoreRepository customerChoreRepo, IChoreRepository choreRepo,
-        IPeriodicRepository periodicRepo, IMapper mapper, IRedisCache redisCache)
+        IPeriodicRepository periodicRepo, IMapper mapper, ICache cache)
     {
         _customerChoreRepo = customerChoreRepo;
         _choreRepo = choreRepo;
         _periodicRepo = periodicRepo;
         _mapper = mapper;
-        _redisCache = redisCache;
+        _cache = cache;
     }
     public async Task<IList<CustomerChore>> Handle(GetAllCustomerChoresQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists("CustomerChores:"))
+        if (_cache.Exists("CustomerChores:"))
         {
-            return await _redisCache.GetAsync<IList<CustomerChore>>("CustomerChores:");
+            return await _cache.GetAsync<IList<CustomerChore>>("CustomerChores:");
         }
 
         var cores = _mapper.Map<List<Chore>>(await _choreRepo.GetAllAsync());
@@ -42,7 +42,7 @@ public class GetAllCustomerChoresQueryHandler : IRequestHandler<GetAllCustomerCh
             Periodic = periodic.FirstOrDefault(y => y.Id.ToString() == x.PeriodicId),
         }).ToList();
 
-        await _redisCache.SetAsync("CustomerChores:", mappedCustomerChores);
+        await _cache.SetAsync("CustomerChores:", mappedCustomerChores);
         return mappedCustomerChores;
     }
 }

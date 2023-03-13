@@ -8,11 +8,11 @@ public class DeleteTeamCommandHandler : IRequestHandler<DeleteTeamCommand, Domai
 {
     private readonly ITeamRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public DeleteTeamCommandHandler(ITeamRepository repo, IMapper mapper, IRedisCache redisCache)
+    public DeleteTeamCommandHandler(ITeamRepository repo, IMapper mapper, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }
@@ -20,8 +20,8 @@ public class DeleteTeamCommandHandler : IRequestHandler<DeleteTeamCommand, Domai
     public async Task<Domain.Team> Handle(DeleteTeamCommand request, CancellationToken cancellationToken)
     {
         var response = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.Team>(request));
-        await _redisCache.RemoveAsync("Teams:");
-        await _redisCache.RemoveAsync($"Team:{request.Id}");
+        await _cache.RemoveAsync("Teams:");
+        await _cache.RemoveAsync($"Team:{request.Id}");
         return _mapper.Map<Domain.Team>(response);
     }
 }

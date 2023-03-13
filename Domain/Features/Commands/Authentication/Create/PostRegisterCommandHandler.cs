@@ -12,12 +12,12 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, I
 {
     private readonly UserManager<AuthUserEntity> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
     public PostRegisterCommandHandler(UserManager<AuthUserEntity> userManager, RoleManager<IdentityRole> roleManager,
-        IConfiguration configuration, IRedisCache redisCache)
+        IConfiguration configuration, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _userManager = userManager;
         _roleManager = roleManager;
     }
@@ -45,7 +45,7 @@ public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, I
         }
         else
         {
-            await _redisCache.RemoveAsync("AllUsers:");
+            await _cache.RemoveAsync("AllUsers:");
             await InitRoles();
             return await AddRole(request.Role, user);
         }

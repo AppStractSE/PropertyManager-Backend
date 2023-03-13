@@ -8,17 +8,17 @@ public class UpdateChoreCommandHandler : IRequestHandler<UpdateChoreCommand, Dom
 {
     private readonly IChoreRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
-    public UpdateChoreCommandHandler(IChoreRepository repo, IMapper mapper, IRedisCache redisCache)
+    private readonly ICache _cache;
+    public UpdateChoreCommandHandler(IChoreRepository repo, IMapper mapper, ICache cache)
     {
-        _redisCache = redisCache;
+        _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }
     public async Task<Domain.Chore> Handle(UpdateChoreCommand request, CancellationToken cancellationToken)
     {
-        await _redisCache.RemoveAsync("Chores:");
-        await _redisCache.RemoveAsync($"Chore:{request.Id}");
+        await _cache.RemoveAsync("Chores:");
+        await _cache.RemoveAsync($"Chore:{request.Id}");
 
         var response = await _repo.UpdateAsync(_mapper.Map<Repository.Entities.Chore>(request));
         return _mapper.Map<Domain.Chore>(response);

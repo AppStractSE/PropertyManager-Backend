@@ -9,24 +9,24 @@ public class GetAllPeriodicsQueryHandler : IRequestHandler<GetAllPeriodicsQuery,
 {
     private readonly IPeriodicRepository _repo;
     private readonly IMapper _mapper;
-    private readonly IRedisCache _redisCache;
+    private readonly ICache _cache;
 
-    public GetAllPeriodicsQueryHandler(IPeriodicRepository repo, IMapper mapper, IRedisCache redisCache)
+    public GetAllPeriodicsQueryHandler(IPeriodicRepository repo, IMapper mapper, ICache cache)
     {
         _repo = repo;
         _mapper = mapper;
-        _redisCache = redisCache;
+        _cache = cache;
     }
 
     public async Task<IList<Periodic>> Handle(GetAllPeriodicsQuery request, CancellationToken cancellationToken)
     {
-        if (_redisCache.Exists("Periodics:"))
+        if (_cache.Exists("Periodics:"))
         {
-            return await _redisCache.GetAsync<IList<Periodic>>("Periodics:");
+            return await _cache.GetAsync<IList<Periodic>>("Periodics:");
         }
-        
+
         var mappedDomain = _mapper.Map<IList<Periodic>>(await _repo.GetAllAsync());
-        await _redisCache.SetAsync("Periodics:", mappedDomain);
+        await _cache.SetAsync("Periodics:", mappedDomain);
         return mappedDomain;
     }
 }
