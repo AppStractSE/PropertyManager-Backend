@@ -1,4 +1,4 @@
-using Domain.Domain;
+using Core.Domain;
 
 namespace Api.Dto.Response.UserData.v1;
 public class UserDataResponseDto

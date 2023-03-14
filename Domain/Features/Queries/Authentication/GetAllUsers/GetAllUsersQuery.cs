@@ -1,7 +1,7 @@
-using Domain.Domain.Authentication;
+using Core.Domain.Authentication;
 using MediatR;
 
-namespace Domain.Features.Queries.Authentication.GetAllUsers;
+namespace Core.Features.Queries.Authentication.GetAllUsers;
 
 public class GetAllUsersQuery : IRequest<IList<User>>
 {

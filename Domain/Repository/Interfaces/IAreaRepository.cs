@@ -1,6 +1,6 @@
-using Domain.Repository.Entities;
+using Core.Repository.Entities;
 
-namespace Domain.Repository.Interfaces;
+namespace Core.Repository.Interfaces;
 
 public interface IAreaRepository : IRepository<Area>
 {

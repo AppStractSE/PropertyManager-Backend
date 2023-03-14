@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.TeamMembers;
+namespace Core.Features.Queries.TeamMembers;
 
 public class GetTeamMemberByIdQuery : IRequest<Domain.TeamMember>
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.Domain.Authentication;
+﻿namespace Core.Domain.Authentication;
 public static class UserRoles
 {
     public const string SuperAdmin = "SuperAdmin";

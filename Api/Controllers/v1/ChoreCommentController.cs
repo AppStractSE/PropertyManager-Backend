@@ -1,10 +1,10 @@
-using Domain.Features.Queries.ChoreComments;
+using Core.Features.Queries.ChoreComments;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
+using Core.Domain;
 using Api.Dto.Request.ChoreComment.v1;
-using Domain.Features.Commands.ChoreComment;
+using Core.Features.Commands.ChoreComment;
 using Api.Dto.Response.ChoreComment.v1;
 
 namespace Api.Controllers.v1;

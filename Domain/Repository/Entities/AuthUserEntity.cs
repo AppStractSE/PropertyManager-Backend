@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Repository.Entities;
+namespace Core.Repository.Entities;
 
 public class AuthUserEntity : IdentityUser
 {

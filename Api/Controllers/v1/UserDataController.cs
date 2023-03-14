@@ -1,6 +1,6 @@
 using Api.Dto.Request.UserData.v1;
 using Api.Dto.Response.UserData.v1;
-using Domain.Features.Queries.UserData;
+using Core.Features.Queries.UserData;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

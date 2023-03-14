@@ -1,11 +1,11 @@
-using Domain.Domain;
-using Domain.Features.Queries.CustomerChores;
-using Domain.Features.Queries.Customers;
-using Domain.Features.Queries.TeamMembers;
-using Domain.Features.Queries.Teams;
+using Core.Domain;
+using Core.Features.Queries.CustomerChores;
+using Core.Features.Queries.Customers;
+using Core.Features.Queries.TeamMembers;
+using Core.Features.Queries.Teams;
 using MediatR;
 
-namespace Domain.Features.Queries.UserData;
+namespace Core.Features.Queries.UserData;
 
 public class GetUserDataByUserIdQueryHandler : IRequestHandler<GetUserDataByUserIdQuery, Domain.UserData>
 {

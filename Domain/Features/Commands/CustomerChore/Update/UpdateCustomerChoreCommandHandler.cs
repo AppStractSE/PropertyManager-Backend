@@ -1,8 +1,8 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.CustomerChore;
+namespace Core.Features.Commands.CustomerChore;
 
 public class UpdateCustomerChoreCommandHandler : IRequestHandler<UpdateCustomerChoreCommand, Domain.CustomerChore>
 {

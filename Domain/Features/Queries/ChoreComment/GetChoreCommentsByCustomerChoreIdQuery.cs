@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.ChoreComments;
+namespace Core.Features.Queries.ChoreComments;
 
 public class GetChoreCommentsByCustomerChoreIdQuery : IRequest<IList<Domain.ChoreComment>>
 {

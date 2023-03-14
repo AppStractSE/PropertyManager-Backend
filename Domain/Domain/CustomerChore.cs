@@ -1,4 +1,4 @@
-namespace Domain.Domain;
+namespace Core.Domain;
 
 public class CustomerChore
 {

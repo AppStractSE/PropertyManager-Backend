@@ -1,12 +1,12 @@
-using Domain.Domain.Authentication;
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
+using Core.Domain.Authentication;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
-namespace Domain.Features.Queries.Authentication.GetAllUsers;
+namespace Core.Features.Queries.Authentication.GetAllUsers;
 
 public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IList<User>>
 {

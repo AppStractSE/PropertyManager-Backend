@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Commands.Area;
+namespace Core.Features.Commands.Area;
 
 public class UpdateAreaCommand : IRequest<Domain.Area>
 {

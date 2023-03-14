@@ -1,8 +1,8 @@
 ﻿using Api.Dto.Response.Authenticate.v1;
-using Domain.Domain.Authentication;
-using Domain.Features.Authentication.Queries;
-using Domain.Features.Commands.Authentication.Create;
-using Domain.Features.Queries.Authentication.GetAllUsers;
+using Core.Domain.Authentication;
+using Core.Features.Authentication.Queries;
+using Core.Features.Commands.Authentication.Create;
+using Core.Features.Queries.Authentication.GetAllUsers;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

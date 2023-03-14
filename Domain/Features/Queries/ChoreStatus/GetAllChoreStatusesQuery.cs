@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.ChoreStatuses;
+namespace Core.Features.Queries.ChoreStatuses;
 
 public class GetAllChoreStatusesQuery : IRequest<IList<Domain.ChoreStatus>>
 {
