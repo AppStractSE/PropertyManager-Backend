@@ -39,23 +39,6 @@ public class TeamMemberController : ControllerBase
         }
     }
 
-    //Behövs denna? Id finns inte längre i TeamMember.. Om inte, ta bort denna och flödet
-    // [HttpGet]
-    // [Route("GetTeamMemberById/")]
-    // public async Task<ActionResult<TeamMemberResponseDto>> GetTeamMemberById([FromQuery] GetTeamMemberByIdRequestDto request)
-    // {
-    //     try
-    //     {
-    //         var result = await _mediator.Send(_mapper.Map<GetTeamMemberByIdRequestDto, GetTeamMemberByIdQuery>(request));
-    //         return result != null ? Ok(_mapper.Map<TeamMemberResponseDto>(result)) : NoContent();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         _logger.LogError(message: "Error in TeamMember controller: GetTeamMemberById");
-    //         return BadRequest(ex.Message);
-    //     }
-    // }
-
     [HttpGet]
     [Route("GetTeamMembersByUserId/")]
     public async Task<ActionResult<IList<TeamMemberResponseDto>>> GetTeamMembersByUserId([FromQuery] GetTeamMembersByUserIdRequestDto request)
