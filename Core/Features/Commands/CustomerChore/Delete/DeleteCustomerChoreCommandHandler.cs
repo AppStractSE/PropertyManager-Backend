@@ -28,7 +28,7 @@ public class DeleteCustomerChoreCommandHandler : IRequestHandler<DeleteCustomerC
         var response = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.CustomerChore>(request));
 
         await _mediator.Send(new BulkDeleteChoreCommentsCommand { CustomerChoreId = request.CustomerChoreId.ToString() });
-        await _mediator.Send(new BulkDeleteChoreStatusesCommand { Id = request.CustomerChoreId.ToString() });
+        await _mediator.Send(new BulkDeleteChoreStatusesCommand { CustomerChoreId = request.CustomerChoreId.ToString() });
 
         await _cache.RemoveAsync("CustomerChores:");
         await _cache.RemoveAsync($"CustomerChore:{request.CustomerChoreId}");

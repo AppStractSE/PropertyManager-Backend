@@ -20,7 +20,7 @@ public class BulkDeleteChoreStatusesCommandHandler : IRequestHandler<BulkDeleteC
     public async Task<bool> Handle(BulkDeleteChoreStatusesCommand request, CancellationToken cancellationToken)
     {
         var allStatuses = await _repo.GetAllAsync();
-        var statusesToDelete = allStatuses.Where(x => request.Id == x.CustomerChoreId.ToString());
+        var statusesToDelete = allStatuses.Where(x => request.CustomerChoreId == x.CustomerChoreId.ToString());
         var result = await _repo.DeleteRangeAsync(statusesToDelete);
 
         if (result)
