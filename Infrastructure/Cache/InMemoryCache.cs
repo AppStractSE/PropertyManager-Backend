@@ -1,6 +1,6 @@
-using Core.Repository.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Internal;
+using Core.Repository.Interfaces;
 
 namespace Infrastructure.Cache
 {
