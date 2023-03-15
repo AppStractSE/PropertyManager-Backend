@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.Chores;
+namespace Core.Features.Queries.Chores;
 
 public class GetChoreByIdQuery : IRequest<Domain.Chore>
 {

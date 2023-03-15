@@ -1,11 +1,11 @@
-using Domain.Features.Queries.CustomerChores;
+using Core.Features.Queries.CustomerChores;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Api.Dto.Response.CustomerChore.v1;
 using Api.Dto.Request.CustomerChore.v1;
-using Domain.Domain;
-using Domain.Features.Commands.CustomerChore;
+using Core.Domain;
+using Core.Features.Commands.CustomerChore;
 
 namespace Api.Controllers.v1;
 

@@ -1,7 +1,7 @@
-using Domain.Domain.Authentication;
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
-using Domain.Utilities;
+using Core.Domain.Authentication;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
+using Core.Utilities;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Domain.Features.Authentication.Queries
+namespace Core.Features.Authentication.Queries
 {
     public class GetTokenValidationQueryHandler : IRequestHandler<GetTokenValidationQuery, AuthUser>
     {
@@ -55,11 +55,9 @@ namespace Domain.Features.Authentication.Queries
             }
             else
             {
+                var userRoles = await _userManager.GetRolesAsync(user);
                 if (jwtToken.ValidTo < DateTime.Now.AddHours(AuthUtils.EXPIRATION_TIME - 2))
                 {
-
-                    var userRoles = await _userManager.GetRolesAsync(user);
-
                     var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -86,6 +84,7 @@ namespace Domain.Features.Authentication.Queries
                             UserId = user.Id,
                             UserName = user.UserName,
                             DisplayName = user.DisplayName,
+                            Role = userRoles.FirstOrDefault()
                         }
                     };
 
@@ -111,6 +110,7 @@ namespace Domain.Features.Authentication.Queries
                             UserId = user.Id,
                             UserName = user.UserName,
                             DisplayName = user.DisplayName,
+                            Role = userRoles.FirstOrDefault()
                         }
                     };
 

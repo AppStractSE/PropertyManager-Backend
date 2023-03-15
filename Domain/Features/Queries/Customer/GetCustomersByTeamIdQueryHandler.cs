@@ -1,10 +1,10 @@
-using Domain.Domain;
-using Domain.Features.Queries.Teams;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Features.Queries.Teams;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.Customers;
+namespace Core.Features.Queries.Customers;
 
 public class GetCustomersByTeamIdQueryHandler : IRequestHandler<GetCustomersByTeamIdQuery, IList<Customer>>
 {

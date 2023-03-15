@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Commands.Chore;
+namespace Core.Features.Commands.Chore;
 
 public class UpdateChoreCommand : IRequest<Domain.Chore>
 {

@@ -1,9 +1,9 @@
-using Domain.Domain;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.Teams;
+namespace Core.Features.Queries.Teams;
 
 public class GetAllTeamsQueryHandler : IRequestHandler<GetAllTeamsQuery, IList<Team>>
 {

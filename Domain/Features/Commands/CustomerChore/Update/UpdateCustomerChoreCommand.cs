@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Commands.CustomerChore;
+namespace Core.Features.Commands.CustomerChore;
 
 public class UpdateCustomerChoreCommand : IRequest<Domain.CustomerChore>
 {

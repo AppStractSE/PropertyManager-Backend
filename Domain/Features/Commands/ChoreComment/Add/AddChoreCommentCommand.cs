@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Commands.ChoreComment;
+namespace Core.Features.Commands.ChoreComment;
 
 public class AddChoreCommentCommand : IRequest<Domain.ChoreComment>
 {

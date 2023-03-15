@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Commands.TeamMember;
+namespace Core.Features.Commands.TeamMember;
 
 public class AddTeamMembersCommand : IRequest<IList<Domain.TeamMember>>
 {

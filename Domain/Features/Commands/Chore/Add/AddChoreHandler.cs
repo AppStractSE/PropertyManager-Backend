@@ -1,8 +1,8 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.Chore;
+namespace Core.Features.Commands.Chore;
 
 public class AddChoreCommandHandler : IRequestHandler<AddChoreCommand, Domain.Chore>
 {

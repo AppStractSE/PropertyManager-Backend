@@ -1,4 +1,4 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Internal;
 

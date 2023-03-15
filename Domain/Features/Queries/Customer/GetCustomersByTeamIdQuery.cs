@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.Customers;
+namespace Core.Features.Queries.Customers;
 
 public class GetCustomersByTeamIdQuery : IRequest<IList<Domain.Customer>>
 {

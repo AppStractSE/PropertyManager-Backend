@@ -1,8 +1,8 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.TeamMember;
+namespace Core.Features.Commands.TeamMember;
 
 public class AddTeamMemberCommandHandler : IRequestHandler<AddTeamMemberCommand, Domain.TeamMember>
 {

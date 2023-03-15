@@ -1,11 +1,11 @@
-using Domain.Features.Queries.Customers;
+using Core.Features.Queries.Customers;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
+using Core.Domain;
 using Api.Dto.Request.Customer.v1;
 using Api.Dto.Response.Customer.v1;
-using Domain.Features.Commands.Customer;
+using Core.Features.Commands.Customer;
 
 namespace Api.Controllers.v1;
 

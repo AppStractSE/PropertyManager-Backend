@@ -1,4 +1,4 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using DotCode.SecurityUtils;
 using Infrastructure.Context;
 using Infrastructure.EFCore.Context;

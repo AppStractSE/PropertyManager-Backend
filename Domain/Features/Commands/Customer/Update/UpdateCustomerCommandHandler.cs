@@ -1,9 +1,9 @@
-using Domain.Features.Commands.Customer;
-using Domain.Repository.Interfaces;
+using Core.Features.Commands.Customer;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.Customer;
+namespace Core.Features.Commands.Customer;
 
 public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Domain.Customer>
 {

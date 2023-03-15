@@ -1,4 +1,4 @@
-﻿using Domain.Repository.Interfaces;
+﻿using Core.Repository.Interfaces;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 

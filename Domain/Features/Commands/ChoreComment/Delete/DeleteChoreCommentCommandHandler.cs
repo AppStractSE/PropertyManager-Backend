@@ -1,8 +1,8 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.ChoreComment;
+namespace Core.Features.Commands.ChoreComment;
 
 public class DeleteChoreCommentCommandHandler : IRequestHandler<DeleteChoreCommentCommand, Domain.ChoreComment>
 {

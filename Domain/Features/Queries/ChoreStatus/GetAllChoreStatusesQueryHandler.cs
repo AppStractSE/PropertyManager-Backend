@@ -1,9 +1,9 @@
-using Domain.Domain;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.ChoreStatuses;
+namespace Core.Features.Queries.ChoreStatuses;
 
 public class GetAllChoreStatuesQueryHandler : IRequestHandler<GetAllChoreStatusesQuery, IList<ChoreStatus>>
 {

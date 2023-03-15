@@ -1,9 +1,9 @@
-using Domain.Domain;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.Customers;
+namespace Core.Features.Queries.Customers;
 
 public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, IList<Customer>>
 {

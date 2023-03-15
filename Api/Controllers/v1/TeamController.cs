@@ -1,9 +1,9 @@
-using Domain.Features.Queries.Teams;
+using Core.Features.Queries.Teams;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
-using Domain.Features.Commands.Team;
+using Core.Domain;
+using Core.Features.Commands.Team;
 using Api.Dto.Request.Team.v1;
 using Api.Dto.Response.Team.v1;
 

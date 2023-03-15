@@ -1,10 +1,10 @@
-using Domain.Features.Queries.TeamMembers;
+using Core.Features.Queries.TeamMembers;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
+using Core.Domain;
 using Api.Dto.Request.TeamMember.v1;
-using Domain.Features.Commands.TeamMember;
+using Core.Features.Commands.TeamMember;
 using Api.Dto.Response.TeamMember.v1;
 
 namespace Api.Controllers.v1;

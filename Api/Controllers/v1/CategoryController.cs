@@ -1,8 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
-using Domain.Features.Queries.Categories;
+using Core.Features.Queries.Categories;
 using Api.Dto.Response.Category.v1;
 
 namespace Api.Controllers.v1;

@@ -1,9 +1,9 @@
-using Domain.Domain;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Queries.Periodics;
+namespace Core.Features.Queries.Periodics;
 
 public class GetAllPeriodicsQueryHandler : IRequestHandler<GetAllPeriodicsQuery, IList<Periodic>>
 {

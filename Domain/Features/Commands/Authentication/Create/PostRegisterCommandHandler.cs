@@ -1,12 +1,12 @@
-﻿using Domain.Domain.Authentication;
-using Domain.Features.Commands.Authentication.Create;
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
+﻿using Core.Domain.Authentication;
+using Core.Features.Commands.Authentication.Create;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
-namespace Domain.Features.Commands.Area;
+namespace Core.Features.Commands.Area;
 
 public class PostRegisterCommandHandler : IRequestHandler<PostRegisterCommand, IdentityResult>
 {

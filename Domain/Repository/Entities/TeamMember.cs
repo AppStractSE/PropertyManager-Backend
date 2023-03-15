@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Repository.Entities;
-
+namespace Core.Repository.Entities;
 public class TeamMember : BaseEntity
 {
     [ForeignKey("Team")]

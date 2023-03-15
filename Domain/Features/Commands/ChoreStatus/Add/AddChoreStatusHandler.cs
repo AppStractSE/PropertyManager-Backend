@@ -1,8 +1,8 @@
-using Domain.Repository.Interfaces;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
-namespace Domain.Features.Commands.ChoreStatus;
+namespace Core.Features.Commands.ChoreStatus;
 
 public class AddChoreStatusCommandHandler : IRequestHandler<AddChoreStatusCommand, Domain.ChoreStatus>
 {

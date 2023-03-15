@@ -1,5 +1,5 @@
-using Domain.Repository.Entities;
-using Domain.Repository.Interfaces;
+using Core.Repository.Entities;
+using Core.Repository.Interfaces;
 using Infrastructure.Context;
 
 namespace Infrastructure.Repository;

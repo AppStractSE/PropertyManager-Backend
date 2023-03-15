@@ -1,5 +1,5 @@
 using Api;
-using Domain;
+using Core;
 using Infrastructure;
 using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
@@ -7,7 +7,6 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
-using Microsoft.OpenApi.Models;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 

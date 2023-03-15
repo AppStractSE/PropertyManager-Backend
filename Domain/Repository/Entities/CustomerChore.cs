@@ -1,4 +1,4 @@
-namespace Domain.Repository.Entities;
+namespace Core.Repository.Entities;
 
 public class CustomerChore : BaseEntity
 {

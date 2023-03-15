@@ -1,11 +1,11 @@
-using Domain.Domain;
-using Domain.Features.Queries.CustomerChores;
-using Domain.Repository.Interfaces;
+using Core.Domain;
+using Core.Features.Queries.CustomerChores;
+using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Domain.Features.Queries.ChoreComments;
+namespace Core.Features.Queries.ChoreComments;
 
 public class GetChoreCommentsByCustomerChoreIdQueryHandler : IRequestHandler<GetChoreCommentsByCustomerChoreIdQuery, IList<Domain.ChoreComment>>
 {

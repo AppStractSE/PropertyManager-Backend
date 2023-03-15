@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.UserData;
+namespace Core.Features.Queries.UserData;
 
 public class GetUserDataByUserIdQuery : IRequest<Domain.UserData>
 {

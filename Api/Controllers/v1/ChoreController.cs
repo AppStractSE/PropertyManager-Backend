@@ -1,11 +1,11 @@
-using Domain.Features.Queries.Chores;
+using Core.Features.Queries.Chores;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Domain;
+using Core.Domain;
 using Api.Dto.Response.Chore.v1;
 using Api.Dto.Request.Chore.v1;
-using Domain.Features.Commands.Chore;
+using Core.Features.Commands.Chore;
 
 namespace Api.Controllers.v1;
 

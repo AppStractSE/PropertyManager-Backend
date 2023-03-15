@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Domain.Features.Queries.Areas;
+namespace Core.Features.Queries.Areas;
 
 public class GetAreaByIdQuery : IRequest<Domain.Area>
 {
