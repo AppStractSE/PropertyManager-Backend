@@ -4,20 +4,20 @@ using MediatR;
 
 namespace Core.Features.Commands.ChoreStatus;
 
-public class BulkDeleteChoreStatusesCommandHandler : IRequestHandler<BulkDeleteChoreStatusesCommand, bool>
+public class BulkDeleteChoreStatusesCommandHandler : IRequestHandler<BulkDeleteChoreStatusCommand, bool>
 {
-    private readonly IChoreCommentRepository _repo;
+    private readonly IChoreStatusRepository _repo;
     private readonly IMapper _mapper;
     private readonly ICache _cache;
 
-    public BulkDeleteChoreStatusesCommandHandler(IChoreCommentRepository repo, IMapper mapper, ICache cache)
+    public BulkDeleteChoreStatusesCommandHandler(IChoreStatusRepository repo, IMapper mapper, ICache cache)
     {
         _cache = cache;
         _repo = repo;
         _mapper = mapper;
     }
 
-    public async Task<bool> Handle(BulkDeleteChoreStatusesCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(BulkDeleteChoreStatusCommand request, CancellationToken cancellationToken)
     {
         var allStatuses = await _repo.GetAllAsync();
         var statusesToDelete = allStatuses.Where(x => request.CustomerChoreId == x.CustomerChoreId.ToString());

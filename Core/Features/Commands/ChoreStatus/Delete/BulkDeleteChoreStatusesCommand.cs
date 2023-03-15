@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Core.Features.Commands.ChoreStatus;
 
-public class BulkDeleteChoreStatusesCommand : IRequest<bool>
+public class BulkDeleteChoreStatusCommand : IRequest<bool>
 {
     public string CustomerChoreId { get; set; }
 }

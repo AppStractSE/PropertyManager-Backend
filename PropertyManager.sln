@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{C
 		{75DAECEC-6069-495B-9EC3-54EE1594A9DC} = {75DAECEC-6069-495B-9EC3-54EE1594A9DC}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Domain\Core.csproj", "{75DAECEC-6069-495B-9EC3-54EE1594A9DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{75DAECEC-6069-495B-9EC3-54EE1594A9DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{1F0779A5-C5F4-499F-90C8-C125694317DF}"
 	ProjectSection(ProjectDependencies) = postProject
