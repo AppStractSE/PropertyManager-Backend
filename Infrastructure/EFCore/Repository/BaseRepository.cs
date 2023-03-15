@@ -8,13 +8,13 @@ namespace Infrastructure.Repository;
 public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 {
     public DbContext _context;
-    
+
     public BaseRepository(DbContext context)
     {
         _context = context;
         _context.SavingChanges += Context_SavingChanges;
     }
-    
+
     public async Task<IReadOnlyList<T>> GetAllAsync(bool disableTracking = true, string includes = null)
     {
         IQueryable<T> source = _context.Set<T>();
@@ -61,10 +61,10 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 
     public async virtual Task<IReadOnlyList<T>> UpdateRangeAsync(IEnumerable<T> entities)
     {
-       foreach(var entity in entities)
-       {
+        foreach (var entity in entities)
+        {
             await AddRowData(entity);
-       }
+        }
         _context.Set<T>().UpdateRange(entities);
         await _context.SaveChangesAsync();
         return entities.ToList();
@@ -81,6 +81,12 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         _context.Set<T>().Remove(entity);
         await _context.SaveChangesAsync();
         return entity;
+    }
+
+    public async Task<bool> DeleteRangeAsync(IEnumerable<T> entities)
+    {
+        _context.Set<T>().RemoveRange(entities);
+        return await _context.SaveChangesAsync() > 0;
     }
 
     private void Context_SavingChanges(object sender, SavingChangesEventArgs args)
@@ -111,7 +117,7 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
 
         SetRowData(entity, oldEntity);
     }
-    
+
     private protected void SetRowData(T entity, T oldEntity)
     {
         entity.RowCreated = oldEntity.RowCreated;
