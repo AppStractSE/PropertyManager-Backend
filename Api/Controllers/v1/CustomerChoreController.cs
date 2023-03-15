@@ -1,11 +1,11 @@
+using Api.Dto.Request.CustomerChore.v1;
+using Api.Dto.Response.CustomerChore.v1;
+using Core.Domain;
+using Core.Features.Commands.CustomerChore;
 using Core.Features.Queries.CustomerChores;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Api.Dto.Response.CustomerChore.v1;
-using Api.Dto.Request.CustomerChore.v1;
-using Core.Domain;
-using Core.Features.Commands.CustomerChore;
 
 namespace Api.Controllers.v1;
 
@@ -81,14 +81,14 @@ public class CustomerChoreController : ControllerBase
         }
     }
 
-     [HttpDelete]
+    [HttpDelete]
     [Route("DeleteCustomerChoreById/")]
     public async Task<ActionResult> DeleteCustomerChoreById([FromQuery] DeleteCustomerChoreByIdRequestDto request)
     {
         try
         {
             var result = await _mediator.Send(_mapper.Map<DeleteCustomerChoreByIdRequestDto, DeleteCustomerChoreCommand>(request));
-            return NoContent();
+            return result ? NoContent() : NotFound();
         }
         catch (Exception ex)
         {

@@ -76,11 +76,10 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
         return entities.ToList();
     }
 
-    public async Task<T> DeleteAsync(T entity)
+    public async Task<bool> DeleteAsync(T entity)
     {
         _context.Set<T>().Remove(entity);
-        await _context.SaveChangesAsync();
-        return entity;
+        return await _context.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> DeleteRangeAsync(IEnumerable<T> entities)

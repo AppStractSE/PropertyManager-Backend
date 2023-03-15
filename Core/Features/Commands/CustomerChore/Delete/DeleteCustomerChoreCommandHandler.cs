@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Core.Features.Commands.CustomerChore;
 
-public class DeleteCustomerChoreCommandHandler : IRequestHandler<DeleteCustomerChoreCommand, Domain.CustomerChore>
+public class DeleteCustomerChoreCommandHandler : IRequestHandler<DeleteCustomerChoreCommand, bool>
 {
     private readonly ICustomerChoreRepository _repo;
     private readonly IMapper _mapper;
@@ -23,15 +23,24 @@ public class DeleteCustomerChoreCommandHandler : IRequestHandler<DeleteCustomerC
         _mediator = mediator;
     }
 
-    public async Task<Domain.CustomerChore> Handle(DeleteCustomerChoreCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCustomerChoreCommand request, CancellationToken cancellationToken)
     {
-        var response = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.CustomerChore>(request));
+        var result = false;
+        var customerChoreToDelete = await _repo.GetById(request.Id.ToString());
+        if (customerChoreToDelete != null)
+        {
+            result = await _repo.DeleteAsync(customerChoreToDelete);
+        }
 
-        await _mediator.Send(new BulkDeleteChoreCommentsCommand { CustomerChoreId = request.CustomerChoreId.ToString() });
-        await _mediator.Send(new BulkDeleteChoreStatusCommand { CustomerChoreId = request.CustomerChoreId.ToString() });
+        if (result)
+        {
+            await _mediator.Send(new BulkDeleteChoreCommentsCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);
+            await _mediator.Send(new BulkDeleteChoreStatusCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);
 
-        await _cache.RemoveAsync("CustomerChores:");
-        await _cache.RemoveAsync($"CustomerChore:{request.CustomerChoreId}");
-        return _mapper.Map<Domain.CustomerChore>(response);
+            await _cache.RemoveAsync("CustomerChores:");
+            await _cache.RemoveAsync($"CustomerChore:{request.Id}");
+        }
+
+        return result;
     }
 }

@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Core.Features.Commands.CustomerChore;
 
-public class DeleteCustomerChoreCommand : IRequest<Domain.CustomerChore>
+public class DeleteCustomerChoreCommand : IRequest<bool>
 {
-    public Guid CustomerChoreId { get; set; }
+    public Guid Id { get; set; }
 }
