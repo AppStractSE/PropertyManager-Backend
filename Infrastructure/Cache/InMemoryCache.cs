@@ -10,12 +10,7 @@ namespace Infrastructure.Cache
 
         public InMemoryCache()
         {
-            _memoryCache = new MemoryCache(new MemoryCacheOptions()
-            {
-                SizeLimit = 100,
-                ExpirationScanFrequency = TimeSpan.FromMinutes(30),
-                Clock = new SystemClock()
-            });
+            _memoryCache = new MemoryCache(new MemoryCacheOptions());
         }
 
         public bool Exists(string key)
@@ -39,7 +34,7 @@ namespace Infrastructure.Cache
 
         public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
         {
-            await Task.Run(() => _memoryCache.Set(key, value, expiry ?? TimeSpan.FromMinutes(30)));
+            await Task.Run(() => _memoryCache.Set(key, value, expiry ?? TimeSpan.FromMinutes(5)));
         }
     }
 }
