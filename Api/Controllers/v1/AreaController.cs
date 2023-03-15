@@ -84,4 +84,20 @@ public class AreaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpDelete]
+    [Route("DeleteAreaById/")]
+    public async Task<ActionResult> DeleteAreaById([FromQuery] DeleteAreaByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<DeleteAreaByIdRequestDto, DeleteAreaCommand>(request));
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Area controller: Could not delete");
+            return BadRequest(ex.Message);
+        }
+    }
 }
