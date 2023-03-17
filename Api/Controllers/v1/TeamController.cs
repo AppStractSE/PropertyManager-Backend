@@ -90,7 +90,7 @@ public class TeamController : ControllerBase
         try
         {
             var result = await _mediator.Send(_mapper.Map<DeleteTeamByIdRequestDto, DeleteTeamCommand>(request));
-            return NoContent();
+            return result ? NoContent() : NotFound();
         }
         catch (Exception ex)
         {

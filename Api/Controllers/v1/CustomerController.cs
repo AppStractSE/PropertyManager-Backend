@@ -99,4 +99,20 @@ public class CustomerController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpDelete]
+    [Route("DeleteCustomerById/")]
+    public async Task<ActionResult> DeleteCustomerById([FromQuery] DeleteCustomerByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<DeleteCustomerByIdRequestDto, DeleteCustomerCommand>(request));
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Customer controller: Could not delete");
+            return BadRequest(ex.Message);
+        }
+    }
 }

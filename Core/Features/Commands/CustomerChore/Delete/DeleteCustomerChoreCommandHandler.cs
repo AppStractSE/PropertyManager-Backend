@@ -12,25 +12,19 @@ public class DeleteCustomerChoreCommandHandler : IRequestHandler<DeleteCustomerC
     private readonly IMapper _mapper;
     private readonly ICache _cache;
     private readonly IMediator _mediator;
-    private readonly IChoreStatusRepository _csRepo;
+    
 
-    public DeleteCustomerChoreCommandHandler(ICustomerChoreRepository repo, IMediator mediator, IChoreStatusRepository csRepo, IMapper mapper, ICache cache)
+    public DeleteCustomerChoreCommandHandler(ICustomerChoreRepository repo, IMediator mediator, IMapper mapper, ICache cache)
     {
         _cache = cache;
         _repo = repo;
         _mapper = mapper;
-        _csRepo = csRepo;
         _mediator = mediator;
     }
 
     public async Task<bool> Handle(DeleteCustomerChoreCommand request, CancellationToken cancellationToken)
     {
-        var result = false;
-        var customerChoreToDelete = await _repo.GetById(request.Id.ToString());
-        if (customerChoreToDelete != null)
-        {
-            result = await _repo.DeleteAsync(customerChoreToDelete);
-        }
+        var result = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.CustomerChore>(request));
 
         if (result)
         {

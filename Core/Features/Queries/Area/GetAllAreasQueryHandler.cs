@@ -19,13 +19,13 @@ public class GetAllAreasQueryHandler : IRequestHandler<GetAllAreasQuery, IList<A
     }
     public async Task<IList<Area>> Handle(GetAllAreasQuery request, CancellationToken cancellationToken)
     {
-        if (_cache.Exists("areas"))
+        if (_cache.Exists("Areas:"))
         {
-            return await _cache.GetAsync<IList<Area>>("areas");
+            return await _cache.GetAsync<IList<Area>>("Areas:");
         }
 
         var response = _mapper.Map<IList<Area>>(await _repo.GetAllAsync());
-        await _cache.SetAsync("areas", response);
+        await _cache.SetAsync("Areas:", response);
         return response;
     }
 }

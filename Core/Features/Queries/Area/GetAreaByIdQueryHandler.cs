@@ -21,7 +21,7 @@ public class GetAreaByIdQueryHandler : IRequestHandler<GetAreaByIdQuery, Area>
     {
         if (_cache.Exists($"Area:{request.Id}"))
         {
-            return await _cache.GetAsync<Area>($"area_{request.Id}");
+            return await _cache.GetAsync<Area>($"Area:{request.Id}");
         }
 
         var area = _mapper.Map<Area>(await _repo.GetById(request.Id));

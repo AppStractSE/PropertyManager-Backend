@@ -18,7 +18,7 @@ public class AddAreaCommandHandler : IRequestHandler<AddAreaCommand, Domain.Area
     }
     public async Task<Domain.Area> Handle(AddAreaCommand request, CancellationToken cancellationToken)
     {
-        await _cache.RemoveAsync("areas");
+        await _cache.RemoveAsync("Areas:");
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.Area>(request));
         return _mapper.Map<Domain.Area>(response);
     }
