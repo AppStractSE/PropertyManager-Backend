@@ -1,28 +1,41 @@
+using Core.Features.Commands.ChoreComment;
+using Core.Features.Commands.ChoreStatus;
+using Core.Features.Commands.CustomerChore;
 using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 
 namespace Core.Features.Commands.Customer;
 
-public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, Domain.Customer>
+public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, bool>
 {
     private readonly ICustomerRepository _repo;
     private readonly IMapper _mapper;
     private readonly ICache _cache;
+    private readonly IMediator _mediator;
 
-    public DeleteCustomerCommandHandler(ICustomerRepository repo, IMapper mapper, ICache cache)
+    public DeleteCustomerCommandHandler(ICustomerRepository repo, IMediator mediator, IMapper mapper, ICache cache)
     {
         _cache = cache;
         _repo = repo;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
-    public async Task<Domain.Customer> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {
-        // Deletea alla customer chores
-        var response = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.Customer>(request));
-        await _cache.RemoveAsync("Customers:");
-        await _cache.RemoveAsync($"Customer:{request.Id}");
-        return _mapper.Map<Domain.Customer>(response);
+        var result = await _repo.DeleteAsync(_mapper.Map<Repository.Entities.Customer>(request));
+
+        if (result) 
+        {
+            await _mediator.Send(new BulkDeleteCustomerChoresCommand { CustomerId = request.Id.ToString() }, cancellationToken);
+            await _mediator.Send(new BulkDeleteChoreCommentsCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);
+            await _mediator.Send(new BulkDeleteChoreStatusCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);
+            await _cache.RemoveAsync("Customers:");
+            await _cache.RemoveAsync($"Customer:{request.Id}");
+
+        }
+
+        return result;
     }
 }

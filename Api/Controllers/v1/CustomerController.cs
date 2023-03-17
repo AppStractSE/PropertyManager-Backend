@@ -107,7 +107,7 @@ public class CustomerController : ControllerBase
         try
         {
             var result = await _mediator.Send(_mapper.Map<DeleteCustomerByIdRequestDto, DeleteCustomerCommand>(request));
-            return NoContent();
+            return result ? NoContent() : NotFound();
         }
         catch (Exception ex)
         {
