@@ -28,6 +28,7 @@ public class AddChoreCommentCommandHandler : IRequestHandler<AddChoreCommentComm
         choreComment.Time = DateTime.Now;
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.ChoreComment>(choreComment));
         await _cache.RemoveAsync($"ChoreComments:");
+        await _cache.RemoveAsync($"Customer:ChoreComments:{request.CustomerChoreId}");
         return _mapper.Map<Domain.ChoreComment>(response);
     }
 }
