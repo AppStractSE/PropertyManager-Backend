@@ -32,7 +32,7 @@ public static class Infrastructure
         builder.Services.AddSingleton<ICache, InMemoryCache>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
-        builder.Services.ConfigureRedisConnection(builder.Configuration, key);
+        //builder.Services.ConfigureRedisConnection(builder.Configuration, key); //Not in use right now
     }
 
     private static void InitDatabase(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
