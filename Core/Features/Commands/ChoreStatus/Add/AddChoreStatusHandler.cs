@@ -21,7 +21,7 @@ public class AddChoreStatusCommandHandler : IRequestHandler<AddChoreStatusComman
         var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.ChoreStatus>(request));
         response.StartDate = DateTime.Now;
         response.CompletedDate = DateTime.Now;
-        await _cache.RemoveAsync("ChoreStatuses:");
+        await _cache.RemoveAsync($"ChoreStatuses:{request.CustomerChoreId}");
         return _mapper.Map<Domain.ChoreStatus>(response);
     }
 }

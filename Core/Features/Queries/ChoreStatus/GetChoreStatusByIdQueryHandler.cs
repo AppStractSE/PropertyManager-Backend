@@ -23,9 +23,9 @@ public class GetChoreStatusByIdQueryHandler : IRequestHandler<GetChoreStatusById
 
     public async Task<IList<Domain.ChoreStatus>> Handle(GetChoreStatusByIdQuery request, CancellationToken cancellationToken)
     {
-        if (_cache.Exists("ChoreStatuses:"))
+        if (_cache.Exists($"ChoreStatuses:{request.Id}"))
         {
-            return await _cache.GetAsync<IList<Domain.ChoreStatus>>("ChoreStatuses:");
+            return await _cache.GetAsync<IList<Domain.ChoreStatus>>($"ChoreStatuses:{request.Id}");
         }
 
         var ChoreStatuses = _mapper.Map<IList<Domain.ChoreStatus>>(await _repo.GetQuery(x => x.CustomerChoreId == request.Id));
@@ -36,7 +36,7 @@ public class GetChoreStatusByIdQueryHandler : IRequestHandler<GetChoreStatusById
             ChoreStatus.CustomerChoreId = customerChores.FirstOrDefault(x => x.Id.ToString() == ChoreStatus.CustomerChoreId).Id.ToString();
         }
 
-        await _cache.SetAsync($"ChoreStatus:{request.Id}", ChoreStatuses);
+        await _cache.SetAsync($"ChoreStatuses:{request.Id}", ChoreStatuses);
         return ChoreStatuses;
     }
 }
