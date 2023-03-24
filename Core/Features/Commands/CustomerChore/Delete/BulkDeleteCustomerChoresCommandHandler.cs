@@ -26,10 +26,7 @@ public class BulkDeleteCustomerChoresCommandHandler : IRequestHandler<BulkDelete
 
         if (result)
         {
-            choresToDelete.ToList().ForEach(async x =>
-            {
-                await _cache.RemoveAsync($"CustomerChore:{x.Id}");
-            });
+            await _cache.RemoveAsync("Chores:");
             await _cache.RemoveAsync("CustomerChores:");
         }
 

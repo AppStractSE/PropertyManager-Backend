@@ -28,9 +28,9 @@ public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerComman
 
         if (result) 
         {
-            await _mediator.Send(new BulkDeleteCustomerChoresCommand { CustomerId = request.Id.ToString() }, cancellationToken);
-            await _mediator.Send(new BulkDeleteChoreCommentsCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);
-            await _mediator.Send(new BulkDeleteChoreStatusCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);
+            await _mediator.Send(new BulkDeleteCustomerChoresCommand { CustomerId = request.Id.ToString() }, cancellationToken); //klar
+            await _mediator.Send(new BulkDeleteChoreCommentsCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken);  //klar
+            await _mediator.Send(new BulkDeleteChoreStatusCommand { CustomerChoreId = request.Id.ToString() }, cancellationToken); //klar
             await _cache.RemoveAsync("Customers:");
             await _cache.RemoveAsync($"Customer:{request.Id}");
 
