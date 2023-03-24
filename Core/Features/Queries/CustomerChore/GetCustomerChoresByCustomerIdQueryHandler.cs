@@ -4,6 +4,7 @@ using Core.Features.Queries.Periodics;
 using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
+using Core.Features.Queries.ChoreStatuses;
 
 namespace Core.Features.Queries.CustomerChores;
 
@@ -29,6 +30,10 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
 
         foreach (var customerChore in customerChores)
         {
+            var allChoreStatuses = await _mediator.Send(new GetAllChoreStatusesQuery());
+            var customerChoreProgress = allChoreStatuses.Count(x => x.CustomerChoreId == customerChore.Id.ToString());
+            customerChore.Progress = customerChoreProgress;
+            customerChore.Status = customerChoreProgress == 0 ? "Ej påbörjad" : customerChoreProgress == customerChore.Frequency ? "Klar" : "Påbörjad";
             customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
             customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
             customerChore.Periodic = periodic.FirstOrDefault(x => x.Id.ToString() == customerChore.PeriodicId);

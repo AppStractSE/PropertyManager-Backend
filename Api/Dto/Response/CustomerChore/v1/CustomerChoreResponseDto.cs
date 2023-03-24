@@ -7,6 +7,8 @@ public class CustomerChoreResponseDto
     public string ChoreId { get; set; }
     public int Frequency { get; set; }
     public string PeriodicId { get; set; }
+    public int Progress { get; set; }
+    public string Status { get; set; }
     public Core.Domain.Periodic Periodic { get; set; }
     public Core.Domain.Chore Chore { get; set; }
     public Core.Domain.Customer Customer { get; set; }
