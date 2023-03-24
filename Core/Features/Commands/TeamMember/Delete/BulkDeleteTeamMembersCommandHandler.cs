@@ -20,7 +20,7 @@ public class BulkDeleteTeamMembersCommandHandler : IRequestHandler<BulkDeleteTea
     public async Task<bool> Handle(BulkDeleteTeamMembersCommand request, CancellationToken cancellationToken)
     {
         var teamMembers = await _repo.GetAllAsync();
-        var teamMembersToDelete = teamMembers.Where(x => request.TeamId == x.TeamId.ToString());
+        var teamMembersToDelete = teamMembers.Where(x => request.TeamId == x.TeamId);
         var result = await _repo.DeleteRangeAsync(teamMembersToDelete);
 
         if (result)

@@ -40,7 +40,7 @@ public class ChoreStatusController : ControllerBase
     }
 
     [HttpGet]
-    [Route("GetChoreStatusById/")]
+    [Route("GetChoreStatusById/")] //TODO Namnet är missvisande, ändra till GetChoreStatusByCustomerChoreId
     public async Task<ActionResult<IList<ChoreStatusResponseDto>>> GetChoreStatusById([FromQuery] GetChoreStatusByIdRequestDto request)
     {
         try
