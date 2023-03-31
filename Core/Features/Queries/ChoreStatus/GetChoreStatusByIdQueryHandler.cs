@@ -23,19 +23,13 @@ public class GetChoreStatusByIdQueryHandler : IRequestHandler<GetChoreStatusById
 
     public async Task<IList<Domain.ChoreStatus>> Handle(GetChoreStatusByIdQuery request, CancellationToken cancellationToken) //Is it used the way it should be? Returns ChoreStatuses by CustomerChoreId. Change name maybe?
     {
+
         if (_cache.Exists($"ChoreStatuses:CustomerChore:{request.Id}"))
         {
-            return await _cache.GetAsync<IList<Domain.ChoreStatus>>($"ChoreStatuses:{request.Id}");
+            return await _cache.GetAsync<IList<Domain.ChoreStatus>>($"ChoreStatuses:CustomerChore:{request.Id}");
         }
 
         var choreStatuses = _mapper.Map<IList<Domain.ChoreStatus>>(await _repo.GetQuery(x => x.CustomerChoreId == request.Id));
-
-        // var customerChores = await _mediator.Send(new GetAllCustomerChoresQuery(), cancellationToken); // And possibly this one too
-
-        // foreach (var ChoreStatus in ChoreStatuses) // Possibly remove this
-        // {
-        //     ChoreStatus.CustomerChoreId = customerChores.FirstOrDefault(x => x.Id.ToString() == ChoreStatus.CustomerChoreId).Id.ToString();
-        // }
 
         await _cache.SetAsync($"ChoreStatuses:CustomerChore:{request.Id}", choreStatuses);
         return choreStatuses;
