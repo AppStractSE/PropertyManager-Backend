@@ -107,6 +107,12 @@ public class TeamMemberController : ControllerBase
     {
         try
         {
+            if (request.TeamMembers == null || request.TeamMembers.Count == 0)
+            {
+                await _mediator.Send(_mapper.Map<PutTeamMembersRequestDto, BulkDeleteTeamMembersCommand>(request));
+                return Ok();
+            }
+
             var result = await _mediator.Send(_mapper.Map<PutTeamMembersRequestDto, UpdateTeamMembersCommand>(request));
             return Ok(result);
         }
