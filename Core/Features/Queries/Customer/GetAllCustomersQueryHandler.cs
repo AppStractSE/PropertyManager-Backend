@@ -1,5 +1,8 @@
+using System.Text;
+using System.Text.RegularExpressions;
 using Core.Domain;
 using Core.Repository.Interfaces;
+using Core.Utilities;
 using MapsterMapper;
 using MediatR;
 
@@ -25,8 +28,14 @@ public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery,
             return await _cache.GetAsync<IList<Customer>>("Customers:");
         }
 
-        var mappedDomain = _mapper.Map<IList<Customer>>(await _repo.GetAllAsync());
-        await _cache.SetAsync("Customers:", mappedDomain);
-        return mappedDomain;
+        var customers = _mapper.Map<IList<Customer>>(await _repo.GetAllAsync());
+
+        foreach (var customer in customers)
+        {
+            customer.Slug = URLUtils.GenerateSlug(customer.Name);
+        }
+        
+        await _cache.SetAsync("Customers:", customers);
+        return customers;
     }
 }

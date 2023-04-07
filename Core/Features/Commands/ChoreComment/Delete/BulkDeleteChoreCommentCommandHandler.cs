@@ -27,7 +27,7 @@ public class BulkDeleteChoreCommentsCommandHandler : IRequestHandler<BulkDeleteC
         {
             commentsToDelete.ToList().ForEach(async x =>
             {
-                await _cache.RemoveAsync($"Customer:ChoreComments:{x.CustomerChoreId}");
+                await _cache.RemoveAsync($"ChoreComment:{x.CustomerChoreId}");
             });
             await _cache.RemoveAsync("ChoreComments:");
         }

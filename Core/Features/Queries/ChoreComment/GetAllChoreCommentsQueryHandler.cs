@@ -24,8 +24,8 @@ public class GetAllChoreCommentsQueryHandler : IRequestHandler<GetAllChoreCommen
             return await _cache.GetAsync<IList<ChoreComment>>("ChoreComments:");
         }
 
-        var mappedCoreComment = _mapper.Map<IList<ChoreComment>>(await _repo.GetAllAsync());
-        await _cache.SetAsync("ChoreComments:", mappedCoreComment);
-        return mappedCoreComment;
+        var choreComments = _mapper.Map<IList<ChoreComment>>(await _repo.GetAllAsync());
+        await _cache.SetAsync("ChoreComments:", choreComments);
+        return choreComments;
     }
 }

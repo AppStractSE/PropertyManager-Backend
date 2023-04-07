@@ -23,19 +23,19 @@ public class GetChoreCommentsByCustomerChoreIdQueryHandler : IRequestHandler<Get
     }
     public async Task<IList<Domain.ChoreComment>> Handle(GetChoreCommentsByCustomerChoreIdQuery request, CancellationToken cancellationToken)
     {
-        if (_cache.Exists($"Customer:ChoreComments:{request.Id}"))
+        if (_cache.Exists($"ChoreComment:{request.Id}"))
         {
-            return await _cache.GetAsync<IList<Domain.ChoreComment>>($"Customer:ChoreComments:{request.Id}");
+            return await _cache.GetAsync<IList<Domain.ChoreComment>>($"ChoreComment:{request.Id}");
         }
 
-        var ChoreComments = _mapper.Map<IList<Domain.ChoreComment>>(await _repo.GetQuery(x => x.CustomerChoreId == request.Id));
+        var choreComments = _mapper.Map<IList<Domain.ChoreComment>>(await _repo.GetQuery(x => x.CustomerChoreId == request.Id));
         var customerChores = await _mediator.Send(new GetAllCustomerChoresQuery(), cancellationToken);
 
-        foreach (var ChoreComment in ChoreComments)
+        foreach (var choreComment in choreComments)
         {
-            ChoreComment.CustomerChoreId = customerChores.FirstOrDefault(x => x.Id.ToString() == ChoreComment.CustomerChoreId).Id.ToString();
+            choreComment.CustomerChoreId = customerChores.FirstOrDefault(x => x.Id.ToString() == choreComment.CustomerChoreId).Id.ToString();
         }
-        await _cache.SetAsync($"Customer:ChoreComments:{request.Id}", ChoreComments);
-        return ChoreComments;
+        await _cache.SetAsync($"ChoreComment:{request.Id}", choreComments);
+        return choreComments;
     }
 }
