@@ -1,8 +1,10 @@
 using Core.Domain;
+using Core.Features.Queries.Categories;
 using Core.Features.Queries.CustomerChores;
 using Core.Features.Queries.Customers;
 using Core.Features.Queries.TeamMembers;
 using Core.Features.Queries.Teams;
+using Core.Utilities;
 using MediatR;
 
 namespace Core.Features.Queries.UserData;
@@ -24,6 +26,7 @@ public class GetUserDataByUserIdQueryHandler : IRequestHandler<GetUserDataByUser
     {
         var teamMembers = await _mediator.Send(new GetTeamMembersByUserIdQuery() { Id = request.Id });
         var teams = await _mediator.Send(new GetAllTeamsQuery());
+        var categories = await _mediator.Send(new GetAllCategoriesQuery());
         var customers = await _mediator.Send(new GetAllCustomersQuery());
         var customerChores = await _mediator.Send(new GetAllCustomerChoresQuery());
 
@@ -47,6 +50,7 @@ public class GetUserDataByUserIdQueryHandler : IRequestHandler<GetUserDataByUser
                     {
                         CustomerId = c.Id.ToString(),
                         CustomerName = c.Name,
+                        CustomerSlug = c.Slug,
                         CustomerAddress = c.Address,
                         AreaId = c.AreaId,
                         CustomerChores = userCustomerChores
@@ -55,7 +59,10 @@ public class GetUserDataByUserIdQueryHandler : IRequestHandler<GetUserDataByUser
                             {
                                 CustomerChoreId = cc.Id.ToString(),
                                 Chore = cc.Chore,
+                                Status = cc.Status,
+                                Progress = cc.Progress,
                                 Frequency = cc.Frequency,
+                                SubCategoryName = categories.Where(category => category.SubCategories.Any(subcategory => subcategory.Id.ToString() == cc.Chore.SubCategoryId)).Select(category => category.SubCategories.First(subcategory => subcategory.Id.ToString() == cc.Chore.SubCategoryId).Title).FirstOrDefault(),
                                 Periodic = cc.Periodic
                             }).ToList()
                     }).ToList()

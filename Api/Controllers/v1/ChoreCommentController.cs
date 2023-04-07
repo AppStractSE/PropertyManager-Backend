@@ -82,7 +82,7 @@ public class ChoreCommentController : ControllerBase
 
     [HttpDelete]
     [Route("DeleteChoreCommentById/")]
-    public async Task<ActionResult> DeleteTeamById([FromQuery] DeleteChoreCommentByIdRequestDto request)
+    public async Task<ActionResult> DeleteChoreCommentById([FromQuery] DeleteChoreCommentByIdRequestDto request)
     {
         try
         {

@@ -34,6 +34,7 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
             var customerChoreProgress = allChoreStatuses.Count(x => x.CustomerChoreId == customerChore.Id.ToString());
             customerChore.Progress = customerChoreProgress;
             customerChore.Status = customerChoreProgress == 0 ? "Ej påbörjad" : customerChoreProgress == customerChore.Frequency ? "Klar" : "Påbörjad";
+            customerChore.Reset = "Resettar om sju dagar";
             customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
             customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
             customerChore.Periodic = periodic.FirstOrDefault(x => x.Id.ToString() == customerChore.PeriodicId);
