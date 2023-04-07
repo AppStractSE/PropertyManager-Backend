@@ -34,8 +34,7 @@ public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery,
         {
             customer.Slug = URLUtils.GenerateSlug(customer.Name);
         }
-
-        // var mappedDomain = _mapper.Map<IList<Customer>>(await _repo.GetAllAsync());
+        
         await _cache.SetAsync("Customers:", customers);
         return customers;
     }
