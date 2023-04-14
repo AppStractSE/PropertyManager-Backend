@@ -25,6 +25,7 @@ public class GetAllCustomerChoresQueryHandler : IRequestHandler<GetAllCustomerCh
         _cache = cache;
         _mediator = mediator;
     }
+
     public async Task<IList<CustomerChore>> Handle(GetAllCustomerChoresQuery request, CancellationToken cancellationToken)
     {
         if (_cache.Exists("CustomerChores:"))
@@ -35,19 +36,43 @@ public class GetAllCustomerChoresQueryHandler : IRequestHandler<GetAllCustomerCh
         var chores = _mapper.Map<List<Chore>>(await _choreRepo.GetAllAsync());
         var periodic = _mapper.Map<List<Periodic>>(await _periodicRepo.GetAllAsync());
         var customerChores = await _customerChoreRepo.GetAllAsync();
-
+        
         var mappedCustomerChores = customerChores.Select((x) =>
         {
             var allChoreStatuses = _mediator.Send(new GetAllChoreStatusesQuery()).GetAwaiter().GetResult();
             var progress = allChoreStatuses.Count(y => y.CustomerChoreId == x.Id.ToString());
+            var customerChorePeriodic = periodic.FirstOrDefault(y => y.Id.ToString() == x.PeriodicId);
+            var today = DateTime.Today;
+            var daysUntilReset = 1;
+            if (customerChorePeriodic != null)
+            {
+                switch (customerChorePeriodic.Name)
+                {
+                    case "Veckovis":
+                        daysUntilReset = 7 - ((int)today.DayOfWeek + 6) % 7;
+                        break;
+                    case "Månadsvis":
+                        daysUntilReset = DateTime.DaysInMonth(today.Year, today.Month) - today.Day;
+                        break;
+                    case "Årligen":
+                        var endOfYear = new DateTime(today.Year, 12, 31);
+                        daysUntilReset = (endOfYear - today).Days;
+                        break;
+                    default:
+                        daysUntilReset = 1;
+                        break;
+                }
+            }
+
             return new CustomerChore()
             {
                 Id = x.Id,
                 CustomerId = x.CustomerId,
                 Chore = chores.FirstOrDefault(y => y.Id.ToString() == x.ChoreId),
                 Frequency = x.Frequency,
-                Periodic = periodic.FirstOrDefault(y => y.Id.ToString() == x.PeriodicId),
+                Periodic = customerChorePeriodic,
                 Progress = progress,
+                DaysUntilReset = daysUntilReset,
                 Status = progress == 0 ? "Ej påbörjad" : progress == x.Frequency ? "Klar" : "Påbörjad",
             };
         }).ToList();

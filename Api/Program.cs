@@ -1,5 +1,6 @@
 using Api;
 using Core;
+using Core.Services;
 using Infrastructure;
 using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
@@ -51,6 +52,7 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 builder.Services.InitAuth(builder.Configuration);
+builder.Services.AddHostedService<BackgroundWorker>();
 
 var app = builder.Build();
 

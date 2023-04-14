@@ -10,7 +10,7 @@ public class CustomerChore
     public int Frequency { get; set; }
     public int Progress { get; set; }
     public string Status { get; set; }
-    public string Reset { get; set; }
+    public int DaysUntilReset { get; set; }
     public string PeriodicId { get; set; }
     public Periodic Periodic { get; set; }
 }

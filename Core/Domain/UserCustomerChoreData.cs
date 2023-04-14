@@ -9,4 +9,5 @@ public class UserCustomerChoreData
     public int Progress { get; set; }
     public string SubCategoryName { get; set; }
     public Periodic Periodic { get; set; }
+    public int DaysUntilReset { get; set; }
 }

@@ -209,7 +209,6 @@ public class SeedDb
             new ChoreStatus
             {
                 CustomerChoreId = _context.CustomerChores.FirstOrDefault(x => x.ChoreId == _context.Chores.First(x => x.Title == "Beskärning buskar").Id.ToString()).Id.ToString(),
-                StartDate = DateTime.Today,
                 CompletedDate = DateTime.Today,
                 DoneBy = "UserId",
             });

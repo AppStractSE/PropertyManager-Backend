@@ -62,6 +62,7 @@ public class GetUserDataByUserIdQueryHandler : IRequestHandler<GetUserDataByUser
                                 Status = cc.Status,
                                 Progress = cc.Progress,
                                 Frequency = cc.Frequency,
+                                DaysUntilReset = cc.DaysUntilReset,
                                 SubCategoryName = categories.Where(category => category.SubCategories.Any(subcategory => subcategory.Id.ToString() == cc.Chore.SubCategoryId)).Select(category => category.SubCategories.First(subcategory => subcategory.Id.ToString() == cc.Chore.SubCategoryId).Title).FirstOrDefault(),
                                 Periodic = cc.Periodic
                             }).ToList()

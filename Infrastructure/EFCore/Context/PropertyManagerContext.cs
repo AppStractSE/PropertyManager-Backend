@@ -19,6 +19,7 @@ public class PropertyManagerContext : DbContext
     public DbSet<Periodic> Periodics { get; set; }
     public DbSet<ChoreComment> ChoreComments { get; set; }
     public DbSet<ChoreStatus> ChoreStatuses { get; set; }
+    public DbSet<ArchivedChoreStatus> ArchivedChoreStatuses { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<SubCategory> SubCategories { get; set; }
 
@@ -33,6 +34,7 @@ public class PropertyManagerContext : DbContext
         modelBuilder.Entity<Periodic>().HasKey(x => x.Id);
         modelBuilder.Entity<ChoreComment>().HasKey(x => x.Id);
         modelBuilder.Entity<ChoreStatus>().HasKey(x => x.Id);
+        modelBuilder.Entity<ArchivedChoreStatus>().HasKey(x => x.Id);
         modelBuilder.Entity<Category>().HasKey(x => x.Id);
         modelBuilder.Entity<SubCategory>().HasKey(x => x.Id);
 

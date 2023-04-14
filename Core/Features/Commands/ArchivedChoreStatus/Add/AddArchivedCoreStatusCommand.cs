@@ -1,8 +1,8 @@
 using MediatR;
 
-namespace Core.Features.Commands.ChoreStatus;
+namespace Core.Features.Commands.ArchivedChoreStatus;
 
-public class AddChoreStatusCommand : IRequest<Domain.ChoreStatus>
+public class AddArchivedChoreStatusCommand : IRequest<Domain.ArchivedChoreStatus>
 {
     public string CustomerChoreId { get; set; }
     public DateTime CompletedDate { get; set; }

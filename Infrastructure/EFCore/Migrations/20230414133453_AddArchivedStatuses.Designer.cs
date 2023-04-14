@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(PropertyManagerContext))]
-    [Migration("20230310164707_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230414133453_AddArchivedStatuses")]
+    partial class AddArchivedStatuses
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,36 @@ namespace Infrastructure.EFCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Repository.Entities.Area", b =>
+            modelBuilder.Entity("Core.Repository.Entities.ArchivedChoreStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CompletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerChoreId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoneBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RowCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("RowModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RowVersion")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArchivedChoreStatuses");
+                });
+
+            modelBuilder.Entity("Core.Repository.Entities.Area", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +77,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("Areas");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.Category", b =>
+            modelBuilder.Entity("Core.Repository.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,7 +103,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.Chore", b =>
+            modelBuilder.Entity("Core.Repository.Entities.Chore", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +132,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("Chores");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.ChoreComment", b =>
+            modelBuilder.Entity("Core.Repository.Entities.ChoreComment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +164,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("ChoreComments");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.ChoreStatus", b =>
+            modelBuilder.Entity("Core.Repository.Entities.ChoreStatus", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,15 +188,12 @@ namespace Infrastructure.EFCore.Migrations
                     b.Property<int>("RowVersion")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("ChoreStatuses");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.Customer", b =>
+            modelBuilder.Entity("Core.Repository.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,7 +225,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.CustomerChore", b =>
+            modelBuilder.Entity("Core.Repository.Entities.CustomerChore", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +257,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("CustomerChores");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.Periodic", b =>
+            modelBuilder.Entity("Core.Repository.Entities.Periodic", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,7 +280,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("Periodics");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.SubCategory", b =>
+            modelBuilder.Entity("Core.Repository.Entities.SubCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -283,7 +309,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("SubCategories");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.Team", b =>
+            modelBuilder.Entity("Core.Repository.Entities.Team", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -306,7 +332,7 @@ namespace Infrastructure.EFCore.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("Domain.Repository.Entities.TeamMember", b =>
+            modelBuilder.Entity("Core.Repository.Entities.TeamMember", b =>
                 {
                     b.Property<string>("TeamId")
                         .HasColumnType("nvarchar(450)");

@@ -6,11 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.EFCore.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddArchivedStatuses : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ArchivedChoreStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerChoreId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DoneBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<int>(type: "int", nullable: false),
+                    RowCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowModified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArchivedChoreStatuses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Areas",
                 columns: table => new
@@ -83,7 +100,6 @@ namespace Infrastructure.EFCore.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CustomerChoreId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CompletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DoneBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RowVersion = table.Column<int>(type: "int", nullable: false),
@@ -198,6 +214,9 @@ namespace Infrastructure.EFCore.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ArchivedChoreStatuses");
+
             migrationBuilder.DropTable(
                 name: "Areas");
 

@@ -29,6 +29,7 @@ public static class Infrastructure
         builder.Services.AddScoped<IChoreStatusRepository, ChoreStatusRepository>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+        builder.Services.AddScoped<IArchivedChoreStatusRepository, ArchivedChoreStatusRepository>();
         builder.Services.AddSingleton<ICache, InMemoryCache>();
 
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");

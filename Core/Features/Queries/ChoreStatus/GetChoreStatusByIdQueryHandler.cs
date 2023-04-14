@@ -1,5 +1,3 @@
-using Core.Domain;
-using Core.Features.Queries.CustomerChores;
 using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
@@ -23,7 +21,6 @@ public class GetChoreStatusByIdQueryHandler : IRequestHandler<GetChoreStatusById
 
     public async Task<IList<Domain.ChoreStatus>> Handle(GetChoreStatusByIdQuery request, CancellationToken cancellationToken) //Is it used the way it should be? Returns ChoreStatuses by CustomerChoreId. Change name maybe?
     {
-
         if (_cache.Exists($"ChoreStatuses:CustomerChore:{request.Id}"))
         {
             return await _cache.GetAsync<IList<Domain.ChoreStatus>>($"ChoreStatuses:CustomerChore:{request.Id}");

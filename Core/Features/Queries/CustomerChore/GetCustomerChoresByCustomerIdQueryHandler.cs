@@ -32,14 +32,35 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
         {
             var allChoreStatuses = await _mediator.Send(new GetAllChoreStatusesQuery());
             var customerChoreProgress = allChoreStatuses.Count(x => x.CustomerChoreId == customerChore.Id.ToString());
-            customerChore.Progress = customerChoreProgress;
-            customerChore.Status = customerChoreProgress == 0 ? "Ej påbörjad" : customerChoreProgress == customerChore.Frequency ? "Klar" : "Påbörjad";
-            customerChore.Reset = "Resettar om sju dagar";
-            customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
-            customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
-            customerChore.Periodic = periodic.FirstOrDefault(x => x.Id.ToString() == customerChore.PeriodicId);
+            var customerChorePeriodic = periodic.FirstOrDefault(y => y.Id.ToString() == customerChore.PeriodicId);
+            var today = DateTime.Today;
+            var daysUntilReset = 1;
+            if (customerChorePeriodic != null)
+            {
+                switch (customerChorePeriodic.Name)
+                {
+                    case "Veckovis":
+                        daysUntilReset = 7 - ((int)today.DayOfWeek + 6) % 7;
+                        break;
+                    case "Månadsvis":
+                        daysUntilReset = DateTime.DaysInMonth(today.Year, today.Month) - today.Day;
+                        break;
+                    case "Årligen":
+                        var endOfYear = new DateTime(today.Year, 12, 31);
+                        daysUntilReset = (endOfYear - today).Days;
+                        break;
+                    default:
+                        daysUntilReset = 1; // default value
+                        break;
+                }
+                customerChore.Progress = customerChoreProgress;
+                customerChore.Status = customerChoreProgress == 0 ? "Ej påbörjad" : customerChoreProgress == customerChore.Frequency ? "Klar" : "Påbörjad";
+                customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
+                customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
+                customerChore.Periodic = customerChorePeriodic;
+                customerChore.DaysUntilReset = daysUntilReset;
+            }
         }
-
         return customerChores;
     }
 }
