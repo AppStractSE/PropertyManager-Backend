@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Azure.Storage.Blobs;
+using BlobStorage.Services;
+using Core.Services;
 
 namespace Infrastructure;
 
@@ -30,16 +33,28 @@ public static class Infrastructure
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
         builder.Services.AddScoped<IArchivedChoreStatusRepository, ArchivedChoreStatusRepository>();
+
+        builder.Services.AddHostedService<BackgroundWorker>();
+
         builder.Services.AddSingleton<ICache, InMemoryCache>();
 
+        builder.Services.InitBlobStorage(builder.Configuration);
         builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
         //builder.Services.ConfigureRedisConnection(builder.Configuration, key); //Not in use right now
+    }
+
+    private static void InitBlobStorage(this IServiceCollection services, IConfiguration configuration)
+    {
+        var encryptedConnectionString = configuration.GetConnectionString("AzureBlobStorage");
+        var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString, key);
+        services.AddSingleton(new BlobServiceClient(decryptedConnectionString));
+        services.AddSingleton<IBlobService, BlobService>();
     }
 
     private static void InitDatabase(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
     {
         var encryptedConnectionString = configuration.GetConnectionString("databaseConnection");
-        var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString!, key);
+        var decryptedConnectionString = Cipher.DecryptString(encryptedConnectionString, key);
 
         services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(decryptedConnectionString));
         services.AddDbContext<PropertyManagerContext>(options => options.UseSqlServer(decryptedConnectionString));

@@ -54,9 +54,6 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 builder.Services.InitAuth(builder.Configuration);
-builder.Services.AddHostedService<BackgroundWorker>();
-builder.Services.AddSingleton<BlobServiceClient>(new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorage")));
-builder.Services.AddSingleton<IBlobService, BlobService>();
 
 var app = builder.Build();
 
