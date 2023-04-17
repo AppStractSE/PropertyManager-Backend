@@ -19,10 +19,7 @@ public class BlobService : IBlobService
     {
         var validContainerName = Regex.Replace(customerChoreId.ToLower(), @"[^a-z0-9\-]", string.Empty);
         var containerClient = _blobServiceClient.GetBlobContainerClient(validContainerName);
-        await containerClient.CreateIfNotExistsAsync();
-
-        // TODO: fix, doesn't work
-        await containerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+        if (!await containerClient.ExistsAsync()) await containerClient.CreateAsync(PublicAccessType.Blob);
 
         var fileName = Guid.NewGuid().ToString();
         var blobClient = containerClient.GetBlobClient(fileName);
