@@ -1,4 +1,6 @@
 using Api;
+using Azure.Storage.Blobs;
+using BlobStorage.Services;
 using Core;
 using Core.Services;
 using Infrastructure;
@@ -53,6 +55,8 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.InitAuth(builder.Configuration);
 builder.Services.AddHostedService<BackgroundWorker>();
+builder.Services.AddSingleton<BlobServiceClient>(new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorage")));
+builder.Services.AddSingleton<IBlobService, BlobService>();
 
 var app = builder.Build();
 
