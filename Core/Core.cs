@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Core;
 
@@ -9,7 +10,10 @@ public static class Core
     public static void InitDomain(this WebApplicationBuilder builder, TypeAdapterConfig config)
     {
         //Setup MediatR
-        builder.Services.AddMediatR(typeof(Core).Assembly);
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblies(typeof(Core).Assembly);
+        });
 
         // Map Scan
         config.Scan(typeof(Core).Assembly);
