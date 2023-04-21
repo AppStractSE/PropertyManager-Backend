@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,10 +74,10 @@ if (app.Environment.IsDevelopment())
         }
     }
 
-    app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 
 
+app.UseCors(builder => builder.SetIsOriginAllowed(IsOriginAllowed).AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -85,3 +86,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static bool IsOriginAllowed(string host)
+{
+    var corsOriginAllowed = new[] { "appstract.se", "propertymgr.netlify.app", "localhost" };
+
+    return corsOriginAllowed.Any(origin =>
+        Regex.IsMatch(host, $@"^http(s)?://.*{origin}(:[0-9]+)?$", RegexOptions.IgnoreCase));
+}
