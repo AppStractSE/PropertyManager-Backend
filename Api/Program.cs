@@ -1,8 +1,5 @@
 using Api;
-using Azure.Storage.Blobs;
-using BlobStorage.Services;
 using Core;
-using Core.Services;
 using Infrastructure;
 using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
@@ -44,7 +41,6 @@ builder.Services.AddOpenApiDocument(document =>
 
     document.OperationProcessors.Add(
         new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
-    //      new OperationSecurityScopeProcessor("Bearer"));
 });
 
 builder.Services.AddHttpLogging(logging =>
@@ -62,30 +58,30 @@ if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+    // Create mock data for Db
+    using (var scope = app.Services.CreateScope())
+    {
+        var scopedProvider = scope.ServiceProvider;
+        try
+        {
+            var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
+            await SeedDb.SeedAsync(pmContext);
+        }
+        catch (Exception ex)
+        {
+            app.Logger.LogError(ex, "An error occurred seeding the DB.");
+        }
+    }
+
+    app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 
-// Create mock data for Db
-using (var scope = app.Services.CreateScope())
-{
-    var scopedProvider = scope.ServiceProvider;
-    try
-    {
-        var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
-        await SeedDb.SeedAsync(pmContext);
-    }
-    catch (Exception ex)
-    {
-        app.Logger.LogError(ex, "An error occurred seeding the DB.");
-    }
-}
+
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.Run();
