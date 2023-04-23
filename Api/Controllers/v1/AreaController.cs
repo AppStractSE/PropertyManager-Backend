@@ -6,6 +6,7 @@ using Core.Domain;
 using Core.Features.Commands.Area;
 using Api.Dto.Request.Area.v1;
 using Api.Dto.Response.Area.v1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
@@ -24,7 +25,7 @@ public class AreaController : ControllerBase
         _logger = logger;
        
     }
-
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IList<Area>>> GetAllAreas()
     {
@@ -39,7 +40,7 @@ public class AreaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    [Authorize]
     [HttpGet]
     [Route("GetAreaById/")]
     public async Task<ActionResult<AreaResponseDto>> GetAreaById([FromQuery] GetAreaByIdRequestDto request)

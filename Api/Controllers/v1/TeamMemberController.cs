@@ -6,6 +6,7 @@ using Core.Domain;
 using Api.Dto.Request.TeamMember.v1;
 using Core.Features.Commands.TeamMember;
 using Api.Dto.Response.TeamMember.v1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
@@ -23,7 +24,7 @@ public class TeamMemberController : ControllerBase
         _mapper = mapper;
         _logger = logger;
     }
-
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IList<TeamMemberResponseDto>>> GetAllTeamMembers()
     {
@@ -38,7 +39,7 @@ public class TeamMemberController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    [Authorize]
     [HttpGet]
     [Route("GetTeamMembersByUserId/")]
     public async Task<ActionResult<IList<TeamMemberResponseDto>>> GetTeamMembersByUserId([FromQuery] GetTeamMembersByUserIdRequestDto request)
@@ -56,6 +57,7 @@ public class TeamMemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [Route("AddTeamMember/")]
     public async Task<ActionResult<TeamMember>> PostTeamMemberAsync(PostTeamMemberRequestDto request)
@@ -71,6 +73,7 @@ public class TeamMemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [Route("AddTeamMembers/")]
     public async Task<ActionResult<IList<TeamMember>>> PostTeamMembersAsync(PostTeamMembersRequestDto request)
@@ -86,6 +89,7 @@ public class TeamMemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     [Route("UpdateTeamMember/")]
     public async Task<ActionResult<TeamMember>> PutTeamMemberAsync(PutTeamMemberRequestDto request)
@@ -101,6 +105,7 @@ public class TeamMemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     [Route("UpdateTeamMembers/")]
     public async Task<ActionResult<IList<TeamMember>>> PutTeamMembersAsync(PutTeamMembersRequestDto request)

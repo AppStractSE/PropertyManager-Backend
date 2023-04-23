@@ -6,6 +6,7 @@ using Core.Domain;
 using Api.Dto.Request.ChoreComment.v1;
 using Core.Features.Commands.ChoreComment;
 using Api.Dto.Response.ChoreComment.v1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
@@ -24,6 +25,7 @@ public class ChoreCommentController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IList<ChoreComment>>> GetAllChoreComments()
     {
@@ -39,6 +41,7 @@ public class ChoreCommentController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet]
     [Route("GetChoreCommentsByCustomerChoreId")]
     public async Task<ActionResult<IList<ChoreCommentResponseDto>>> GetCustomerChoresByCustomer([FromQuery] GetChoreCommentsByCustomerChoreIdRequestDto request)
@@ -54,6 +57,7 @@ public class ChoreCommentController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet]
     [Route("GetLatestFiveChoreComments")]
     public async Task<ActionResult<IList<ChoreCommentResponseDto>>> GetLatestFiveChoreComments() {
@@ -66,6 +70,7 @@ public class ChoreCommentController : ControllerBase
           }
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<ChoreComment>> PostChoreCommentAsync(PostChoreCommentRequestDto request)
     {
@@ -80,6 +85,7 @@ public class ChoreCommentController : ControllerBase
         } 
     }
 
+    [Authorize]
     [HttpDelete]
     [Route("DeleteChoreCommentById/")]
     public async Task<ActionResult> DeleteChoreCommentById([FromQuery] DeleteChoreCommentByIdRequestDto request)

@@ -3,9 +3,11 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
+[Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 public class PeriodicController : ControllerBase

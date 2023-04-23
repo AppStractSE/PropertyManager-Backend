@@ -6,9 +6,11 @@ using Core.Domain;
 using Api.Dto.Request.Customer.v1;
 using Api.Dto.Response.Customer.v1;
 using Core.Features.Commands.Customer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
+[Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 public class CustomerController : ControllerBase
@@ -72,6 +74,7 @@ public class CustomerController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Customer>> PostCustomerAsync(PostCustomerRequestDto request)
     {
@@ -86,6 +89,7 @@ public class CustomerController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<ActionResult<Customer>> PutCustomerAsync(PutCustomerRequestDto request)
     {
@@ -100,6 +104,7 @@ public class CustomerController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete]
     [Route("DeleteCustomerById/")]
     public async Task<ActionResult> DeleteCustomerById([FromQuery] DeleteCustomerByIdRequestDto request)

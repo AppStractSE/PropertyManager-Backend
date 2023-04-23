@@ -68,7 +68,6 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpGet]
     [Route("validation")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
@@ -95,6 +94,7 @@ public class AuthenticateController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [Route("register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -123,7 +123,7 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [Route("register-admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
