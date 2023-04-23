@@ -3,6 +3,7 @@ using Api.Dto.Response.UserData.v1;
 using Core.Features.Queries.UserData;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v1;
@@ -19,6 +20,7 @@ public class UserDataController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet]
     [Route("GetUserDataById/")]
     public async Task<ActionResult<UserDataResponseDto>> GetUserDataById([FromQuery] GetUserDataByUserIdRequestDto request)

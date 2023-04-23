@@ -6,6 +6,7 @@ using Core.Domain;
 using Core.Features.Commands.Team;
 using Api.Dto.Request.Team.v1;
 using Api.Dto.Response.Team.v1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
@@ -23,7 +24,7 @@ public class TeamController : ControllerBase
         _mapper = mapper;
         _logger = logger;
     }
-
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IList<Team>>> GetAllTeams()
     {
@@ -39,6 +40,7 @@ public class TeamController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet]
     [Route("GetTeamById/")]
     public async Task<ActionResult<TeamResponseDto>> GetTeamById([FromQuery] GetTeamByIdRequestDto request)
@@ -55,6 +57,7 @@ public class TeamController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Team>> PostTeamAsync(PostTeamRequestDto request)
     {
@@ -69,6 +72,7 @@ public class TeamController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<ActionResult<Team>> PutTeamAsync(PutTeamRequestDto request)
     {
@@ -83,6 +87,7 @@ public class TeamController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete]
     [Route("DeleteTeamById/")]
     public async Task<ActionResult> DeleteTeamById([FromQuery] DeleteTeamByIdRequestDto request)

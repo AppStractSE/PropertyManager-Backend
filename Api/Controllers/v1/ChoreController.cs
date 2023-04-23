@@ -6,9 +6,11 @@ using Core.Domain;
 using Api.Dto.Response.Chore.v1;
 using Api.Dto.Request.Chore.v1;
 using Core.Features.Commands.Chore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
+[Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 public class ChoreController : ControllerBase
@@ -55,6 +57,7 @@ public class ChoreController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Chore>> PostChoreAsync(PostChoreRequestDto request)
     {
@@ -69,6 +72,7 @@ public class ChoreController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<ActionResult<Chore>> PutChoreAsync(PutChoreRequestDto request)
     {

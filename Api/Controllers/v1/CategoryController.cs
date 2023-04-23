@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Core.Features.Queries.Categories;
 using Api.Dto.Response.Category.v1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
@@ -21,6 +22,8 @@ public class CategoryController : ControllerBase
         _logger = logger;
 
     }
+
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IList<CategoryResponseDto>>> GetAllCategories()
     {

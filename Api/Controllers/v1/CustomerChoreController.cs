@@ -5,10 +5,12 @@ using Core.Features.Commands.CustomerChore;
 using Core.Features.Queries.CustomerChores;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v1;
 
+[Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 public class CustomerChoreController : ControllerBase
@@ -53,6 +55,8 @@ public class CustomerChoreController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<CustomerChore>> PostCustomerChoreAsync(PostCustomerChoreRequestDto request)
     {
@@ -67,6 +71,7 @@ public class CustomerChoreController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<ActionResult<CustomerChore>> PutCustomerChoreAsync(PutCustomerChoreRequestDto request)
     {
@@ -81,6 +86,7 @@ public class CustomerChoreController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete]
     [Route("DeleteCustomerChoreById/")]
     public async Task<ActionResult> DeleteCustomerChoreById([FromQuery] DeleteCustomerChoreByIdRequestDto request)

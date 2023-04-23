@@ -4,6 +4,7 @@ using Core.Domain;
 using MapsterMapper;
 using MediatR;
 using Core.Features.Commands.BlobStorage;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
@@ -23,6 +24,7 @@ public class BlobController : ControllerBase
         _mediator = mediator;
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> UploadBlob([FromForm] UploadBlobRequest request)
     {

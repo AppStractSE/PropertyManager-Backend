@@ -6,9 +6,11 @@ using Core.Domain;
 using Api.Dto.Response.ChoreStatus.v1;
 using Api.Dto.Request.ChoreStatus.v1;
 using Core.Features.Commands.ChoreStatus;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.v1;
 
+[Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 public class ChoreStatusController : ControllerBase
