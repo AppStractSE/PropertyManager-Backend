@@ -31,7 +31,7 @@ public class BlobController : ControllerBase
         try
         {
             var blob = new Blob(request.FormFile.OpenReadStream(), request.FormFile.ContentType);
-            return Ok(await _mediator.Send(new AddBlobCommand(request.CustomerChoreId, request.FileExtension, blob)));
+            return Ok(await _mediator.Send(new AddBlobCommand(request.CustomerChoreId, request.FileExtension, blob, request.FileName)));
         }
         catch (Exception ex)
         {

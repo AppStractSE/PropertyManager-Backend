@@ -20,6 +20,6 @@ public class AddBlobCommandHandler : IRequestHandler<AddBlobCommand, string>
     }
     public async Task<string> Handle(AddBlobCommand request, CancellationToken cancellationToken)
     {
-        return await _blobService.UploadBlobAsync(request.CustomerChoreId, request.FileExtension, request.Blob);
+        return await _blobService.UploadBlobAsync(request.CustomerChoreId, request.FileExtension, request.Blob, request.FileName);
     }
 }

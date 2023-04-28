@@ -15,13 +15,13 @@ public class BlobService : IBlobService
         _blobServiceClient = blobServiceClient;
     }
 
-    public async Task<string> UploadBlobAsync(string customerChoreId, string FileExtension, Blob blob)
+    public async Task<string> UploadBlobAsync(string customerChoreId, string FileExtension, Blob blob, string fileName)
     {
         var validContainerName = Regex.Replace(customerChoreId.ToLower(), @"[^a-z0-9\-]", string.Empty);
         var containerClient = _blobServiceClient.GetBlobContainerClient(validContainerName);
         if (!await containerClient.ExistsAsync()) await containerClient.CreateAsync(PublicAccessType.Blob);
 
-        var fileName = Guid.NewGuid().ToString();
+        if (string.IsNullOrEmpty(fileName)) fileName = Guid.NewGuid().ToString();
         var blobClient = containerClient.GetBlobClient(fileName);
         await containerClient.UploadBlobAsync($"{fileName}.{FileExtension}", blob.Content);
 
