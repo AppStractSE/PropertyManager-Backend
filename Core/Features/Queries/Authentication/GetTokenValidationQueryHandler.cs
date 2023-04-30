@@ -59,10 +59,10 @@ namespace Core.Features.Authentication.Queries
                 if (jwtToken.ValidTo < DateTime.Now.AddHours(AuthUtils.EXPIRATION_TIME - 2))
                 {
                     var authClaims = new List<Claim>
-                {
+                    {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
+                    };
 
                     foreach (var userRole in userRoles)
                     {
