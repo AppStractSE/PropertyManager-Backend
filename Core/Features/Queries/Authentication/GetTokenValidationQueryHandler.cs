@@ -56,7 +56,7 @@ namespace Core.Features.Authentication.Queries
             else
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-                if (jwtToken.ValidTo < DateTime.Now.AddHours(AuthUtils.EXPIRATION_TIME - 2))
+                if (jwtToken.ValidTo < DateTime.Now.GetExpirationTime(-24))
                 {
                     var authClaims = new List<Claim>
                     {
@@ -115,7 +115,7 @@ namespace Core.Features.Authentication.Queries
                     };
 
                     await _cache.SetAsync($"Validate:{authUser.User.UserId}", authUser,
-                       TimeSpan.FromHours(AuthUtils.EXPIRATION_TIME - (authUser.TokenInfo.Expiration.Hour - DateTime.Now.Hour)));
+                       TimeSpan.FromHours(AuthUtils.EXPIRATION_TIME));
 
                     return authUser;
 

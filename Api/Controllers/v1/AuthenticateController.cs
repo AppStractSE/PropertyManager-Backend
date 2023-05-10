@@ -68,7 +68,6 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    //[Authorize]
     [HttpGet]
     [Route("validation")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
