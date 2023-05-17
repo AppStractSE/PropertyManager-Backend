@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Core.Features.Queries.Categories;
 using Api.Dto.Response.Category.v1;
 using Microsoft.AspNetCore.Authorization;
+using Core.Domain;
+using Api.Dto.Request.Category.v1;
+using Core.Features.Commands.Category;
 
 namespace Api.Controllers.v1;
 
@@ -35,6 +38,20 @@ public class CategoryController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(message: "Error in Category controller: GetAllCategories");
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Category>> PostCategoryAsync(PostCategoryRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<PostCategoryRequestDto, AddCategoryCommand>(request));
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
             return BadRequest(ex.Message);
         }
     }
