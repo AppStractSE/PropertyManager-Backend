@@ -57,6 +57,9 @@ namespace Infrastructure.EFCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CityId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -188,6 +191,29 @@ namespace Infrastructure.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChoreStatuses");
+                });
+
+            modelBuilder.Entity("Core.Repository.Entities.City", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RowCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("RowModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RowVersion")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Core.Repository.Entities.Customer", b =>

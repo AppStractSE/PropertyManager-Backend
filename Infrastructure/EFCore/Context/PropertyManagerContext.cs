@@ -22,6 +22,7 @@ public class PropertyManagerContext : DbContext
     public DbSet<ArchivedChoreStatus> ArchivedChoreStatuses { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<SubCategory> SubCategories { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,6 +38,7 @@ public class PropertyManagerContext : DbContext
         modelBuilder.Entity<ArchivedChoreStatus>().HasKey(x => x.Id);
         modelBuilder.Entity<Category>().HasKey(x => x.Id);
         modelBuilder.Entity<SubCategory>().HasKey(x => x.Id);
+        modelBuilder.Entity<City>().HasKey(x => x.Id);
 
         base.OnModelCreating(modelBuilder);
     }

@@ -33,6 +33,7 @@ public static class Infrastructure
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
         builder.Services.AddScoped<IArchivedChoreStatusRepository, ArchivedChoreStatusRepository>();
+        builder.Services.AddScoped<ICityRepository, CityRepository>();
 
         builder.Services.AddHostedService<BackgroundWorker>();
 
