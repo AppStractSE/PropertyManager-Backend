@@ -15,12 +15,12 @@ public class CustomerControllerTests
         var mockMediator = new Mock<IMediator>();
         var mockMapper = new Mock<IMapper>();
         var mockLogger = new Mock<ILogger<CustomerController>>();
-        
+
         // Act
         var controller = new CustomerController(mockMediator.Object, mockMapper.Object, mockLogger.Object);
-        // var sut = controller.GetAllCustomers();
+        var sut = controller.GetAllCustomers();
 
         // Assert
-        // Assert.NotNull(sut);
+        Assert.NotNull(sut);
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.EFCore.Migrations
 {
     /// <inheritdoc />
-    public partial class AddArchivedStatuses : Migration
+    public partial class Cities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,6 +33,7 @@ namespace Infrastructure.EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CityId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RowVersion = table.Column<int>(type: "int", nullable: false),
                     RowCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -109,6 +110,21 @@ namespace Infrastructure.EFCore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChoreStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<int>(type: "int", nullable: false),
+                    RowCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowModified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,6 +247,9 @@ namespace Infrastructure.EFCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChoreStatuses");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "CustomerChores");

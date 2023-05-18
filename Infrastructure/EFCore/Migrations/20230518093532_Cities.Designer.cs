@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(PropertyManagerContext))]
-    [Migration("20230414133453_AddArchivedStatuses")]
-    partial class AddArchivedStatuses
+    [Migration("20230518093532_Cities")]
+    partial class Cities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,9 @@ namespace Infrastructure.EFCore.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CityId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -191,6 +194,29 @@ namespace Infrastructure.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChoreStatuses");
+                });
+
+            modelBuilder.Entity("Core.Repository.Entities.City", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RowCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("RowModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RowVersion")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Core.Repository.Entities.Customer", b =>

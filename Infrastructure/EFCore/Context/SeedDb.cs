@@ -11,6 +11,7 @@ public class SeedDb
         context.Database.EnsureCreated();
         _context = context;
         if (!context.Periodics.Any()) await GeneratePeriodics(context);
+        if (!context.Cities.Any()) await GenerateCities(context);
         if (!context.Areas.Any()) await GenerateAreas(context);
         if (!context.Teams.Any()) await GenerateTeams(context);
         // if (!context.TeamMembers.Any()) await GenerateTeamMembers(context);
@@ -107,15 +108,38 @@ public class SeedDb
             new Area
             {
                 Name = "Norrmalm",
+                CityId = _context.Cities.First(x => x.Name == "Skövde").Id.ToString(),
             },
             new Area
             {
                 Name = "Käpplunda",
+                CityId = _context.Cities.First(x => x.Name == "Skövde").Id.ToString(),
             },
 
             new Area
             {
                 Name = "Billingelund",
+                CityId = _context.Cities.First(x => x.Name == "Skövde").Id.ToString(),
+            });
+
+        await _context.SaveChangesAsync();
+    }
+
+    private static async Task GenerateCities(PropertyManagerContext context)
+    {
+        context.Cities.AddRange(
+            new City
+            {
+                Name = "Skövde",
+            },
+            new City
+            {
+                Name = "Tidaholm",
+            },
+
+            new City
+            {
+                Name = "Götene",
             });
 
         await _context.SaveChangesAsync();

@@ -68,7 +68,6 @@ public class AuthenticateController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpGet]
     [Route("validation")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthUser))]
@@ -84,7 +83,7 @@ public class AuthenticateController : ControllerBase
             var authUser = await _mediator.Send(new GetTokenValidationQuery() { Token = token });
             if (authUser == null)
             {
-                return BadRequest();
+                return Unauthorized();
             }
             return Ok(authUser);
         }
