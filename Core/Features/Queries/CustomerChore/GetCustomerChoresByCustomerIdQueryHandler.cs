@@ -5,6 +5,7 @@ using Core.Repository.Interfaces;
 using MapsterMapper;
 using MediatR;
 using Core.Features.Queries.ChoreStatuses;
+using Core.Features.Queries.Categories;
 
 namespace Core.Features.Queries.CustomerChores;
 
@@ -24,6 +25,7 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
     public async Task<IList<Domain.CustomerChore>> Handle(GetCustomerChoresByCustomerIdQuery request, CancellationToken cancellationToken)
     {
         var customerChores = _mapper.Map<IList<Domain.CustomerChore>>(await _repo.GetQuery(x => x.CustomerId == request.Id));
+        var categories = await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
         var chores = await _mediator.Send(new GetAllChoresQuery(), cancellationToken);
         var customers = await _mediator.Send(new GetAllCustomersQuery(), cancellationToken);
         var periodic = await _mediator.Send(new GetAllPeriodicsQuery(), cancellationToken);
@@ -57,6 +59,7 @@ public class GetCustomerChoresByCustomerIdQueryHandler : IRequestHandler<GetCust
                 customerChore.Status = customerChoreProgress == 0 ? "Ej påbörjad" : customerChoreProgress == customerChore.Frequency ? "Klar" : "Påbörjad";
                 customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
                 customerChore.Customer = customers.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
+                customerChore.SubCategoryName = categories.Where(category => category.SubCategories.Any(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId)).Select(category => category.SubCategories.First(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId).Title).FirstOrDefault();
                 customerChore.Periodic = customerChorePeriodic;
                 customerChore.DaysUntilReset = daysUntilReset;
             }

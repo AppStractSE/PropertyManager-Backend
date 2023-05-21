@@ -56,6 +56,23 @@ public class CustomerChoreController : ControllerBase
         }
     }
 
+        [Authorize]
+    [HttpGet]
+    [Route("GetCustomerChoreById/")]
+    public async Task<ActionResult<CustomerChoreResponseDto>> GetCustomerChoreById([FromQuery] GetCustomerChoreByIdRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetCustomerChoreByIdRequestDto, GetCustomerChoreByIdQuery>(request));
+            return result != null ? Ok(_mapper.Map<CustomerChoreResponseDto>(result)) : NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerChoreById");
+            return BadRequest(ex.Message);
+        }
+    }
+
     [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<CustomerChore>> PostCustomerChoreAsync(PostCustomerChoreRequestDto request)
