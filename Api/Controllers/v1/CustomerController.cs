@@ -52,7 +52,7 @@ public class CustomerController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in CustomerChore controller: GetCustomerById");
+            _logger.LogError(message: "Error in Customer controller: GetCustomerById");
             return BadRequest(ex.Message);
         }
     }
