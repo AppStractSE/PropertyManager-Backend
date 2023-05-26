@@ -14,4 +14,5 @@ public class CustomerChore
     public int DaysUntilReset { get; set; }
     public string PeriodicId { get; set; }
     public Periodic Periodic { get; set; }
+    public string? Description { get; set; }
 }
