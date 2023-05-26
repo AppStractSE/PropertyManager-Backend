@@ -60,8 +60,7 @@ public class GetCustomerChoreByIdQueryHandler : IRequestHandler<GetCustomerChore
         customerChore.Status = customerChoreProgress == 0 ? "Ej påbörjad" : customerChoreProgress == customerChore.Frequency ? "Klar" : "Påbörjad";
         customerChore.Periodic = customerChorePeriodic;
         customerChore.DaysUntilReset = daysUntilReset;
-
-        customerChore.SubCategoryName = "asdf"; // TODO: FIX
+        customerChore.SubCategoryName = categories.Where(category => category.SubCategories.Any(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId)).Select(category => category.SubCategories.First(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId).Title).FirstOrDefault();
         customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
         customerChore.Customer = customer.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
         return customerChore;

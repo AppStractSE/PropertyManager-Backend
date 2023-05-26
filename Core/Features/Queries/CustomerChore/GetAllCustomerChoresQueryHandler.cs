@@ -74,6 +74,7 @@ public class GetAllCustomerChoresQueryHandler : IRequestHandler<GetAllCustomerCh
                 Progress = progress,
                 DaysUntilReset = daysUntilReset,
                 Status = progress == 0 ? "Ej påbörjad" : progress == x.Frequency ? "Klar" : "Påbörjad",
+                Description = x.Description,
             };
         }).ToList();
 
