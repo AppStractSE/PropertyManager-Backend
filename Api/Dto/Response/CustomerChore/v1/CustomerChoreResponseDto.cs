@@ -14,4 +14,5 @@ public class CustomerChoreResponseDto
     public Core.Domain.Periodic Periodic { get; set; }
     public Core.Domain.Chore Chore { get; set; }
     public Core.Domain.Customer Customer { get; set; }
+    public string? Description { get; set; }
 }

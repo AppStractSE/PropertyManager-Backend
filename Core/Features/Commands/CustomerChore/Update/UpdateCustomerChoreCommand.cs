@@ -9,5 +9,6 @@ public class UpdateCustomerChoreCommand : IRequest<Domain.CustomerChore>
     public string ChoreId { get; set; }
     public int Frequency { get; set; }
     public string PeriodicId { get; set; }
+    public string? Description { get; set; }
 
 }
