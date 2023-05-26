@@ -61,8 +61,8 @@ public class GetCustomerChoreByIdQueryHandler : IRequestHandler<GetCustomerChore
         customerChore.Periodic = customerChorePeriodic;
         customerChore.DaysUntilReset = daysUntilReset;
 
-        customerChore.SubCategoryName = categories.Where(category => category.SubCategories.Any(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId)).Select(category => category.SubCategories.First(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId).Title).FirstOrDefault();
         customerChore.Chore = chores.FirstOrDefault(x => x.Id.ToString() == customerChore.ChoreId);
+        customerChore.SubCategoryName = categories.Where(category => category.SubCategories.Any(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId)).Select(category => category.SubCategories.First(subcategory => subcategory.Id.ToString() == customerChore.Chore.SubCategoryId).Title).FirstOrDefault();
         customerChore.Customer = customer.FirstOrDefault(x => x.Id.ToString() == customerChore.CustomerId);
         return customerChore;
     }
