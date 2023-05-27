@@ -19,7 +19,9 @@ public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommand, Dom
     public async Task<Domain.Category> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
     {
         await _cache.RemoveAsync("Categories:");
-        var response = await _repo.AddAsync(_mapper.Map<Repository.Entities.Category>(request));
+        var newCategory = _mapper.Map<Repository.Entities.Category>(request);
+        newCategory.Id = Guid.NewGuid();
+        var response = await _repo.AddAsync(newCategory);
         return _mapper.Map<Domain.Category>(response);
     }
 }

@@ -8,22 +8,21 @@ namespace Core.Features.Queries.Categories;
 public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, IList<Category>>
 {
     private readonly ICategoryRepository _repo;
-    private readonly ISubCategoryRepository _subRepo;
     private readonly IMapper _mapper;
-    public GetAllCategoriesQueryHandler(ICategoryRepository repo, ISubCategoryRepository subRepo, IMapper mapper)
+    public GetAllCategoriesQueryHandler(ICategoryRepository repo, IMapper mapper)
     {
         _repo = repo;
-        _subRepo = subRepo;
         _mapper = mapper;
     }
     public async Task<IList<Category>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var subCategories = _mapper.Map<IList<SubCategory>>(await _subRepo.GetAllAsync());
-        var categories = _mapper.Map<IList<Category>>(await _repo.GetAllAsync());
-
+        var categoryEntities = await _repo.GetAllAsync();
+        var categories = _mapper.Map<IList<Category>>(categoryEntities);
         foreach (var category in categories)
         {
-            category.SubCategories = subCategories.Where(x => x.CategoryId == category.Id).ToList();
+            var categoryChildren = categoryEntities.Where(x => x.ParentId == category.Id).ToList();
+            category.IsParent = category.ParentId == default || categoryChildren.Any();
+            category.SubCategories = _mapper.Map<IList<Category>>(categoryChildren);
         }
         return categories;
     }
