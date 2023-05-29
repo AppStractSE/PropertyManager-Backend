@@ -17,7 +17,18 @@ public class UpdateCustomerChoreCommandHandler : IRequestHandler<UpdateCustomerC
     }
     public async Task<Domain.CustomerChore> Handle(UpdateCustomerChoreCommand request, CancellationToken cancellationToken)
     {
-        var response = await _repo.UpdateAsync(_mapper.Map<Repository.Entities.CustomerChore>(request));
+        var existingObject = await _repo.GetById(request.Id.ToString());
+
+        if (existingObject == null)
+        {
+            throw new Exception("CustomerChore not found");
+        }
+
+        existingObject.PeriodicId = request.PeriodicId;
+        existingObject.Frequency = request.Frequency;
+        existingObject.Description = request.Description;
+
+        var response = await _repo.UpdateAsync(_mapper.Map<Repository.Entities.CustomerChore>(existingObject));
         await _cache.RemoveAsync("CustomerChores:");
         await _cache.RemoveAsync($"CustomerChore:{request.Id}");
         return _mapper.Map<Domain.CustomerChore>(response);
