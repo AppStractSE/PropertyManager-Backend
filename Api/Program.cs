@@ -21,7 +21,7 @@ builder.Services.AddControllers();
 var config = TypeAdapterConfig.GlobalSettings;
 config.Scan(typeof(Program).Assembly);
 
-builder.InitDomain(config);
+builder.InitCore(config);
 builder.InitInfrastructure();
 
 var mapperConfig = new Mapper(config);
@@ -55,26 +55,26 @@ builder.Services.InitAuth(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseOpenApi();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
-    // Create mock data for Db
-    using (var scope = app.Services.CreateScope())
-    {
-        var scopedProvider = scope.ServiceProvider;
-        try
-        {
-            var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
-            await SeedDb.SeedAsync(pmContext);
-        }
-        catch (Exception ex)
-        {
-            app.Logger.LogError(ex, "An error occurred seeding the DB.");
-        }
-    }
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseOpenApi();
+//    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+//    // Create mock data for Db
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var scopedProvider = scope.ServiceProvider;
+//        try
+//        {
+//            var pmContext = scopedProvider.GetRequiredService<PropertyManagerContext>();
+//            await SeedDb.SeedAsync(pmContext);
+//        }
+//        catch (Exception ex)
+//        {
+//            app.Logger.LogError(ex, "An error occurred seeding the DB.");
+//        }
+//    }
 
-}
+//}
 
 
 app.UseCors(builder => builder.SetIsOriginAllowed(IsOriginAllowed).AllowAnyMethod().AllowAnyHeader());

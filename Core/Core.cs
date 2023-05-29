@@ -6,7 +6,7 @@ namespace Core;
 
 public static class Core
 {
-    public static void InitDomain(this WebApplicationBuilder builder, TypeAdapterConfig config)
+    public static void InitCore(this WebApplicationBuilder builder, TypeAdapterConfig config)
     {
         //Setup MediatR
         builder.Services.AddMediatR(cfg =>

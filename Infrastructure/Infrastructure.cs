@@ -1,16 +1,16 @@
+using Azure.Storage.Blobs;
+using BlobStorage.Services;
 using Core.Repository.Interfaces;
+using Core.Services;
 using DotCode.SecurityUtils;
+using Infrastructure.Cache;
 using Infrastructure.Context;
 using Infrastructure.EFCore.Context;
-using Infrastructure.Cache;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Azure.Storage.Blobs;
-using BlobStorage.Services;
-using Core.Services;
 
 namespace Infrastructure;
 
@@ -18,7 +18,7 @@ public static class Infrastructure
 {
     private const string key = "k3h5/4&75kah5sfjkh/as!hjkfh%a8kjf5ks";
 
-    public static void InitInfrastructure(this WebApplicationBuilder builder)
+    public static void InitInfrastructure(this WebApplicationBuilder builder, bool initBlobStorage = true, bool initDatabase = true)
     {
         builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
         builder.Services.AddScoped<IAreaRepository, AreaRepository>();
@@ -34,12 +34,12 @@ public static class Infrastructure
         builder.Services.AddScoped<IArchivedChoreStatusRepository, ArchivedChoreStatusRepository>();
         builder.Services.AddScoped<ICityRepository, CityRepository>();
 
-        builder.Services.AddHostedService<BackgroundWorker>();
 
         builder.Services.AddSingleton<ICache, InMemoryCache>();
+        if (initBlobStorage && initDatabase) builder.Services.AddHostedService<BackgroundWorker>();
 
-        builder.Services.InitBlobStorage(builder.Configuration);
-        builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
+        if (initBlobStorage) builder.Services.InitBlobStorage(builder.Configuration);
+        if (initDatabase) builder.Services.InitDatabase(builder.Configuration, builder.Environment.EnvironmentName == "Development");
         //builder.Services.ConfigureRedisConnection(builder.Configuration, key); //Not in use right now
     }
 
