@@ -92,5 +92,5 @@ static bool IsOriginAllowed(string host)
     var corsOriginAllowed = new[] { "appstract.se", "propertymgr.netlify.app", "localhost" };
 
     return corsOriginAllowed.Any(origin =>
-        Regex.IsMatch(host, $@"^http(s)?:\/\/.*\.{origin}(:[0-9]+)?$", RegexOptions.IgnoreCase));
+            Regex.IsMatch(host, $@"^http(s)?://([a-zA-Z0-9_-]+\.)*{origin}(:[0-9]+)?/?$", RegexOptions.IgnoreCase));
 }
