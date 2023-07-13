@@ -51,7 +51,7 @@ public class ReportController : ControllerBase
     [Authorize(Roles = "Admin")]
     [HttpGet]
     [Route("getReportExcel")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(File))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetExcelReport([FromQuery] GetExcelReportRequestDto request)
@@ -68,7 +68,7 @@ public class ReportController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(message: "Error in Report: getCustomerReport");
+            _logger.LogError(message: "Error in Report: getExcelReport");
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
