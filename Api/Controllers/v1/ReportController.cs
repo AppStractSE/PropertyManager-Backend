@@ -1,6 +1,10 @@
-﻿using Core.Features.Queries.Report;
+﻿using Api.Dto.Requests.Report.v1;
+using Api.Dto.Response.Report.v1;
+using Core.Domain.Report;
+using Core.Features.Queries.Report;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v1;
@@ -20,21 +24,47 @@ public class ReportController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
     [Route("getCustomerReport")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(byte[]))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReportObjectResponseDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetCustomerReport([FromBody] string customerId)
+    public async Task<IActionResult> GetCustomerReport([FromQuery] GetReportObjectRequestDto request)
     {
         try
         {
-            var byteArray = await _mediator.Send(new GetReportQuery { CustomerId = customerId });
-            if (byteArray == null)
+            var result = await _mediator.Send(_mapper.Map<GetReportObjectRequestDto, GetReportQuery>(request));
+            if (result == null)
             {
                 return BadRequest();
             }
-            return Ok(byteArray);
+            return Ok(_mapper.Map<ReportObject, ReportObjectResponseDto>(result));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(message: "Error in Report: getCustomerReport");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    [Route("getReportExcel")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetExcelReport([FromQuery] GetExcelReportRequestDto request)
+    {
+        try
+        {
+            var result = await _mediator.Send(_mapper.Map<GetExcelReportRequestDto, GetExcelReportQuery>(request));
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
+            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
         }
         catch (Exception ex)
         {
