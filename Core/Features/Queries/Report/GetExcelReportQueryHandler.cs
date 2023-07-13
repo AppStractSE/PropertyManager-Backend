@@ -52,6 +52,12 @@ public class GetExcelReportQueryHandler : IRequestHandler<GetExcelReportQuery, b
 
             //Create a style for the information header
             var infoHeaderStyle = workbook.CreateCellStyle();
+
+            infoHeaderStyle.BorderTop = BorderStyle.None;
+            infoHeaderStyle.BorderBottom = BorderStyle.None;
+            infoHeaderStyle.BorderLeft = BorderStyle.None;
+            infoHeaderStyle.BorderRight = BorderStyle.None;
+
             infoHeaderStyle.Alignment = HorizontalAlignment.Left;
             var infoHeaderFont = workbook.CreateFont();
             infoHeaderFont.IsBold = true;
@@ -62,12 +68,14 @@ public class GetExcelReportQueryHandler : IRequestHandler<GetExcelReportQuery, b
 
 
             // Issuer and customer information
-            IRow issuerRow = sheet.CreateRow(0);
-            var issuerCell = issuerRow.CreateCell(0);
+            IRow informationRow = sheet.CreateRow(0);
+            informationRow.RowStyle = infoHeaderStyle;
+
+            var issuerCell = informationRow.CreateCell(0);
             issuerCell.SetCellValue("Issuer:");
             issuerCell.CellStyle = infoHeaderStyle;
 
-            var customerCell = issuerRow.CreateCell(6);
+            var customerCell = informationRow.CreateCell(6);
             customerCell.SetCellValue("Customer:");
             customerCell.CellStyle = infoHeaderStyle;
 
